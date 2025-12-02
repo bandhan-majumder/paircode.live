@@ -2,7 +2,7 @@ import { WebSocket } from "ws";
 import http from "http";
 import { describe, expect, afterEach, beforeEach, it } from "bun:test";
 
-const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 const WS_URL = `ws://localhost:${PORT}`;
 const HEALTH_URL = `http://localhost:${PORT}/health`;
 
