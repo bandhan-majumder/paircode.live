@@ -69,6 +69,7 @@ export const verification = pgTable(
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
+		codeVerifier: text("code_verifier"),
 	},
 	(table) => [index("verification_identifier_idx").on(table.identifier)],
 );
