@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc -b",
+    "test": "jest",
+    "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run dist/index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "^4.1.11",
+    "@paircode/auth": "workspace:*",
+    "@paircode/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@paircode/config": "workspace:*",
+    "@types/bun": "^1.2.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/ws": "^8.18.1",
+    "tsdown": "^0.16.5",
+    "typescript": "^5.8.2",
+    "ws": "^8.18.3"
+  }
+}
