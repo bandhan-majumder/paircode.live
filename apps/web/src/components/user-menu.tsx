@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function UserMenu() {
 	const router = useRouter();
@@ -31,7 +32,12 @@ export default function UserMenu() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="outline">{session.user.name}</Button>
+				<div>
+					<Button variant="outline">
+						<Image src={session.user.image ?? "/user.svg"} width={30} height={30} alt="User" className="rounded-full bg-gray-400" />
+						{session.user.name}
+					</Button>
+				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="bg-card">
 				<DropdownMenuLabel>My Account</DropdownMenuLabel>
