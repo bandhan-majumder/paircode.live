@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1764651399898,
-      "tag": "0000_demonic_starjammers",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1764651683137,
-      "tag": "0001_sour_rogue",
+      "when": 1764680927442,
+      "tag": "0000_pale_lady_mastermind",
       "breakpoints": true
     }
   ]
