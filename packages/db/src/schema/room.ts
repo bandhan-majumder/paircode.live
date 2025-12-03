@@ -1,11 +1,13 @@
 import { relations } from "drizzle-orm";
-import { index, pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, index, pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 
 export const room = pgTable("room", {
     id: uuid().primaryKey().defaultRandom(),
     topic: text("topic").notNull(),
     banner: text("banner"),
+    isShared: boolean("is_shared").default(false).notNull(),
+    isFull: text("is_full").default("false").notNull(),
     createdBy: text("created_by").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")

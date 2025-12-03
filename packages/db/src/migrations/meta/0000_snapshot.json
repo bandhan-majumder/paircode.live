@@ -1,5 +1,5 @@
 {
-  "id": "0c336d90-286c-4188-93ab-86c98ceaebe4",
+  "id": "5cdef658-9bdb-49c4-bbcb-039c2e744d23",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -387,6 +387,20 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "is_shared": {
+          "name": "is_shared",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "is_full": {
+          "name": "is_full",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'false'"
         },
         "created_by": {
           "name": "created_by",

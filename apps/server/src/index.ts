@@ -35,7 +35,7 @@ interface Room {
 
 interface MessageType {
   roomId: string;
-  content: string;
+  content?: string;
   type: "message" | "join" | "leave";
 }
 

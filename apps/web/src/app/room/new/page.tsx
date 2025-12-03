@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import CodeShare from "@/components/CodeShare";
-import { DropdownMenuLanguageCheckboxes } from "@/components/LangDropdown";
-import VideoBox from "@/components/VideoBox";
+import CodeShare from "@/components/code-share";
+import { DropdownMenuLanguageCheckboxes } from "@/components/lang-dropdown";
+import VideoBox from "@/components/video-box";
 import { languageExtensions } from "@/lib/languageExtensions";
 import { defaultCodeSnippets } from "@/lib/defaultCodeSnippets"; 
 

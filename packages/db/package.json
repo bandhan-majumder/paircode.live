@@ -7,6 +7,12 @@
     },
     "./*": {
       "default": "./src/*.ts"
+    },
+    "./schema": {
+      "default": "./src/schema/type.ts"
+    },
+    "./operations": {
+      "default": "./src/operation.ts"
     }
   },
   "scripts": {

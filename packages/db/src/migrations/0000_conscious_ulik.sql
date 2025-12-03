@@ -51,6 +51,8 @@ CREATE TABLE "room" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"topic" text NOT NULL,
 	"banner" text,
+	"is_shared" boolean DEFAULT false NOT NULL,
+	"is_full" text DEFAULT 'false' NOT NULL,
 	"created_by" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
