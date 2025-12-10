@@ -48,7 +48,7 @@ export default function CodeArena({ params }: Props) {
     if (!session && !isPending) {
       router.push("/login");
     }
-  }, [session, isPending, router]);
+  }, [session, isPending]);
 
   if (!session) {
     return null;

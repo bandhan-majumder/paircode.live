@@ -5,10 +5,13 @@ import { createServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
 import { auth } from "@paircode/auth";
 import { toNodeHandler } from "better-auth/node";
+import { UserManager } from "./managers/UserManager";
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
+
+const userManager = new UserManager();
 
 app.use(
   cors({
@@ -32,56 +35,15 @@ io.on("connection", (socket: Socket) => {
   console.log(`Client connected: ${socket.id}`);
 
   socket.on("join-room", (roomId: string) => {
-    if (!roomId) {
-      socket.emit("error", { message: "No roomId provided" });
-      return;
-    }
-    
-    socket.join(roomId);
-    console.log(`Socket ${socket.id} joined room: ${roomId}`);
-    
-    socket.to(roomId).emit("user-joined", { 
-      socketId: socket.id,
-      timestamp: Date.now()
-    });
+    userManager.addUser(roomId, socket);
   });
 
   socket.on("leave-room", (roomId: string) => {
-    if (!roomId) {
-      socket.emit("error", { message: "No roomId provided" });
-      return;
-    }
-    
-    socket.leave(roomId);
-    console.log(`Socket ${socket.id} left room: ${roomId}`);
-    
-    socket.to(roomId).emit("user-left", { 
-      socketId: socket.id,
-      timestamp: Date.now()
-    });
+    userManager.removeUser(roomId, socket);
   });
 
   socket.on("send-message", (data: { roomId: string; content: string }) => {
-    const { roomId, content } = data;
-    
-    if (!roomId) {
-      socket.emit("error", { message: "No roomId provided" });
-      return;
-    }
-    
-    if (!content) {
-      socket.emit("error", { message: "No content provided" });
-      return;
-    }
-    
-    // Broadcast to all clients in the room except sender
-    socket.to(roomId).emit("receive-message", {
-      content,
-      senderId: socket.id,
-      timestamp: Date.now()
-    });
-    
-    console.log(`Message sent to room ${roomId} from ${socket.id}`);
+    userManager.sendMessage(data.roomId, socket, data.content);
   });
 
   socket.on("disconnect", () => {
