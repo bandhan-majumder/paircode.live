@@ -1,15 +1,14 @@
-import type { Socket } from "socket.io";
+import type { Server, Socket } from "socket.io";
 
 export class RoomManager {
-    constructor() {
-    }
-    
-    joinRoom(roomId: string, socket: Socket) {
+    constructor(private io: Server) {}
+
+    async joinRoom(roomId: string, socket: Socket) {
         if (!roomId || !socket) {
             socket.emit("error", { message: "Inefficient info provided" });
             return;
         }
-        socket.join(roomId);
+        await socket.join(roomId);
         console.log(`Socket ${socket.id} joined room: ${roomId}`);
         socket.emit('lobby');
         socket.to(roomId).emit("user-joined", {
@@ -55,5 +54,28 @@ export class RoomManager {
         });
     }
 
-    initHandlers() {}
+    // helper function for getting other sockets in the room
+    private async getOtherSocketsInRoom(roomId: string, senderId: string) {
+        const sockets = await this.io.in(roomId).fetchSockets();
+        return sockets.filter((s) => s.id !== senderId);
+    }
+
+    async onOffer(roomId: string, sdp: string, senderSocketId: string) {
+        const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
+        if (!others.length || !others[0]) return;
+        others[0].emit("offer", { sdp, roomId });
+    }
+
+    async onAnswer(roomId: string, sdp: string, senderSocketId: string) {
+        const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
+        if (!others.length || !others[0]) return;
+        others[0].emit("answer", { sdp, roomId });
+    }
+
+    async onIceCandidates(roomId: string, senderSocketId: string, candidate: any, type: "sender" | "receiver") {
+        const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
+        if (!others.length || !others[0]) return;
+        others[0].emit("add-ice-candidate", { candidate, type });
+    }
+
 }

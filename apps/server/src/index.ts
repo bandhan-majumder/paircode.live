@@ -10,8 +10,7 @@ import { UserManager } from "./managers/UserManager";
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-
-const userManager = new UserManager();
+const userManager = new UserManager(io);
 
 app.use(
   cors({
