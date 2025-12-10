@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 
 function Page() {
-    redirect("/code/new");
+    redirect("/room/new");
 }
 
 export default Page

@@ -1,75 +1,74 @@
-import { WebSocket } from "ws";
+import { io as ioClient, Socket as ClientSocket } from "socket.io-client";
 import http from "http";
 import { describe, expect, afterEach, beforeEach, it } from "bun:test";
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
-const WS_URL = `ws://localhost:${PORT}`;
+const SOCKET_URL = `http://localhost:${PORT}`;
 const HEALTH_URL = `http://localhost:${PORT}/health`;
 
-describe("Test suite for websocket backend", () => {
-  let ws1: WebSocket | null = null;
-  let ws2: WebSocket | null = null;
+describe("Test suite for Socket.IO backend", () => {
+  let client1: ClientSocket | null = null;
+  let client2: ClientSocket | null = null;
 
-  const createWebSocket = (): Promise<WebSocket> => {
+  const createSocketClient = (): Promise<ClientSocket> => {
     return new Promise((resolve, reject) => {
-      const ws = new WebSocket(WS_URL);
+      const client = ioClient(SOCKET_URL, {
+        transports: ['websocket'],
+        reconnection: false,
+      });
       
-      ws.on("open", () => resolve(ws));
-      ws.on("error", reject);
+      client.on("connect", () => resolve(client));
+      client.on("connect_error", reject);
       
-      setTimeout(() => reject(new Error("WebSocket connection timeout")), 5000);
+      setTimeout(() => reject(new Error("Socket connection timeout")), 5000);
     });
   };
 
-  const waitForMessage = (ws: WebSocket, timeout = 5000): Promise<any> => {
+  const waitForMessage = (client: ClientSocket, event: string, timeout = 5000): Promise<any> => {
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
         reject(new Error("Message timeout"));
       }, timeout);
 
-      ws.once("message", (data) => {
+      client.once(event, (data) => {
         clearTimeout(timer);
-        try {
-          resolve(JSON.parse(data.toString()));
-        } catch (err) {
-          resolve(data.toString());
-        }
+        resolve(data);
       });
     });
   };
 
   beforeEach(async () => {
-    ws1 = await createWebSocket();
-    ws2 = await createWebSocket();
+    client1 = await createSocketClient();
+    client2 = await createSocketClient();
   });
 
   afterEach(async () => {
     const closePromises: Promise<void>[] = [];
     
-    if (ws1 && ws1.readyState === WebSocket.OPEN) {
+    if (client1 && client1.connected) {
       closePromises.push(new Promise(resolve => {
-        ws1!.once("close", () => resolve());
-        ws1!.close();
+        client1!.once("disconnect", () => resolve());
+        client1!.disconnect();
       }));
     }
     
-    if (ws2 && ws2.readyState === WebSocket.OPEN) {
+    if (client2 && client2.connected) {
       closePromises.push(new Promise(resolve => {
-        ws2!.once("close", () => resolve());
-        ws2!.close();
+        client2!.once("disconnect", () => resolve());
+        client2!.disconnect();
       }));
     }
     
     await Promise.all(closePromises);
-    ws1 = null;
-    ws2 = null;
+    client1 = null;
+    client2 = null;
     
     await new Promise(resolve => setTimeout(resolve, 100));
   });
 
-  it("should establish WebSocket connections successfully", () => {
-    expect(ws1?.readyState).toBe(WebSocket.OPEN);
-    expect(ws2?.readyState).toBe(WebSocket.OPEN);
+  it("should establish Socket.IO connections successfully", () => {
+    expect(client1?.connected).toBe(true);
+    expect(client2?.connected).toBe(true);
   });
 
   it("should return health check status", (done) => {
@@ -91,98 +90,98 @@ describe("Test suite for websocket backend", () => {
   });
 
   it("should broadcast message to other clients in the same room", async () => {
-    if (!ws1 || !ws2) throw new Error("WebSockets not initialized");
+    if (!client1 || !client2) throw new Error("Clients not initialized");
 
     const roomId = "test-room-1";
-    const testContent = "Hello from ws1";
-    ws1.send(JSON.stringify({ roomId, type: "join" }));
-    ws2.send(JSON.stringify({ roomId, type: "join" }));
+    const testContent = "Hello from client1";
+    
+    client1.emit("join-room", roomId);
+    client2.emit("join-room", roomId);
     
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    const messagePromise = waitForMessage(ws2);
+    const messagePromise = waitForMessage(client2, "receive-message");
 
-    ws1.send(JSON.stringify({ roomId, content: testContent, type: "message" }));
+    client1.emit("send-message", { roomId, content: testContent });
 
     const received = await messagePromise;
     expect(received.content).toBe(testContent);
   });
 
   it("should not send message back to sender", async () => {
-    if (!ws1) throw new Error("WebSocket not initialized");
+    if (!client1) throw new Error("Client not initialized");
 
     const roomId = "test-room-2";
     const testContent = "Hello";
 
-    ws1.send(JSON.stringify({ roomId, type: "join" }));
+    client1.emit("join-room", roomId);
     await new Promise(resolve => setTimeout(resolve, 200));
 
     let messageReceived = false;
-    ws1.on("message", () => {
+    client1.on("receive-message", () => {
       messageReceived = true;
     });
 
-    ws1.send(JSON.stringify({ roomId, content: testContent, type: "message" }));
+    client1.emit("send-message", { roomId, content: testContent });
 
     await new Promise(resolve => setTimeout(resolve, 500));
     expect(messageReceived).toBe(false);
   });
 
   it("should isolate messages between different rooms", async () => {
-    if (!ws1 || !ws2) throw new Error("WebSockets not initialized");
+    if (!client1 || !client2) throw new Error("Clients not initialized");
 
-    const ws3 = await createWebSocket();
+    const client3 = await createSocketClient();
 
     try {
       const room1 = "room-1";
       const room2 = "room-2";
       const contentRoom1 = "Message for room 1";
 
-      ws1.send(JSON.stringify({ roomId: room1, type: "join" }));
-      ws2.send(JSON.stringify({ roomId: room1, type: "join" }));
-      ws3.send(JSON.stringify({ roomId: room2, type: "join" }));
+      client1.emit("join-room", room1);
+      client2.emit("join-room", room1);
+      client3.emit("join-room", room2);
 
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      const ws2Promise = waitForMessage(ws2);
-      const ws3Promise = waitForMessage(ws3, 1000);
+      const client2Promise = waitForMessage(client2, "receive-message");
+      const client3Promise = waitForMessage(client3, "receive-message", 1000);
 
-      ws1.send(JSON.stringify({ roomId: room1, content: contentRoom1, type: "message" }));
+      client1.emit("send-message", { roomId: room1, content: contentRoom1 });
 
-      const ws2Received = await ws2Promise;
-      expect(ws2Received.content).toBe(contentRoom1);
+      const client2Received = await client2Promise;
+      expect(client2Received.content).toBe(contentRoom1);
 
-      await expect(ws3Promise).rejects.toThrow("Message timeout");
+      await expect(client3Promise).rejects.toThrow("Message timeout");
     } finally {
-      if (ws3.readyState === WebSocket.OPEN) {
+      if (client3.connected) {
         await new Promise<void>(resolve => {
-          ws3.once("close", () => resolve());
-          ws3.close();
+          client3.once("disconnect", () => resolve());
+          client3.disconnect();
         });
       }
     }
   });
 
   it("should handle multiple messages in sequence", async () => {
-    if (!ws1 || !ws2) throw new Error("WebSockets not initialized");
+    if (!client1 || !client2) throw new Error("Clients not initialized");
 
     const roomId = "test-room-3";
     const messages = ["Message 1", "Message 2", "Message 3"];
     const receivedMessages: string[] = [];
 
-    ws1.send(JSON.stringify({ roomId, type: "join" }));
-    ws2.send(JSON.stringify({ roomId, type: "join" }));
+    client1.emit("join-room", roomId);
+    client2.emit("join-room", roomId);
     
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    const ws2Local = ws2;
-    if (!ws2Local) throw new Error("WebSocket not initialized");
+    const client2Local = client2;
+    if (!client2Local) throw new Error("Client not initialized");
 
     const messagePromise = new Promise<void>((resolve) => {
       let count = 0;
-      ws2Local.on("message", (data) => {
-        const parsed = JSON.parse(data.toString());
-        receivedMessages.push(parsed.content);
+      client2Local.on("receive-message", (data) => {
+        receivedMessages.push(data.content);
         count++;
         if (count === messages.length) {
           resolve();
@@ -191,7 +190,7 @@ describe("Test suite for websocket backend", () => {
     });
 
     for (const msg of messages) {
-      ws1.send(JSON.stringify({ roomId, content: msg, type: "message" }));
+      client1.emit("send-message", { roomId, content: msg });
       await new Promise(resolve => setTimeout(resolve, 100));
     }
 
@@ -199,69 +198,70 @@ describe("Test suite for websocket backend", () => {
     expect(receivedMessages).toEqual(messages);
   });
 
-  it("should handle malformed JSON gracefully", async () => {
-    if (!ws1) throw new Error("WebSocket not initialized");
+  it("should handle malformed data gracefully", async () => {
+    if (!client1) throw new Error("Client not initialized");
 
-    ws1.send("invalid json{");
+    // Send message without roomId
+    client1.emit("send-message", { content: "test" });
     
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    expect(ws1.readyState).toBe(WebSocket.OPEN);
+    expect(client1.connected).toBe(true);
   });
 
   it("should remove client from room on disconnect", async () => {
-    if (!ws1 || !ws2) throw new Error("WebSockets not initialized");
+    if (!client1 || !client2) throw new Error("Clients not initialized");
 
-    const ws3 = await createWebSocket();
+    const client3 = await createSocketClient();
     const roomId = "test-room-4";
 
     try {
-      ws1.send(JSON.stringify({ roomId, type: "join" }));
-      ws2.send(JSON.stringify({ roomId, type: "join" }));
-      ws3.send(JSON.stringify({ roomId, type: "join" }));
+      client1.emit("join-room", roomId);
+      client2.emit("join-room", roomId);
+      client3.emit("join-room", roomId);
 
       await new Promise(resolve => setTimeout(resolve, 200));
 
       await new Promise<void>(resolve => {
-        ws2!.once("close", () => resolve());
-        ws2!.close();
+        client2!.once("disconnect", () => resolve());
+        client2!.disconnect();
       });
       
       await new Promise(resolve => setTimeout(resolve, 200));
 
       let messageCount = 0;
-      ws3.on("message", () => {
+      client3.on("receive-message", () => {
         messageCount++;
       });
 
-      ws1.send(JSON.stringify({ roomId, content: "test", type: "message" }));
+      client1.emit("send-message", { roomId, content: "test" });
       await new Promise(resolve => setTimeout(resolve, 300));
 
       expect(messageCount).toBe(1);
     } finally {
-      if (ws3.readyState === WebSocket.OPEN) {
+      if (client3.connected) {
         await new Promise<void>(resolve => {
-          ws3.once("close", () => resolve());
-          ws3.close();
+          client3.once("disconnect", () => resolve());
+          client3.disconnect();
         });
       }
     }
   });
 
   it("should handle clients joining room dynamically", async () => {
-    if (!ws1 || !ws2) throw new Error("WebSockets not initialized");
+    if (!client1 || !client2) throw new Error("Clients not initialized");
 
     const roomId = "test-room-5";
 
-    ws1.send(JSON.stringify({ roomId, type: "join" }));
+    client1.emit("join-room", roomId);
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    ws2.send(JSON.stringify({ roomId, type: "join" }));
+    client2.emit("join-room", roomId);
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    const messagePromise = waitForMessage(ws2);
+    const messagePromise = waitForMessage(client2, "receive-message");
 
-    ws1.send(JSON.stringify({ roomId, content: "Second message", type: "message" }));
+    client1.emit("send-message", { roomId, content: "Second message" });
 
     const received = await messagePromise;
     expect(received.content).toBe("Second message");
@@ -275,45 +275,78 @@ describe("Test suite for websocket backend", () => {
   });
 
   it("should handle explicit leave message", async () => {
-    if (!ws1 || !ws2) throw new Error("WebSockets not initialized");
+    if (!client1 || !client2) throw new Error("Clients not initialized");
 
-    const ws3 = await createWebSocket();
+    const client3 = await createSocketClient();
     const roomId = "test-room-6";
 
     try {
-      ws1.send(JSON.stringify({ roomId, type: "join" }));
-      ws2.send(JSON.stringify({ roomId, type: "join" }));
-      ws3.send(JSON.stringify({ roomId, type: "join" }));
+      client1.emit("join-room", roomId);
+      client2.emit("join-room", roomId);
+      client3.emit("join-room", roomId);
 
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      ws2.send(JSON.stringify({ roomId, type: "leave" }));
+      client2.emit("leave-room", roomId);
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      let messageCountForws3 = 0;
-      let messageCountForws2 = 0;
+      let messageCountForClient3 = 0;
+      let messageCountForClient2 = 0;
       
-      ws3.on("message", () => {
-        messageCountForws3++;
+      client3.on("receive-message", () => {
+        messageCountForClient3++;
       });
 
-      ws2.on("message", () => {
-        messageCountForws3++;
+      client2.on("receive-message", () => {
+        messageCountForClient2++;
       });
 
-      ws1.send(JSON.stringify({ roomId, content: "test", type: "message" }));
+      client1.emit("send-message", { roomId, content: "test" });
 
       await new Promise(resolve => setTimeout(resolve, 300));
 
-      expect(messageCountForws3).toBe(1);
-      expect(messageCountForws2).toBe(0);
+      expect(messageCountForClient3).toBe(1);
+      expect(messageCountForClient2).toBe(0);
     } finally {
-      if (ws3.readyState === WebSocket.OPEN) {
+      if (client3.connected) {
         await new Promise<void>(resolve => {
-          ws3.once("close", () => resolve());
-          ws3.close();
+          client3.once("disconnect", () => resolve());
+          client3.disconnect();
         });
       }
     }
+  });
+
+  it("should receive user-joined notification when client joins room", async () => {
+    if (!client1 || !client2) throw new Error("Clients not initialized");
+
+    const roomId = "test-room-7";
+
+    client1.emit("join-room", roomId);
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    const joinPromise = waitForMessage(client1, "user-joined");
+
+    client2.emit("join-room", roomId);
+
+    const received = await joinPromise;
+    expect(received.socketId).toBe(client2.id);
+  });
+
+  it("should receive user-left notification when client leaves room", async () => {
+    if (!client1 || !client2) throw new Error("Clients not initialized");
+
+    const roomId = "test-room-8";
+
+    client1.emit("join-room", roomId);
+    client2.emit("join-room", roomId);
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    const leavePromise = waitForMessage(client1, "user-left");
+
+    client2.emit("leave-room", roomId);
+
+    const received = await leavePromise;
+    expect(received.socketId).toBe(client2.id);
   });
 });

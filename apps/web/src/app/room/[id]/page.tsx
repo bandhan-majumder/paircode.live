@@ -9,7 +9,7 @@ import { defaultCodeSnippets } from "@/lib/defaultCodeSnippets";
 import { ShareRoomDialog } from "@/components/share-dialog";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { useWebSocket } from "@/hooks/use-websocket";
+import { useSocketIO } from "@/hooks/use-websocket";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -28,7 +28,10 @@ export default function CodeArena({ params }: Props) {
       if (data.code !== undefined) {
         setCode(data.code);
       }
+      console.log("data is: ", data);
+      console.log("data language is: ", data.language);
       if (data.language !== undefined) {
+        console.log("still coming? ", data.language)
         setSelectedLanguage(data.language);
       }
     } catch (error) {
@@ -36,7 +39,7 @@ export default function CodeArena({ params }: Props) {
     }
   };
 
-  const { sendMessage, isConnected } = useWebSocket({
+  const { sendMessage, isConnected } = useSocketIO({
     roomId: id,
     onMessageReceived: handleMessageReceived,
   });
@@ -60,7 +63,7 @@ export default function CodeArena({ params }: Props) {
 
   const handleCodeChange = (value: string) => {
     setCode(value);
-    sendMessage(JSON.stringify({ code: value, language: selectedLanguage }));
+    sendMessage(JSON.stringify({ code: value, language: selectedLanguage.length > 0 ? selectedLanguage : undefined }));
   };
 
   const currentExtensions =
