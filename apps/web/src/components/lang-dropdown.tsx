@@ -42,7 +42,7 @@ export function DropdownMenuLanguageCheckboxes({
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-27 bg-[#477CBC] text-[#D1D5DC]">{selectedLanguage || 'default'}</Button>
+                <Button variant="outline" className="w-27 bg-black text-[#D1D5DC] hover:bg-black hover:text-white">{selectedLanguage || 'default'}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 bg-[#364153] text-[#D1D5DC]">
                 {languages.map((language) => (

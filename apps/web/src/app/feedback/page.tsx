@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Link from "next/link"
 import { CheckCircle2 } from "lucide-react"
 import axios from "axios"
-import type { feedBackFormType } from "@/types/feedback.type"
+import type { feedBackFormType } from "@/app/api/feedback/feedback.type"
 import { useRouter } from "next/navigation"
 
 export default function FeedbackPage() {
@@ -55,7 +55,7 @@ export default function FeedbackPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#F4F4F4] dark:bg-background text-foreground">
       <div className="border-b border-border">
         <div className="container mx-auto max-w-2xl px-4 py-6">
           <Link href="/">

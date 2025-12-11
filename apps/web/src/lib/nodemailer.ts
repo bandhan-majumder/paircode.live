@@ -1,4 +1,4 @@
-import { feedBackFormSchema } from '@/types/feedback.type'
+import { commonMailSchema, type commonMailSchemaType } from '@/types/common-email.type'
 import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
@@ -12,25 +12,33 @@ const transporter = nodemailer.createTransport({
     },
 })
 
-async function sendEmail(data: any): Promise<void> {
-    const parsedData = feedBackFormSchema.safeParse(data)
+async function sendEmail({
+    receiverEmail,
+    senderName,
+    subject,
+    body,
+}: commonMailSchemaType): Promise<void> {
+    const parsedData = commonMailSchema.safeParse({
+        receiverEmail,
+        senderName,
+        subject,
+        body,
+    })
 
     if (!parsedData.success) {
         console.error('Invalid feedback form data:', parsedData.error)
         return
     };
 
-    const { name, email, category, message } = parsedData.data;
-
     try {
         await transporter.sendMail({
             from: {
                 name: 'PairCode.live',
-                address: process.env.USER_EMAIL || 'default@example.com',
+                address: process.env.USER_EMAIL || '',
             },
-            to: [process.env.RECIPIENT_EMAIL || ''],
-            subject: `CodePair Feedback from ${name} - ${category}`,
-            text: `${name} (${email}) submitted the following feedback in the category "${category}":\n\n${message}`,
+            to: [receiverEmail || process.env.RECIPIENT_EMAIL || ''],
+            subject,
+            text: body,
         })
     } catch (error) {
         console.error('Error sending email:', error)

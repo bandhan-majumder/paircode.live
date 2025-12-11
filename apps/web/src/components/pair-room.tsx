@@ -10,6 +10,10 @@ import { useRouter } from "next/navigation";
 import { useSocketIO } from "@/hooks/use-websocket";
 import { MicOff, VideoOff, Mic, Video, PhoneOff } from "lucide-react";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import axios from "axios";
+import { toast } from "sonner";
+import z from "zod";
 
 export default function PairRoom({
     id,
@@ -29,6 +33,8 @@ export default function PairRoom({
     const [lobby, setLobby] = useState(true);
     const [localMicOff, setLocalMicOff] = useState(false);
     const [localVidOff, setLocalVidOff] = useState(false);
+    const [inviteEmail, setInviteEmail] = useState('');
+    const [sentInvite, setSentInvite] = useState(false);
 
     const sendingPcRef = useRef<RTCPeerConnection | null>(null);
     const receivingPcRef = useRef<RTCPeerConnection | null>(null);
@@ -173,6 +179,29 @@ export default function PairRoom({
         setLobby(true);
     };
 
+    const handleSendInvite = async () => {
+        try {
+            setSentInvite(true);
+            if (!z.email().safeParse(inviteEmail).success){
+                toast.error('Please enter a valid email!')
+                return;
+            }
+            await axios.post('/api/invite', {
+                receiverEmail: inviteEmail,
+                senderEmail: session?.user.email,
+                roomId: id,
+                senderName: session?.user.name
+            })
+            toast.success('email sent successfully!')
+        } catch (error) {
+            console.log("Failed to send invite");
+            toast.error('Apologize! Please copy the URL and send them manually.')
+        } finally {
+            setInviteEmail('');
+            setSentInvite(false);
+        }
+    }
+
     const { sendMessage, emitOffer, emitAnswer, emitIceCandidate, leaveRoom, isConnected } = useSocketIO({
         roomId: id,
         onMessageReceived: handleMessageReceived,
@@ -275,7 +304,7 @@ export default function PairRoom({
                         selectedLanguage={selectedLanguage}
                         onLanguageChange={handleLanguageChange}
                     />
-                    {session && <ShareRoomDialog session={session} roomId={id} />}
+                    {/* {session && <ShareRoomDialog session={session} roomId={id} />} */}
                 </div>
                 <div className="flex items-center gap-2">
                     <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
@@ -295,6 +324,9 @@ export default function PairRoom({
                     <div>
                         <h3 className="font-semibold mb-2">Your Video</h3>
                         <video
+                            style={{
+                                borderRadius: '20px'
+                            }}
                             ref={localVideoRef}
                             autoPlay
                             muted
@@ -335,12 +367,19 @@ export default function PairRoom({
                     </div>
                     {lobby ? (
                         <div className="p-4 text-center">
-                            Waiting to connect you to someone...
+                            Waiting for your friend to join...
+                            <div className="flex gap-3 mt-5">
+                                <Input value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} type="email" placeholder="friend@gmail.com" />
+                                <Button disabled={!inviteEmail || sentInvite} onClick={handleSendInvite}>{sentInvite ? 'Inviting..' : 'Invite'}</Button>
+                            </div>
                         </div>
                     ) : <div>
                         <h3 className="font-semibold mb-2">Friend's Video</h3>
 
                         <video
+                            style={{
+                                borderRadius: '20px'
+                            }}
                             ref={remoteVideoRef}
                             autoPlay
                             playsInline

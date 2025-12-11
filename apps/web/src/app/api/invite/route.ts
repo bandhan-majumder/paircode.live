@@ -1,7 +1,7 @@
 import { sendEmail } from "@/lib/nodemailer";
-import { feedBackFormSchema } from "@/app/api/feedback/feedback.type";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
+import { inviteFriendSchema } from "@/app/api/invite/invite-friend.type";
 
 export async function POST(req: Request) {
     try {
@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
         const body = await req.json();
 
-        const parsedData = feedBackFormSchema.safeParse(body);
+        const parsedData = inviteFriendSchema.safeParse(body);
 
         if (!parsedData.success) {
             return NextResponse.json(
@@ -21,19 +21,19 @@ export async function POST(req: Request) {
             );
         }
 
-        const { name, email, category, message } = parsedData.data;
+        const { senderEmail, senderName, receiverEmail, roomId } = parsedData.data;
 
-        if (!name || !email || !category || !message) {
+        if (!senderEmail || !senderName || !receiverEmail || !roomId) {
             return NextResponse.json(
                 { error: "Missing required fields" },
                 { status: 400 }
             );
         }
 
-        const emailText = `${name} (${email}) submitted the following feedback in the category "${category}":\n\n${message}`;
-        const emailSubject = `CodePair Feedback from ${name} - ${category}`;
+        const emailText = `${senderName} - (${senderEmail}) has invited you to join a coding session. Click the link below to join:\n\nhttps://paircode.live/room/${roomId}`;
+        const emailSubject = `CodePair Join Request from ${senderName}`;
 
-        await sendEmail({ senderName: name, body: emailText, subject: emailSubject });
+        await sendEmail({ senderName, receiverEmail, subject: emailSubject, body: emailText });
 
         return NextResponse.json(
             { message: "Feedback received" },

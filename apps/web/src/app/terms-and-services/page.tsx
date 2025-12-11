@@ -6,8 +6,7 @@ import Link from "next/link"
 
 export default function TermsAndServices() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
+    <div className="min-h-screen bg-[#F4F4F4] dark:bg-background text-foreground">
       <div className="border-b border-border">
         <div className="container mx-auto max-w-4xl px-4 py-6">
           <Link href="/">
@@ -20,10 +19,8 @@ export default function TermsAndServices() {
         </div>
       </div>
 
-      {/* Content */}
       <div className="container mx-auto max-w-4xl px-4 py-12">
         <div className="space-y-8">
-          {/* Introduction */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">1. Agreement to Terms</CardTitle>
@@ -36,7 +33,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Use License */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">2. Use License</CardTitle>
@@ -57,7 +53,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Disclaimer */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">3. Disclaimer</CardTitle>
@@ -72,7 +67,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Limitations */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">4. Limitations</CardTitle>
@@ -87,7 +81,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Accuracy of Materials */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">5. Accuracy of Materials</CardTitle>
@@ -101,7 +94,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Links */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">6. Links</CardTitle>
@@ -115,7 +107,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Modifications */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">7. Modifications</CardTitle>
@@ -128,7 +119,6 @@ export default function TermsAndServices() {
             </CardContent>
           </Card>
 
-          {/* Governing Law */}
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">8. Governing Law</CardTitle>
@@ -143,7 +133,6 @@ export default function TermsAndServices() {
           </Card>
         </div>
 
-        {/* Footer CTA */}
         <div className="mt-12 flex justify-center">
           <Link href="/">
             <Button className="bg-[#BD9267] hover:bg-[#a0815a] text-white">Return to Home</Button>

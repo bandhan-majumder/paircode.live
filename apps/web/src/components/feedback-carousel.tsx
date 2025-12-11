@@ -65,7 +65,7 @@ export function FeedbackCarousel() {
   const allFeedbacks = [...dummyFeedbacks, ...dummyFeedbacks]
 
   return (
-    <div className="w-full overflow-hidden bg-background py-12">
+    <div className="w-full overflow-hidden bg-[#F4F4F4] dark:bg-background py-12 rounded-4xl">
       <div className="relative flex items-center">
         <div className="absolute left-0 top-0 z-10 h-full w-12 bg-gradient-to-r from-background to-transparent pointer-events-none" />
 

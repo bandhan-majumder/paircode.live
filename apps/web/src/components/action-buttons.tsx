@@ -11,12 +11,12 @@ function ActionButtons() {
     return (
         <div className="flex justify-center gap-10 mt-10">
             {!isPending && session && <CreateRoomDialog session={session} />}
-            {!session && <Button variant="default" className="bg-[#8F6E4D] text-white hover:bg-[#3C6E41]" asChild>
+            {!session && <Button variant="default" className="bg-[#8F6E4D] text-white hover:bg-[#3C6E41] drop-shadow-xs " asChild>
                 <Link href={"/login"}>
                     Create a room
                 </Link>
             </Button>}
-            <Button className="bg-[#242424] text-white hover:bg-[#242424] border" variant={"default"}>
+            <Button className="bg-[#242424] text-white hover:bg-[#242424] drop-shadow-lg drop-shadow-inherit dark:drop-shadow-gray-700" variant={"default"}>
                 View live Shares
             </Button>
         </div>
