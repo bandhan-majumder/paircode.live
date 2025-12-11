@@ -1,15 +1,10 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import CodeShare from "@/components/code-share";
-import { DropdownMenuLanguageCheckboxes } from "@/components/lang-dropdown";
-import VideoBox from "@/components/video-box";
-import { languageExtensions } from "@/lib/languageExtensions";
-import { defaultCodeSnippets } from "@/lib/defaultCodeSnippets";
-import { ShareRoomDialog } from "@/components/share-dialog";
+import { use, useEffect, useRef, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { useSocketIO } from "@/hooks/use-websocket";
+import { Button } from "@/components/ui/button";
+import PairRoom from "@/components/pair-room";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -18,88 +13,77 @@ type Props = {
 export default function CodeArena({ params }: Props) {
   const { id } = use(params);
   const { data: session, isPending } = authClient.useSession();
+  const [isJoined, setIsJoined] = useState<boolean>(false);
+  const [localAudioTrack, setLocalAudioTrack] = useState<MediaStreamTrack | null>(null);
+  const [localVideoTrack, setlocalVideoTrack] = useState<MediaStreamTrack | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
-  const [code, setCode] = useState<string>("");
-
-  const handleMessageReceived = (content: string) => {
-    try {
-      const data = JSON.parse(content);
-      if (data.code !== undefined) {
-        setCode(data.code);
-      }
-      console.log("data is: ", data);
-      console.log("data language is: ", data.language);
-      if (data.language !== undefined) {
-        console.log("still coming? ", data.language)
-        setSelectedLanguage(data.language);
-      }
-    } catch (error) {
-      console.error("Error parsing received message:", error);
-    }
-  };
-
-  const { sendMessage, isConnected } = useSocketIO({
-    roomId: id,
-    onMessageReceived: handleMessageReceived,
-  });
 
   useEffect(() => {
-    if (!session && !isPending) {
+    if (!isPending && (!session || !session?.user || !session.user.id)) {
       router.push("/login");
     }
-  }, [session, isPending]);
+  }, [isPending, session, router]);
 
-  if (!session) {
-    return null;
+  useEffect(() => {
+    if (videoRef && videoRef.current) {
+      getCameraMicPermissions()
+    }
+  }, [videoRef]);
+
+  const getCameraMicPermissions = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+
+      const audioTrack = stream.getAudioTracks()[0];
+      const videoTrack = stream.getVideoTracks()[0];
+
+      setLocalAudioTrack(audioTrack);
+      setlocalVideoTrack(videoTrack);
+
+      if (!videoRef.current) return;
+
+      const videoElement = videoRef.current;
+      videoElement.srcObject = new MediaStream([videoTrack]);
+
+      videoElement.muted = true;
+
+      videoElement.onloadedmetadata = () => {
+        videoElement.play().catch(err => {
+          console.error("Play failed:", err);
+        });
+      };
+    } catch (err) {
+      console.error("Permission error", err);
+    }
   }
 
-  const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language);
-    const newCode = defaultCodeSnippets[language] || "";
-    setCode(newCode);
-    sendMessage(JSON.stringify({ language, code: newCode }));
-  };
-
-  const handleCodeChange = (value: string) => {
-    setCode(value);
-    sendMessage(JSON.stringify({ code: value, language: selectedLanguage.length > 0 ? selectedLanguage : undefined }));
-  };
-
-  const currentExtensions =
-    selectedLanguage && languageExtensions[selectedLanguage]
-      ? languageExtensions[selectedLanguage]
-      : [];
+  if (!isJoined) {
+    return (
+      <>
+        <div className="flex justify-center flex-col items-center gap-10 h-screen">
+          <p className="font-semibold text-2xl">Are you ready to debug,{" "} <span className="text-green-300">{session?.user.name}</span>{" "} ?</p>
+          <div className="">
+            <video style={{
+              borderRadius: "20px"
+            }} autoPlay width={600} height={500} ref={videoRef}></video>
+          </div>
+          <Button onClick={() => {
+            setIsJoined(true);
+          }}>
+            Let's do it!
+          </Button>
+        </div>
+      </>
+    )
+  }
 
   return (
-    <div className="grid grid-cols-3 gap-0 p-0">
-      <div className="col-span-2 relative">
-        <div className="absolute right-10 top-5 z-50">
-          <div className="flex flex-col gap-4">
-            {session && <ShareRoomDialog session={session} roomId={id} />}
-            <DropdownMenuLanguageCheckboxes
-              selectedLanguage={selectedLanguage}
-              onLanguageChange={handleLanguageChange}
-            />
-            <div className="text-xs text-gray-400">
-              {isConnected ? " Connected" : " Disconnected"}
-            </div>
-          </div>
-        </div>
-        <CodeShare
-          value={code}
-          onChange={handleCodeChange}
-          extensions={currentExtensions}
-        />
-      </div>
-      <div className="flex flex-col justify-center gap-20 w-full bg-[#282C34]">
-        <div>
-          <VideoBox />
-        </div>
-        <div>
-          <VideoBox />
-        </div>
-      </div>
-    </div>
-  );
+    <>
+      <PairRoom id={id} localAudioTrack={localAudioTrack} localVideoTrack={localVideoTrack} />
+    </>
+  )
 }

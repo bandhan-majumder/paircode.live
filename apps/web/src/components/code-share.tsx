@@ -6,7 +6,7 @@ import { createTheme } from "@uiw/codemirror-themes";
 import React from 'react';
 
 interface CodeShareProps {
-  value: string;
+  code: string;
   onChange: (value: string) => void;
   extensions: any[];
 }
@@ -46,15 +46,15 @@ const myTheme = createTheme({
 });
 
 
-export default function CodeShare({ value, onChange, extensions }: CodeShareProps) {
-  const onChangeArg = React.useCallback((value: any, viewUpdate: any) => {
-    onChange(value);
+export default function CodeShare({ code, onChange, extensions }: CodeShareProps) {
+  const onChangeArg = React.useCallback((code: any, viewUpdate: any) => {
+    onChange(code);
   }, []);
 
   return (
     <CodeMirror
       style={{ padding: '0px', margin: '0px', borderRadius: "4px" }}
-      value={value}
+      value={code}
       height="99vh"
       theme={myTheme}
       extensions={extensions}

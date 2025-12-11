@@ -29,7 +29,6 @@ export function ShareRoomDialog({ session, roomId }: {
     const queryClient = useQueryClient();
 
     if (!session || !roomId) {
-        console.log("roomid is required")
         return null;
     }
 

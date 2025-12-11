@@ -23,13 +23,6 @@ const javaDefaultCode = `public class Main {
     }
 }`;
 
-const goLangDefaultCode = `package main
-import "fmt"
-
-func main() {
-  fmt.Println("Hello, 世界")
-}`;
-
 const goDefaultCode = `package main
 
 import "fmt"

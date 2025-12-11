@@ -1,5 +1,5 @@
 import type { Server, Socket } from "socket.io";
-import { RoomManager } from "./RoomManager";
+import { RoomManager } from "./room-managers";
 
 export class UserManager {
     private roomManager: RoomManager;

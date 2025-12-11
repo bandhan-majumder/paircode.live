@@ -1,7 +1,7 @@
 import type { Server, Socket } from "socket.io";
 
 export class RoomManager {
-    constructor(private io: Server) {}
+    constructor(private io: Server) { }
 
     async joinRoom(roomId: string, socket: Socket) {
         if (!roomId || !socket) {
@@ -9,12 +9,17 @@ export class RoomManager {
             return;
         }
         await socket.join(roomId);
-        console.log(`Socket ${socket.id} joined room: ${roomId}`);
         socket.emit('lobby');
         socket.to(roomId).emit("user-joined", {
             socketId: socket.id,
             timestamp: Date.now()
         })
+        const totalSocketInRoom = await this.io.in(roomId).fetchSockets();
+        if (totalSocketInRoom.length > 1) {
+            totalSocketInRoom.forEach((s) => {
+                s.emit("send-offer", { roomId });
+            });
+        }
     }
 
     sendMessageToRoom(roomId: string, content: string, socket: Socket) {
@@ -34,8 +39,6 @@ export class RoomManager {
             senderId: socket.id,
             timestamp: Date.now()
         });
-
-        console.log(`Message sent to room ${roomId} from ${socket.id}`);
     }
 
     leaveRoom(roomId: string, socket: Socket) {
@@ -46,7 +49,6 @@ export class RoomManager {
             return;
         }
         socket.leave(roomId);
-        console.log(`Socket ${socket.id} left room: ${roomId}`);
 
         socket.to(roomId).emit("user-left", {
             socketId: socket.id,
@@ -54,7 +56,6 @@ export class RoomManager {
         });
     }
 
-    // helper function for getting other sockets in the room
     private async getOtherSocketsInRoom(roomId: string, senderId: string) {
         const sockets = await this.io.in(roomId).fetchSockets();
         return sockets.filter((s) => s.id !== senderId);

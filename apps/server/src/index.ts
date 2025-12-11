@@ -5,7 +5,7 @@ import { createServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
 import { auth } from "@paircode/auth";
 import { toNodeHandler } from "better-auth/node";
-import { UserManager } from "./managers/UserManager";
+import { UserManager } from "./managers/user-managers";
 
 const app = express();
 const server = createServer(app);
@@ -14,7 +14,7 @@ const userManager = new UserManager(io);
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "",
+    origin: process.env.CORS_ORIGIN || "*",
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -31,7 +31,6 @@ app.get("/health", (_req, res) => {
 
 
 io.on("connection", (socket: Socket) => {
-  console.log(`Client connected: ${socket.id}`);
 
   socket.on("join-room", (roomId: string) => {
     userManager.addUser(roomId, socket);
@@ -45,8 +44,8 @@ io.on("connection", (socket: Socket) => {
     userManager.sendMessage(data.roomId, socket, data.content);
   });
 
-  socket.on("disconnect", () => {
-    console.log(`Client disconnected: ${socket.id}`);
+  socket.on("disconnect", (reason) => {
+    /// leave-room handles cleanup
   });
 
   socket.on("error", (error) => {

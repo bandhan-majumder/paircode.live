@@ -9,20 +9,38 @@ interface UseSocketIOProps {
   onMessageReceived: (content: string) => void;
   onUserJoined?: (socketId: string) => void;
   onUserLeft?: (socketId: string) => void;
+  onOffer?: (data: { roomId: string; sdp: RTCSessionDescriptionInit }) => void;
+  onAnswer?: (data: { roomId: string; sdp: RTCSessionDescriptionInit }) => void;
+  onIceCandidate?: (data: { candidate: RTCIceCandidate; type: "sender" | "receiver" }) => void;
+  onLobby?: () => void;
+  onSendOffer?: (data: { roomId: string }) => void;
 }
 
 export function useSocketIO({ 
   roomId, 
   onMessageReceived,
   onUserJoined,
-  onUserLeft 
+  onUserLeft,
+  onOffer,
+  onAnswer,
+  onIceCandidate,
+  onLobby,
+  onSendOffer
 }: UseSocketIOProps) {
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const mountedRef = useRef(false);
 
-  const connect = useCallback(() => {
+  useEffect(() => {
+    if (mountedRef.current) return;
+    mountedRef.current = true;
+
     if (!roomId) {
       console.error("No roomId provided, skipping Socket.IO connection");
+      return;
+    }
+
+    if (socketRef.current?.connected) {
       return;
     }
 
@@ -37,7 +55,6 @@ export function useSocketIO({
       socketRef.current = socket;
 
       socket.on("connect", () => {
-        console.log("Socket.IO connected:", socket.id);
         setIsConnected(true);
         socket.emit("join-room", roomId);
       });
@@ -53,16 +70,44 @@ export function useSocketIO({
       });
 
       socket.on("user-joined", (data: { socketId: string; timestamp: number }) => {
-        console.log("User joined:", data.socketId);
         if (onUserJoined) {
           onUserJoined(data.socketId);
         }
       });
 
       socket.on("user-left", (data: { socketId: string; timestamp: number }) => {
-        console.log("User left:", data.socketId);
         if (onUserLeft) {
           onUserLeft(data.socketId);
+        }
+      });
+
+      socket.on("send-offer", (data: { roomId: string }) => {
+        if (onSendOffer) {
+          onSendOffer(data);
+        }
+      });
+
+      socket.on("offer", (data: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
+        if (onOffer) {
+          onOffer(data);
+        }
+      });
+
+      socket.on("answer", (data: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
+        if (onAnswer) {
+          onAnswer(data);
+        }
+      });
+
+      socket.on("add-ice-candidate", (data: { candidate: RTCIceCandidate; type: "sender" | "receiver" }) => {
+        if (onIceCandidate) {
+          onIceCandidate(data);
+        }
+      });
+
+      socket.on("lobby", () => {
+        if (onLobby) {
+          onLobby();
         }
       });
 
@@ -71,7 +116,6 @@ export function useSocketIO({
       });
 
       socket.on("disconnect", (reason) => {
-        console.log("Socket.IO disconnected:", reason);
         setIsConnected(false);
       });
 
@@ -84,7 +128,19 @@ export function useSocketIO({
       console.error("Error creating Socket.IO connection:", error);
       setIsConnected(false);
     }
-  }, [roomId, onMessageReceived, onUserJoined, onUserLeft]);
+
+    return () => {
+      mountedRef.current = false;
+      if (socketRef.current) {
+        if (socketRef.current.connected && roomId) {
+          socketRef.current.emit("leave-room", roomId);
+        }
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+      setIsConnected(false);
+    };
+  }, [roomId]); 
 
   const sendMessage = useCallback(
     (content: string) => {
@@ -104,34 +160,47 @@ export function useSocketIO({
     [roomId]
   );
 
+  const emitOffer = useCallback(
+    (data: { sdp: RTCSessionDescriptionInit; roomId: string }) => {
+      if (socketRef.current && socketRef.current.connected) {
+        socketRef.current.emit("offer", data);
+      }
+    },
+    []
+  );
+
+  const emitAnswer = useCallback(
+    (data: { sdp: RTCSessionDescriptionInit; roomId: string }) => {
+      if (socketRef.current && socketRef.current.connected) {
+        socketRef.current.emit("answer", data);
+      }
+    },
+    []
+  );
+
+  const emitIceCandidate = useCallback(
+    (data: { candidate: RTCIceCandidate; type: "sender" | "receiver"; roomId: string }) => {
+      if (socketRef.current && socketRef.current.connected) {
+        socketRef.current.emit("add-ice-candidate", data);
+      }
+    },
+    []
+  );
+
   const leaveRoom = useCallback(() => {
     if (socketRef.current && socketRef.current.connected && roomId) {
       socketRef.current.emit("leave-room", roomId);
+      socketRef.current.disconnect();
     }
   }, [roomId]);
 
-  useEffect(() => {
-    if (roomId) {
-      connect();
-    } else {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-        socketRef.current = null;
-      }
-      setIsConnected(false);
-    }
-
-    return () => {
-      if (socketRef.current) {
-        if (socketRef.current.connected && roomId) {
-          socketRef.current.emit("leave-room", roomId);
-        }
-        socketRef.current.disconnect();
-        socketRef.current = null;
-      }
-      setIsConnected(false);
-    };
-  }, [roomId, connect]);
-
-  return { sendMessage, leaveRoom, isConnected };
+  return { 
+    sendMessage, 
+    emitOffer,
+    emitAnswer,
+    emitIceCandidate,
+    leaveRoom, 
+    isConnected,
+    socket: socketRef.current,
+  };
 }
