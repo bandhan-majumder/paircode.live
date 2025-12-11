@@ -4,25 +4,30 @@ import React from 'react'
 
 function Footer() {
     return (
-        <div className='min-h-[43vh] px-15'>
-            <div className='border-[#967e45] rounded-t-3xl px-5 py-4 border-2'>
-                <p className={`${railwayFont.className} font-bold mt-10 text-black dark:text-[#CDCDCD] leading-2 tracking-wide`}>PAIRCODE.LIVE</p>
-                <p className={`${railwayFont.className} font-medium mt-5 text-black dark:text-[#CDCDCD] leading-2 tracking-wide`}>DEBUG, INTERVIEW, PLAN<br /><br /><br />IN REALTIME</p>
-                <div className='flex justify-between flex-row mt-10'>
-                    <div className={`${sekuyaFont.className} text-9xl text-[#BD9267] italic tracking-tight`}>{'<p/>'}</div>
-                    <div className={`${sekuyaFont.className} text-9xl text-[#BD9267] wider tracking-tight`}>PAIRCODE</div>
+        <div className='min-h-[43vh] px-4 sm:px-6 md:px-10 lg:px-15'>
+            <div className='border-[#967e45] rounded-t-3xl px-4 sm:px-6 md:px-8 lg:px-5 py-6 md:py-4 border-2'>
+                <p className={`${railwayFont.className} font-bold mt-6 md:mt-10 text-black dark:text-[#CDCDCD] leading-2 tracking-wide text-sm sm:text-base`}>PAIRCODE.LIVE</p>
+                <p className={`${railwayFont.className} font-medium mt-3 sm:mt-4 md:mt-5 text-black dark:text-[#CDCDCD] leading-2 tracking-wide text-xs sm:text-sm md:text-base`}>DEBUG, INTERVIEW, PLAN<br /><br className='hidden md:block' /><br className='hidden md:block' />IN REALTIME</p>
+                
+                <div className='flex justify-between flex-col sm:flex-row mt-6 sm:mt-8 md:mt-10 gap-4 sm:gap-0 items-center sm:items-end'>
+                    <div className={`${sekuyaFont.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-[#BD9267] italic tracking-tight`}>{'<p/>'}</div>
+                    <div className={`${sekuyaFont.className} text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl text-[#BD9267] tracking-tight`}>PAIRCODE</div>
                 </div>
-                <div className='mt-15 flex justify-between'>
-                    <div className='flex justify-center items-center flex-col'>
-                        <div className='flex justify-between gap-10 dark:text-[#BD9267]'>
-                            <Linkedin size={20} />
-                            <X size={20} />
-                            <Github size={20} />
-                            <Mail size={20} />
+                
+                <div className='mt-8 sm:mt-10 md:mt-15 flex flex-col-reverse sm:flex-row justify-between gap-6 sm:gap-4'>
+                    <div className='flex justify-center items-center'>
+                        <div className='flex justify-center gap-6 sm:gap-8 md:gap-10 dark:text-[#BD9267]'>
+                            <Linkedin size={18} className='sm:w-5 sm:h-5 cursor-pointer hover:opacity-70 transition-opacity' />
+                            <X size={18} className='sm:w-5 sm:h-5 cursor-pointer hover:opacity-70 transition-opacity' />
+                            <Github size={18} className='sm:w-5 sm:h-5 cursor-pointer hover:opacity-70 transition-opacity' />
+                            <Mail size={18} className='sm:w-5 sm:h-5 cursor-pointer hover:opacity-70 transition-opacity' />
                         </div>
                     </div>
-                    <div className='flex justify-center items-center flex-col'>
-                        <p className='text-black dark:text-[#a7a7a7]'>© {new Date().getFullYear()} Bandhan | <a href='https://bandhanmajumder.com'>@bandhan</a> | <a href='/terms-and-services'>Terms and Privacy</a> | <a href='/feedback'>Feedback</a></p>
+                    
+                    <div className='flex justify-center items-center text-center sm:text-right'>
+                        <p className='text-xs sm:text-sm text-black dark:text-[#a7a7a7] leading-relaxed'>
+                            © {new Date().getFullYear()} Bandhan | <a href='https://bandhanmajumder.com' className='hover:underline'>@bandhan</a> | <a href='/terms-and-services' className='hover:underline'>Terms and Privacy</a> | <a href='/feedback' className='hover:underline'>Feedback</a>
+                        </p>
                     </div>
                 </div>
             </div>
