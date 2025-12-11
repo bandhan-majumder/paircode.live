@@ -298,7 +298,7 @@ export default function PairRoom({
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between p-4 border-b bg-[#292929]">
                 <div className="flex items-center gap-4">
                     <DropdownMenuLanguageCheckboxes
                         selectedLanguage={selectedLanguage}
@@ -320,7 +320,7 @@ export default function PairRoom({
                         extensions={currentExtensions}
                     />
                 </div>
-                <div className="w-96 border-l p-4 flex flex-col gap-4">
+                <div className="w-96 border-l p-4 flex flex-col gap-4 bg-[#292929]">
                     <div>
                         <h3 className="font-semibold mb-2">Your Video</h3>
                         <video
