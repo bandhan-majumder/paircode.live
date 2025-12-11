@@ -6,6 +6,7 @@ import { Server, Socket } from 'socket.io';
 import { auth } from "@paircode/auth";
 import { toNodeHandler } from "better-auth/node";
 import { UserManager } from "./managers/user-managers";
+import { limiter } from "./lib/ratelimiter";
 
 const app = express();
 const server = createServer(app);
@@ -23,7 +24,8 @@ app.use(
 
 app.use(express.json());
 
-app.all("/api/auth{/*path}", toNodeHandler(auth));
+// rate limit auth route to 100 requests per 15 minutes
+app.all("/api/auth{/*path}", limiter, toNodeHandler(auth));
 
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", uptime: process.uptime() });

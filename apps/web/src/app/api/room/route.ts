@@ -1,8 +1,13 @@
 import { createRoom, updateShareSession } from "@/lib/db/query";
-import { type RoomType } from "@paircode/db/schema"
 import { NextResponse } from "next/server";
+import { applyRateLimit } from "./ratelimiter";
 
 export async function POST(req: Request) {
+    const rateLimitResponse = await applyRateLimit(req);
+    
+    if (rateLimitResponse) {
+        return rateLimitResponse;
+    }
     const body = await req.json();
 
     if (!body || !body.topic || !body.createdBy) {
@@ -19,6 +24,11 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
+    const rateLimitResponse = await applyRateLimit(req);
+
+    if (rateLimitResponse) {
+        return rateLimitResponse;
+    }
     const body = await req.json();
 
     if (!body || !body.roomId || !body.member) {

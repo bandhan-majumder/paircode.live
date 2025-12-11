@@ -12,12 +12,12 @@ function Hero() {
     return (
         <div className="flex justify-center gap-10 mt-10">
             {session && <CreateRoomDialog session={session} />}
-            {!session && <Button variant="default" className="bg-[#3C6E41] text-white hover:bg-[#3C6E41]" asChild>
+            {!session && <Button variant="default" className="bg-[#8F6E4D] text-white hover:bg-[#3C6E41]" asChild>
                 <Link href={"/login"}>
                     Create a room
                 </Link>
             </Button>}
-            <Button className="bg-[#3C6E41] text-white hover:bg-red-[#3C6E41]" variant={"default"}>
+            <Button className="bg-[#73563C] text-white hover:bg-[#503728]" variant={"default"}>
                 View live Shares
             </Button>
         </div>

@@ -62,7 +62,7 @@ export function CreateRoomDialog({ session }: {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="default" className="bg-[#3C6E41] text-white hover:bg-[#3C6E41]">
+                <Button variant="default" className="bg-[#73563C] text-white hover:bg-[#503728]">
                     Create a room
                 </Button>
             </DialogTrigger>
@@ -94,7 +94,7 @@ export function CreateRoomDialog({ session }: {
                         <Button
                             variant="default"
                             type="submit"
-                            className="bg-[#6fa173] text-white hover:bg-[#638d66]"
+                            className="bg-[#73563C] text-white hover:bg-[#503728]"
                             disabled={mutation.isPending}
                         >
                             {mutation.isPending ? "Creating..." : "Create"}

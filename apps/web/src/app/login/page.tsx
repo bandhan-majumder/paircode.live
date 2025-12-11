@@ -11,11 +11,11 @@ export default function LoginPage() {
   const { data: session, isPending } = authClient.useSession();
   const [isClicked, setIsClicked] = useState(false);
 
-  useEffect(() => {
-    if (!isPending && session) {
-      router.push("/");
-    }
-  }, [session, isPending, router]);
+  // useEffect(() => {
+  //   if (!isPending && session) {
+  //     router.push("/");
+  //   }
+  // }, [session, isPending, router]);
 
   async function handleLogin() {
     if (isClicked) return;
@@ -28,18 +28,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <Button
-        onClick={handleLogin}
-        disabled={isClicked}
-        variant="ghost"
-        className="flex flex-row gap-6 w-60 p-1 bg-primary/20 rounded-xl h-15"
-      >
-        <Image src="/google.svg" width={40} height={40} alt="Google" />
-        <p className="font-bold text-xl">
-          {isClicked ? "Signing in..." : "Sign In"}
-        </p>
-      </Button>
+    <div className="h-screen flex flex-row justify-between">
+      <div>
+        asfd
+      </div>
+      <div>
+        <Button
+          onClick={handleLogin}
+          disabled={isClicked}
+          variant="ghost"
+          className="flex flex-row gap-6 w-60 p-1 bg-primary/20 rounded-xl h-15"
+        >
+          <Image src="/google.svg" width={40} height={40} alt="Google" />
+          <p className="font-bold text-xl">
+            {isClicked ? "Signing in..." : "Sign In"}
+          </p>
+        </Button>
+      </div>
     </div>
   );
 }

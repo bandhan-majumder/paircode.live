@@ -24,6 +24,7 @@ export default function PairRoom({
     const router = useRouter();
 
     const [selectedLanguage, setSelectedLanguage] = useState("python");
+    const selectedLanguageRef = useRef(selectedLanguage);
     const [code, setCode] = useState(defaultCodeSnippets["python"]);
     const [lobby, setLobby] = useState(true);
     const [localMicOff, setLocalMicOff] = useState(false);
@@ -40,6 +41,11 @@ export default function PairRoom({
             localVideoRef.current.srcObject = new MediaStream([localVideoTrack]);
         }
     }, [localVideoTrack]);
+
+    useEffect(() => {
+        selectedLanguageRef.current = selectedLanguage;
+    }, [selectedLanguage]);
+
     const toggleMicrophone = () => {
         if (localAudioTrack) {
             const newState = !localMicOff;
@@ -188,14 +194,14 @@ export default function PairRoom({
     //         receivingPcRef.current.close();
     //         receivingPcRef.current = null;
     //     }
-        
+
     //     if (localAudioTrack) {
     //         localAudioTrack.stop();
     //     }
     //     if (localVideoTrack) {
     //         localVideoTrack.stop();
     //     }
-        
+
     //     if (remoteVideoRef.current) {
     //         remoteVideoRef.current.srcObject = null;
     //     }
@@ -218,7 +224,7 @@ export default function PairRoom({
             // if (receivingPcRef.current) {
             //     receivingPcRef.current.close();
             // }
-            
+
             // if (localAudioTrack) {
             //     localAudioTrack.stop();
             // }
@@ -240,6 +246,7 @@ export default function PairRoom({
 
     const handleLanguageChange = (language: string) => {
         setSelectedLanguage(language);
+        selectedLanguageRef.current = language;
         const newCode = defaultCodeSnippets[language] || "";
         setCode(newCode);
         sendMessage(JSON.stringify({ language, code: newCode }));
@@ -250,7 +257,7 @@ export default function PairRoom({
         sendMessage(
             JSON.stringify({
                 code: value,
-                language: selectedLanguage.length > 0 ? selectedLanguage : undefined,
+                language: selectedLanguageRef.current ? selectedLanguageRef.current : undefined,
             })
         );
     };
