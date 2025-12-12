@@ -62,7 +62,7 @@ export function CreateRoomDialog({ session }: {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="default" className="bg-[#73563C] text-white hover:bg-[#503728] drop-shadow-lg drop-shadow-inherit dark:drop-shadow-gray-700">
+                <Button variant="default" className="bg-[#73563C] text-white hover:bg-[#503728]">
                     Create a room
                 </Button>
             </DialogTrigger>
