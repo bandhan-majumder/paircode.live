@@ -2,6 +2,7 @@ import { sendEmail } from "@/lib/nodemailer";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
 import { inviteFriendSchema } from "@/app/api/invite/invite-friend.type";
+import { createInvite } from "@/lib/db/query";
 
 export async function POST(req: Request) {
     try {
@@ -23,17 +24,18 @@ export async function POST(req: Request) {
 
         const { senderEmail, senderName, receiverEmail, roomId } = parsedData.data;
 
-        if (!senderEmail || !senderName || !receiverEmail || !roomId) {
-            return NextResponse.json(
-                { error: "Missing required fields" },
-                { status: 400 }
-            );
-        }
-
         const emailText = `${senderName} - (${senderEmail}) has invited you to join a coding session. Click the link below to join:\n\nhttps://paircode.live/room/${roomId}`;
         const emailSubject = `CodePair Join Request from ${senderName}`;
 
-        await sendEmail({ senderName, receiverEmail, subject: emailSubject, body: emailText });
+        await Promise.all([
+            await sendEmail({ senderName, receiverEmail, subject: emailSubject, body: emailText }),
+            await createInvite({
+                senderName,
+                senderEmail,
+                receiverEmail,
+                roomId
+            })
+        ])
 
         return NextResponse.json(
             { message: "Feedback received" },

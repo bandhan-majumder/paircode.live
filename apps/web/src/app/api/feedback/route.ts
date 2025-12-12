@@ -2,6 +2,7 @@ import { sendEmail } from "@/lib/nodemailer";
 import { feedBackFormSchema } from "@/app/api/feedback/feedback.type";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
+import { createFeedBack } from "@/lib/db/query";
 
 export async function POST(req: Request) {
     try {
@@ -23,17 +24,18 @@ export async function POST(req: Request) {
 
         const { name, email, category, message } = parsedData.data;
 
-        if (!name || !email || !category || !message) {
-            return NextResponse.json(
-                { error: "Missing required fields" },
-                { status: 400 }
-            );
-        }
-
         const emailText = `${name} (${email}) submitted the following feedback in the category "${category}":\n\n${message}`;
         const emailSubject = `CodePair Feedback from ${name} - ${category}`;
 
-        await sendEmail({ senderName: name, body: emailText, subject: emailSubject });
+        await Promise.all([
+            sendEmail({ senderName: name, body: emailText, subject: emailSubject }),
+            createFeedBack({
+                name,
+                email,
+                category,
+                content: message
+            })
+        ])
 
         return NextResponse.json(
             { message: "Feedback received" },
