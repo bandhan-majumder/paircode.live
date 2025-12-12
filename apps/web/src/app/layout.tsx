@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import { Geist, Geist_Mono, Raleway, Shadows_Into_Light } from "next/font/google";
 import "../index.css";
 import Providers from "@/components/providers";

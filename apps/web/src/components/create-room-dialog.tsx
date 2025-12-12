@@ -16,18 +16,41 @@ import { Label } from "@/components/ui/label"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { authClient } from "@/lib/auth-client";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
 
-export function CreateRoomDialog({ session }: {
-    session: typeof authClient.$Infer.Session;
+export function CreateRoomDialog({ 
+    session, 
+    isOutSourced, 
+    outSourcedCode, 
+    outSourcedLanguage 
+}: {
+    session: typeof authClient.$Infer.Session,
+    isOutSourced?: boolean,
+    outSourcedCode?: string,
+    outSourcedLanguage?: string
 }) {
     const router = useRouter();
     const closeRef = useRef<HTMLButtonElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
     const queryClient = useQueryClient();
+    const hasSavedOutsourcedCode = useRef(false);
+    
+    const { setCode, setLanguage } = useOutSourceCodeActionsStore(
+        (state) => state,
+    );
+
+    useEffect(() => {
+        if (isOutSourced && !hasSavedOutsourcedCode.current) {
+            hasSavedOutsourcedCode.current = true;
+            setCode(outSourcedCode || '');
+            setLanguage(outSourcedLanguage || '');
+        }
+    }, [isOutSourced, outSourcedCode, outSourcedLanguage, setCode, setLanguage]);
 
     if (!session) {
+        router.push("/");
         return null;
     }
 
@@ -53,8 +76,11 @@ export function CreateRoomDialog({ session }: {
         const topic = formData.get("topic") as string;
 
         if (topic?.trim()) {
-            const response = await mutation.mutateAsync({ topic, createdBy: session.user.id });
-            router.push(`/room/${response.data.newRoom.id}`)
+            const response = await mutation.mutateAsync({ 
+                topic, 
+                createdBy: session.user.id 
+            });
+            router.push(`/room/${response.data.newRoom.id}`);
             return;
         }
     };

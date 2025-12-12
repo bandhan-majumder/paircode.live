@@ -3,6 +3,7 @@
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "./ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { OutSourceCodeActionsStoreProvider } from "@/providers/outsource-source-provider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 	const queryClient = new QueryClient()
@@ -14,7 +15,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 				enableSystem
 				disableTransitionOnChange
 			>
-				{children}
+				<OutSourceCodeActionsStoreProvider>
+					{children}
+				</OutSourceCodeActionsStoreProvider>
 				<Toaster richColors />
 			</ThemeProvider>
 		</QueryClientProvider>

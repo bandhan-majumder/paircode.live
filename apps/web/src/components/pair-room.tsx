@@ -1,10 +1,10 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import CodeShare from "@/components/code-share";
 import { DropdownMenuLanguageCheckboxes } from "@/components/lang-dropdown";
 import { languageExtensions } from "@/lib/languageExtensions";
 import { defaultCodeSnippets } from "@/lib/defaultCodeSnippets";
-import { ShareRoomDialog } from "@/components/share-dialog";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useSocketIO } from "@/hooks/use-websocket";
@@ -14,6 +14,7 @@ import { Input } from "./ui/input";
 import axios from "axios";
 import { toast } from "sonner";
 import z from "zod";
+import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
 
 export default function PairRoom({
     id,
@@ -27,9 +28,45 @@ export default function PairRoom({
     const { data: session, isPending } = authClient.useSession();
     const router = useRouter();
 
-    const [selectedLanguage, setSelectedLanguage] = useState("python");
+    const { 
+        code: outSourcedCode, 
+        language: outSourcedLanguage, 
+        setCode: setOutSourcedCode, 
+        setLanguage: setOutSourcedLanguage 
+    } = useOutSourceCodeActionsStore((state) => state);
+
+    const hasConsumedOutsourcedCode = useRef(false);
+    const isFirstUserInRoom = useRef(true);
+
+    const [selectedLanguage, setSelectedLanguage] = useState(() => {
+        if (outSourcedCode && outSourcedLanguage) {
+            return outSourcedLanguage;
+        }
+        return "python";
+    });
+    
     const selectedLanguageRef = useRef(selectedLanguage);
-    const [code, setCode] = useState(defaultCodeSnippets["python"]);
+    
+    const [code, setCode] = useState(() => {
+        if (outSourcedCode) {
+            return outSourcedCode;
+        }
+        return defaultCodeSnippets["python"];
+    });
+
+    useEffect(() => {
+        if (!hasConsumedOutsourcedCode.current && (outSourcedCode || outSourcedLanguage)) {
+            hasConsumedOutsourcedCode.current = true;
+            
+            const timeoutId = setTimeout(() => {
+                setOutSourcedCode('');
+                setOutSourcedLanguage('');
+            }, 100);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, []);
+    
     const [lobby, setLobby] = useState(true);
     const [localMicOff, setLocalMicOff] = useState(false);
     const [localVidOff, setLocalVidOff] = useState(false);
@@ -79,6 +116,18 @@ export default function PairRoom({
             }
         } catch (error) {
             console.error("Error parsing received message:", error);
+        }
+    };
+
+    const handleUserJoined = (socketId: string) => {
+        if (isFirstUserInRoom.current) {
+            // type: 'sync'
+            sendMessage(JSON.stringify({ 
+                code, 
+                language: selectedLanguageRef.current,
+            }));
+        } else {
+            isFirstUserInRoom.current = false;
         }
     };
 
@@ -182,7 +231,7 @@ export default function PairRoom({
     const handleSendInvite = async () => {
         try {
             setSentInvite(true);
-            if (!z.email().safeParse(inviteEmail).success){
+            if (!z.email().safeParse(inviteEmail).success) {
                 toast.error('Please enter a valid email!')
                 return;
             }
@@ -205,7 +254,7 @@ export default function PairRoom({
     const { sendMessage, emitOffer, emitAnswer, emitIceCandidate, leaveRoom, isConnected } = useSocketIO({
         roomId: id,
         onMessageReceived: handleMessageReceived,
-        onUserJoined: () => { },
+        onUserJoined: handleUserJoined,
         onUserLeft: () => { },
         onSendOffer: handleSendOffer,
         onOffer: handleOffer,
@@ -243,6 +292,7 @@ export default function PairRoom({
         // cleanupConnections();
         leaveRoom();
         router.push("/");
+        return null;
     };
 
     useEffect(() => {
@@ -298,13 +348,12 @@ export default function PairRoom({
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <div className="flex items-center justify-between p-4 border-b bg-[#292929]">
+            <div className="flex items-center justify-between p-4 border-b bg-background dark:bg-[#292929]">
                 <div className="flex items-center gap-4">
                     <DropdownMenuLanguageCheckboxes
                         selectedLanguage={selectedLanguage}
                         onLanguageChange={handleLanguageChange}
                     />
-                    {/* {session && <ShareRoomDialog session={session} roomId={id} />} */}
                 </div>
                 <div className="flex items-center gap-2">
                     <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
@@ -320,7 +369,7 @@ export default function PairRoom({
                         extensions={currentExtensions}
                     />
                 </div>
-                <div className="w-96 border-l p-4 flex flex-col gap-4 bg-[#292929]">
+                <div className="w-96 border-l p-4 flex flex-col gap-4 bg-background dark:bg-[#292929]">
                     <div>
                         <h3 className="font-semibold mb-2">Your Video</h3>
                         <video
