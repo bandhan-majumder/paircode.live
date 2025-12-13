@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { authClient, signInWithGoogle } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
-import LoginHeroText from "./hero-text"
+import LoginHeroText from "@/components/hero-text"
 import Link from "next/link"
 
 export default function LoginPage() {
