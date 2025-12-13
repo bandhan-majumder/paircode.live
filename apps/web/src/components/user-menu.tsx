@@ -54,7 +54,6 @@ export default function UserMenu() {
 								fetchOptions: {
 									onSuccess: () => {
 										router.push("/");
-										return null;
 									},
 								},
 							});

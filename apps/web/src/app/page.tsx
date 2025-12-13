@@ -1,8 +1,7 @@
 import ActionButtons from "@/components/action-buttons";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
 import UserMenu from "@/components/user-menu";
-import { sekuyaFont, shadowsIntoLight } from "./layout";
+import { shadowsIntoLight } from "./layout";
 import Footer from "@/components/footer";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
 
