@@ -1,6 +1,15 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 	"ui": "tui",
+	"globalEnv": [
+		"DATABASE_URL",
+		"CORS_ORIGIN",
+		"GOOGLE_CLIENT_ID",
+		"GOOGLE_CLIENT_SECRET",
+		"USER_EMAIL",
+		"RECIPIENT_EMAIL",
+		"USER_EMAIL_PASS"
+	],
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
