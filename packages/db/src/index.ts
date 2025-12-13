@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
+dotenv.config();
 
-dotenv.config({
-	path: "../../apps/server/.env",
-});
+// {
+// 	path: "../../apps/server/.env",
+// }
 
 import { neon, neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
