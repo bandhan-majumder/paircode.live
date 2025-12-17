@@ -6,6 +6,7 @@ import { Download, Zap, Shield, Code2, ArrowRight, CheckCircle2, Play, Github } 
 import { FaqAccordianExtension } from "@/components/faq-extension"
 import Footer from "@/components/footer"
 import { shadowsIntoLight } from "../layout"
+import { StyledButton } from "@/components/styled-buttons"
 
 export default function ExtensionPage() {
     return (
@@ -17,34 +18,34 @@ export default function ExtensionPage() {
                             <Zap className="h-4 w-4" />
                             VSCode Extension
                         </div>
-                        <h1 className={`${shadowsIntoLight.className} mb-6 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl`}>
+                        <div className="text-5xl font-bold text-balance text-center">
                             Import Code to PairCode
-                            <br />
-                            <span className="bg-gradient-to-r from-[#BD9267] to-[#967e45] bg-clip-text text-transparent">
+                        </div>
+                        <div className="my-10">
+                            <span className="p-2 bg-[#BD9267] text-4xl font-bold text-balance">
                                 With One Click
                             </span>
-                        </h1>
-                        <p className="mb-8 max-w-2xl text-lg text-muted-foreground md:text-xl tracking-tight">
-                            Seamlessly transfer your code from VSCode to PairCode.live for real-time collaboration, debugging, and
-                            pair programming
+                        </div>
+                        <p className="text-xl text-muted-foreground">
+                            Seamlessly transfer your code from VSCode to PairCode.live
                         </p>
-                        <div className="flex flex-col gap-4 sm:flex-row">
-                            <Button size="lg" className="group bg-[#BD9267] text-white hover:bg-[#967e45]" asChild>
-                                <Link href="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
-                                    <Download className="mr-2 h-5 w-5" />
+                        <div className="flex flex-col gap-4 sm:flex-row mt-15">
+                            <StyledButton text="" className="bg-[#BD9267] dark:bg-[#BD9267]" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
+                                <div className="flex">
+                                    <div className="flex justify-center items-center flex-col">
+                                        <Download className="mr-2 h-5 w-5" />
+                                    </div>
                                     Install Extension
-                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                </Link>
-                            </Button>
-                            <Button
-                                size="lg"
-                                variant="outline"
-                                className="group border-[#BD9267]/30 hover:border-[#BD9267] bg-transparent"
-                            >
+                                    <div className="flex justify-center items-center flex-col">
+                                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    </div>
+                                </div>
+                            </StyledButton>
+                            <StyledButton text="" variant="default" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
                                 <Link target="blank" href={"https://github.com/bandhan-majumder/paircode.ext"} className="flex justify-center items-center">
                                     <Github className="mr-2 h-5 w-5" />
                                     Give us a ⭐</Link>
-                            </Button>
+                            </StyledButton>
                         </div>
                     </div>
                 </div>
@@ -61,10 +62,10 @@ export default function ExtensionPage() {
             <section className="px-4 py-16 md:py-24">
                 <div className="container mx-auto max-w-6xl">
                     <div className="mb-16 text-center">
-                        <h2 className="mb-4 text-3xl tracking-tight md:text-4xl lg:text-5xl">
+                        <h2 className="mb-4  text-4xl font-bold text-balance text-center">
                             Why use PairCode extension?
                         </h2>
-                        <p className="text-lg text-muted-foreground tracking-tight">
+                        <p className="text-xl text-muted-foreground text-center">
                             Built for developers who value speed, security, and simplicity
                         </p>
                     </div>
@@ -106,8 +107,8 @@ export default function ExtensionPage() {
             <section className="bg-muted/30 px-4 py-16 md:py-24">
                 <div className="container mx-auto max-w-5xl">
                     <div className="mb-16 text-center">
-                        <h2 className="mb-4 text-3xl tracking-tight md:text-4xl lg:text-5xl">How It Works</h2>
-                        <p className="text-lg text-muted-foreground tracking-tight">Get started in three simple steps</p>
+                        <h2 className="text-5xl font-bold text-balance text-center">How to get started?</h2>
+                        <p className="text-xl text-muted-foreground text-center mt-5">Get started in three simple steps</p>
                     </div>
 
                     <div className="grid gap-8 md:grid-cols-3">
@@ -182,15 +183,20 @@ export default function ExtensionPage() {
                         <div className="flex flex-col justify-center">
                             <Card className="border-[#BD9267]/20 bg-gradient-to-br from-[#BD9267]/5 to-transparent p-8">
                                 <h3 className="mb-4 text-2xl">Ready to get started?</h3>
-                                <p className="mb-6 text-muted-foreground tracking-tight">
+                                <p className="mb-6 text-xl text-muted-foreground">
                                     Join developers who are already using PairCode to collaborate more effectively
                                 </p>
-                                <Button size="lg" className="w-full bg-[#BD9267] text-white hover:bg-[#967e45]" asChild>
-                                    <Link href="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
+                                <StyledButton text="" className="bg-[#BD9267] dark:bg-[#BD9267]" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
+                                <div className="flex">
+                                    <div className="flex justify-center items-center flex-col">
                                         <Download className="mr-2 h-5 w-5" />
-                                        Download Now
-                                    </Link>
-                                </Button>
+                                    </div>
+                                    Download Now
+                                    <div className="flex justify-center items-center flex-col">
+                                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    </div>
+                                </div>
+                            </StyledButton>
                             </Card>
                         </div>
                     </div>
@@ -200,8 +206,8 @@ export default function ExtensionPage() {
             <section className="bg-muted/30 px-4 py-16 md:py-24">
                 <div className="container mx-auto max-w-4xl">
                     <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-3xl tracking-tight md:text-4xl">Frequently Asked Questions</h2>
-                        <p className="text-lg text-muted-foreground tracking-tight">Everything you need to know about the PairCode extension</p>
+                        <h2 className="text-5xl font-bold text-balance text-center">Frequently Asked Questions</h2>
+                        <p className="text-xl text-muted-foreground text-center mt-5">Everything you need to know about the PairCode extension</p>
                     </div>
                     <FaqAccordianExtension />
                 </div>

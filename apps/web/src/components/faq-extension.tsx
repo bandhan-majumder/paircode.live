@@ -18,9 +18,10 @@ export function FaqAccordianExtension() {
         <AccordionTrigger>How can I use it?</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <p>
-            After installing the extension, choose a file and right click on that. <strong>Open with Pair Code </strong>{" "}
-            option will appear on the top.
+            After installing the extension, choose a file and right click on that. 
           </p>
+          <p>Choose {" "}<strong>Open with Pair Code </strong>
+            option which will appear on the top.</p>
           <p>You have to be logged in before you can directly import code.</p>
         </AccordionContent>
       </AccordionItem>
@@ -32,7 +33,7 @@ export function FaqAccordianExtension() {
           </p>
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-3">
+      <AccordionItem value="item-4">
         <AccordionTrigger>Does it ask for my permission?</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <p>
@@ -40,7 +41,7 @@ export function FaqAccordianExtension() {
           </p>
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-4">
+      <AccordionItem value="item-5">
         <AccordionTrigger>How does it work?</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <p>For smaller files, we add the code and file name in a query param.</p>

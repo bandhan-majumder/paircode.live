@@ -19,6 +19,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
+import { StyledButton } from "./styled-buttons";
 
 export function CreateRoomDialog({ 
     session, 
@@ -88,9 +89,7 @@ export function CreateRoomDialog({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="default" className="bg-[#73563C] text-white hover:bg-[#503728]">
-                    Create a room
-                </Button>
+                <StyledButton className="bg-[#BD9267] dark:bg-[#BD9267]" text="Create a room" url="/login" />
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit} ref={formRef}>

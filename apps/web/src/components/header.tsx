@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Github, X } from "lucide-react";
+import { ArrowRight, Github, X } from "lucide-react";
 import { useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 import UserMenu from "./user-menu";
@@ -21,13 +21,14 @@ export default function Header() {
 						<div className="flex-1 flex items-center justify-center gap-2 text-white text-sm md:text-base">
 							<span className="text-lg">📣</span>
 							<span className="font-medium">
-								VSCode extension is now live on marketplace!
+								VSCode extension is now live.
 							</span>
 							<Link
+								//@ts-ignore
 								href="/vscode-extension"
-								className="underline hover:no-underline font-semibold whitespace-nowrap"
+								className="flex gap-2 underline hover:no-underline font-semibold whitespace-nowrap"
 							>
-								Learn more →
+								Learn more -{'>'}
 							</Link>
 						</div>
 						<button
@@ -53,15 +54,6 @@ export default function Header() {
 				<div className="flex items-center gap-2">
 					<ModeToggle />
 					<UserMenu />
-					<Button
-						size="lg"
-						variant="outline"
-						className="group border-[#BD9267]/30 hover:border-[#BD9267] bg-transparent"
-					>
-						<Link target="blank" href={"https://github.com/bandhan-majumder/paircode.live"} className="flex justify-center items-center">
-							<Github className="mr-2 h-5 w-5" />
-							Give a ⭐</Link>
-					</Button>
 				</div>
 			</div>
 			<hr />
