@@ -42,10 +42,10 @@ export default function LoginPage() {
       <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
         <div className="max-w-4xl text-center space-y-6 mb-12">
           <div>
-            <p className='text-center text-4xl font-bold text-balance'>Start your Pair Coding...</p>
-            <p className={`mt-5 text-center text-3xl font-bold text-balance text-[#BD9267] tracking-wide`}>Create Rooms, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 group-hover:text-blue-300 transition-colors">
+            <p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Start your Pair Coding Journey..</p>
+            <p className={`mt-5 text-center text-xl sm:text-2xl md:text-3xl font-bold text-balance text-[#BD9267] tracking-wide`}>Import Code, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 hover:text-blue-300 transition-colors">
               vscode
-            </span>{' '}!!</p>
+            </span>!!</p>
           </div>
         </div>
 
@@ -61,19 +61,25 @@ export default function LoginPage() {
                 onClick={handleLogin}
                 disabled={isClicked}
                 size="lg"
-                className="w-full h-12 gap-3 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="w-full h-12 gap-3 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Image src="/google.svg" width={20} height={20} alt="Google" className="size-5" />
                 {isClicked ? "Signing in..." : "Continue with Google"}
               </Button>
 
               <p className="text-xs text-center text-muted-foreground leading-relaxed">
-                By continuing, you agree to our <Link href={"/terms-and-services"} className="text-blue-600 dark:text-blue-400 underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300">Terms of Service</Link>
+                By continuing, you agree to our{" "}
+                <Link 
+                  href={"/terms-and-services"} 
+                  className="text-blue-600 dark:text-blue-400 underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                >
+                  Terms of Service
+                </Link>
               </p>
             </div>
           </div>
 
-          <p className="mt-8 text-center text-sm text-muted-foreground">Trusted by developers and interviewers</p>
+          <p className="mt-8 text-center text-sm text-muted-foreground">Trusted by developers and interviewers worldwide</p>
         </div>
       </div>
     </div>

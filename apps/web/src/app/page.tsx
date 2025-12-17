@@ -4,7 +4,7 @@ import { FeedbackCarousel } from "@/components/feedback-carousel";
 import Header from "@/components/header";
 import Image from "next/image";
 
-const TITLE_TEXT = `
+export const TITLE_TEXT = `
  ██████╗  █████╗ ██╗██████╗      ██████╗ ██████╗ ██████╗ ███████╗
  ██╔══██╗██╔══██╗██║██╔══██╗    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
  ██████╔╝███████║██║██████╔╝    ██║     ██║   ██║██║  ██║█████╗  
@@ -27,7 +27,9 @@ export default function Home() {
 			/>
 			<Header />
 			<div className="container mx-auto max-w-[85vw] px-4 pb-6">
-				<pre className="overflow-x-auto font-mono text-[0.45rem] sm:text-xs md:text-sm text-[#BD9267] text-center whitespace-pre">{TITLE_TEXT}</pre>
+				<div className="overflow-x-auto">
+					<pre className="font-mono text-[0.45rem] sm:text-xs md:text-sm text-[#BD9267] text-center whitespace-pre inline-block min-w-full">{TITLE_TEXT}</pre>
+				</div>
 				<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Do pair programming, on a video call.</p>
 				<ActionButtons showGithub />
 
@@ -56,6 +58,8 @@ export default function Home() {
 					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Collaboratively</p>
 					<ActionButtons />
 				</div>
+			</div>
+			<div className="container mx-auto w-full md:max-w-[85vw] px-4 pb-6">
 				<Footer />
 			</div>
 		</div>
