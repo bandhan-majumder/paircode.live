@@ -2,10 +2,9 @@
 
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { authClient, signInWithGoogle } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
-import LoginHeroText from "@/components/hero-text"
 import Link from "next/link"
 
 export default function LoginPage() {
@@ -42,7 +41,12 @@ export default function LoginPage() {
 
       <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
         <div className="max-w-4xl text-center space-y-6 mb-12">
-          <LoginHeroText />
+          <div>
+            <p className='text-center text-4xl font-bold text-balance'>Start your Pair Coding...</p>
+            <p className={`mt-5 text-center text-3xl font-bold text-balance text-[#BD9267] tracking-wide`}>Create Rooms, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 group-hover:text-blue-300 transition-colors">
+              vscode
+            </span>{' '}!!</p>
+          </div>
         </div>
 
         <div className="w-full max-w-md">
