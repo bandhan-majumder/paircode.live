@@ -10,6 +10,6 @@ export const authClient = createAuthClient({
 export const signInWithGoogle = async () => {
 	await authClient.signIn.social({
 		provider: "google",
-		callbackURL: "localhost:3001",
+		callbackURL: process.env.NODE_ENV === 'development' ? "http://localhost:3001" : "https://paircode.live",
 	});
 };

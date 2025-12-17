@@ -150,3 +150,10 @@ body {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+*{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
