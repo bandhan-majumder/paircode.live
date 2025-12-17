@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { authClient, signInWithGoogle } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
