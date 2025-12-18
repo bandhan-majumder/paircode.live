@@ -15,19 +15,19 @@ export default function ExtensionPage() {
                         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#BD9267]/30 bg-[#BD9267]/10 px-4 py-1.5 text-sm font-medium text-[#BD9267]">
                             Available on <Image src={"/vscode.svg"} width={25} height={25} alt="200" />
                         </div>
-                        <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-balance text-center px-4">
+                        <div className="text-3xl sm:text-4xl md:text-5xl tracking-wide text-balance text-center px-4">
                             Import Code to PairCode
                         </div>
                         <div className="my-6 sm:my-8 md:my-10">
-                            <span className="p-2 bg-[#D7C0A9] text-2xl sm:text-3xl md:text-4xl font-bold text-balance">
+                            <span className="p-2 bg-[#BD9267] text-2xl sm:text-3xl md:text-4xl font-bold text-balance">
                                 With One Click
                             </span>
                         </div>
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">
-                            Seamlessly transfer your code from VSCode to PairCode.live
+                            Seamlessly transfer your code from VSCode to PairCode
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 mt-8 sm:mt-10 md:mt-15 w-full sm:w-auto px-4">
-                            <StyledButton text="" className="bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
+                            <StyledButton text="" variant="dark" className="w-full sm:w-auto" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
                                 <div className="flex items-center justify-center gap-1.5 text-nowrap">
                                     <Download className="h-5 w-5" />
                                     <span>Install Extension</span>
@@ -56,7 +56,7 @@ export default function ExtensionPage() {
             <section className="px-4 py-12 sm:py-16 md:py-24">
                 <div className="container mx-auto max-w-6xl">
                     <div className="mb-12 sm:mb-16 text-center">
-                        <h2 className="mb-4 text-3xl sm:text-4xl font-bold text-balance text-center px-4">
+                        <h2 className="mb-4 text-3xl sm:text-4xl text-balance text-center px-4">
                             Why use PairCode extension?
                         </h2>
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center px-4">
@@ -101,7 +101,7 @@ export default function ExtensionPage() {
             <section className="bg-muted/30 px-4 py-12 sm:py-16 md:py-24 rounded-2xl">
                 <div className="container mx-auto max-w-5xl">
                     <div className="mb-12 sm:mb-16 text-center">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-balance text-center px-4">How to get started?</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl text-balance text-center px-4">How to get started?</h2>
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center mt-5 px-4">Get started in three simple steps</p>
                     </div>
 
@@ -196,7 +196,7 @@ export default function ExtensionPage() {
             <section className="bg-muted/30 px-4 py-12 sm:py-16 md:py-24 rounded-2xl">
                 <div className="container mx-auto max-w-4xl">
                     <div className="mb-12 text-center">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-balance text-center px-4">Frequently Asked Questions</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl text-balance text-center px-4">Frequently Asked Questions</h2>
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center mt-5 px-4">Everything you need to know about the PairCode extension</p>
                     </div>
                     <FAQExtension />

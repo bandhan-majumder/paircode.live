@@ -48,7 +48,7 @@ export default function Home() {
 				</section>
 
 				<div className="mt-10">
-					<p className='text-3xl sm:text-4xl md:text-5xl font-bold text-balance text-center'>Join the community</p>
+					<p className='text-3xl sm:text-4xl md:text-5xl tacking-wide text-balance text-center'>Join the community</p>
 					<p className='text-lg sm:text-xl text-muted-foreground text-center mt-5'>Discover what our community has to say about their experience.</p>
 				</div>
 

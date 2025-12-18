@@ -19,7 +19,7 @@ interface StyledButtonProps {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  dark: "bg-black text-white",
+  dark: "bg-black text-white dark:bg-white dark:text-black",
   light: "bg-white text-black",
   pink: "bg-pink-500 text-black",
   default: "bg-white dark:bg-gray-700 text-black dark:text-white"
