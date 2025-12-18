@@ -16,5 +16,5 @@ neonConfig.webSocketConstructor = ws;
 
 neonConfig.poolQueryViaFetch = true
 
-const sql = neon(process.env.DATABASE_URL || "");
+const sql = neon(process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/postgres");
 export const db = drizzle(sql);

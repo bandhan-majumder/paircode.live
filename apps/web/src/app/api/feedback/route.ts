@@ -1,3 +1,6 @@
+/**
+ * Route not authenticated but rate limited. Users can submit feedback without logging in.
+ */
 import { sendEmail } from "@/lib/nodemailer";
 import { feedBackFormSchema } from "@/app/api/feedback/feedback.type";
 import { NextResponse } from "next/server";

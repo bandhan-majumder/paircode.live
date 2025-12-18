@@ -6,6 +6,7 @@ import { Server, Socket } from 'socket.io';
 import { auth } from "@paircode/auth";
 import { toNodeHandler } from "better-auth/node";
 import { UserManager } from "./managers/user-managers";
+import jwt from "jsonwebtoken";
 
 const app = express();
 const server = createServer(app);
@@ -23,28 +24,66 @@ app.use(
 
 app.use(express.json());
 
-// rate limit auth route to 100 requests per 15 minutes
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", uptime: process.uptime() });
 });
 
+// Middleware to verify JWT token
+io.use((socket: Socket, next) => {
+  const token = socket.handshake.query.token as string;
+  if (!token) {
+    return next(new Error("Authentication error: No token provided"));
+  }
+
+  try {
+    const JWT_SECRET = process.env.JWT_SECRET;
+    
+    if (!JWT_SECRET) {
+      return next(new Error("Server configuration error"));
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as { 
+      email: string; 
+      roomId: string;
+    };
+
+    if (!decoded || !decoded.email || !decoded.roomId) {
+      console.error("Invalid token payload");
+      return next(new Error("Authentication error: Invalid token"));
+    }
+
+    socket.data.user = {
+      email: decoded.email,
+      roomId: decoded.roomId,
+    };
+
+    console.log(`Authenticated user: ${decoded.email} for room: ${decoded.roomId}`);
+    next();
+  } catch (err) {
+    console.error("Token verification failed:", err);
+    return next(new Error("Authentication error: Invalid token"));
+  }
+});
 
 io.on("connection", (socket: Socket) => {
-
-  const token = socket.handshake.query.token as string;
-  console.log("Token coming in is: ", token);
+  const userData = socket.data.user;
   
-  if (!token) {
-    console.error("No token provided, disconnecting socket");
+  if (!userData) {
+    console.error("No user data found after authentication");
     socket.disconnect(true);
     return;
   }
 
-  // validate token
-
   socket.on("join-room", (roomId: string) => {
+    if (!roomId || userData.roomId !== roomId) {
+      console.error(`RoomId mismatch: requested ${roomId}, expected ${userData.roomId}`);
+      socket.emit("error", { message: "Invalid roomId" });
+      socket.disconnect(true);
+      return;
+    }
+    
     userManager.addUser(roomId, socket);
   });
 
@@ -53,6 +92,12 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("send-message", (data: { roomId: string; content: string }) => {
+    if (data.roomId !== userData.roomId) {
+      console.error(`Unauthorized message attempt to room ${data.roomId}`);
+      socket.emit("error", { message: "Unauthorized" });
+      return;
+    }
+    
     userManager.sendMessage(data.roomId, socket, data.content);
   });
 

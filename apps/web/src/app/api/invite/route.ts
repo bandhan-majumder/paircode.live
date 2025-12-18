@@ -3,9 +3,19 @@ import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
 import { inviteFriendSchema } from "@/app/api/invite/invite-friend.type";
 import { createInvite } from "@/lib/db/query";
+import { auth } from "@paircode/auth";
+import { headers } from "next/headers";
 
 export async function POST(req: Request) {
     try {
+        const session = await auth.api.getSession({
+            headers: await headers()
+        })
+
+        if (!session?.user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const rateLimitResponse = await applyRateLimit(req);
         if (rateLimitResponse) {
             return rateLimitResponse;

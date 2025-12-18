@@ -1,13 +1,24 @@
 import { createRoom, updateShareSession } from "@/lib/db/query";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
+import { auth } from "@paircode/auth";
+import { headers } from "next/headers";
 
 export async function POST(req: Request) {
-    const rateLimitResponse = await applyRateLimit(req);
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
     
+    if (!session?.user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const rateLimitResponse = await applyRateLimit(req);
+
     if (rateLimitResponse) {
         return rateLimitResponse;
     }
+
     const body = await req.json();
 
     if (!body || !body.topic || !body.createdBy) {
@@ -24,6 +35,14 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+    
+    if (!session?.user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
     const rateLimitResponse = await applyRateLimit(req);
 
     if (rateLimitResponse) {

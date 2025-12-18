@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-// fetch all the live rooms
+// Feature coming soon...
 export function GET() {
   return NextResponse.json({ rooms: [] });
 }

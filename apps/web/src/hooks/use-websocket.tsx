@@ -32,10 +32,11 @@ export function useSocketIO({
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const mountedRef = useRef(false);
+  const hasJoinedRoom = useRef(false);
 
   useEffect(() => {
     if (!token) {
-      console.error("No token provided, skipping Socket.IO connection");
+      console.warn("No token provided, skipping Socket.IO connection");
       return;
     };
 
@@ -47,6 +48,7 @@ export function useSocketIO({
       return;
     }
 
+    // Prevent duplicate connections
     if (socketRef.current?.connected) {
       return;
     }
@@ -64,7 +66,12 @@ export function useSocketIO({
 
       socket.on("connect", () => {
         setIsConnected(true);
-        socket.emit("join-room", roomId);
+        
+        // once socket can join only one room
+        if (!hasJoinedRoom.current) {
+          hasJoinedRoom.current = true;
+          socket.emit("join-room", roomId);
+        }
       });
 
       socket.on("receive-message", (data: { content: string; senderId: string; timestamp: number }) => {
@@ -139,16 +146,19 @@ export function useSocketIO({
 
     return () => {
       mountedRef.current = false;
+      hasJoinedRoom.current = false;
+      
       if (socketRef.current) {
         if (socketRef.current.connected && roomId) {
           socketRef.current.emit("leave-room", roomId);
         }
+        socketRef.current.removeAllListeners();
         socketRef.current.disconnect();
         socketRef.current = null;
       }
       setIsConnected(false);
     };
-  }, [roomId]); 
+  }, [token, roomId]); 
 
   const sendMessage = useCallback(
     (content: string) => {
