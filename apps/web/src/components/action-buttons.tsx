@@ -15,7 +15,7 @@ function ActionButtons({ showGithub = false }: {
             {!isPending && session && <CreateRoomDialog session={session} />}
             {!session && (
                 <StyledButton
-                    className='bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto'
+                    className='bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto text-nowrap'
                     text="Create a room"
                     url="/login"
                 />
@@ -28,9 +28,9 @@ function ActionButtons({ showGithub = false }: {
                     className="w-full sm:w-auto"
                 >
                     <div
-                        className="flex justify-center items-center gap-1"
+                        className="flex justify-center items-center gap-1 text-nowrap"
                     >
-                        <Github className="mr-2 h-5 w-5" />
+                        <Github className="h-5 w-5" />
                         Give us a <Star className="fill-yellow-400 text-yellow-400" />
                     </div>
                 </StyledButton>

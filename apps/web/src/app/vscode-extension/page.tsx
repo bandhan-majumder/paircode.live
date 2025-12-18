@@ -19,7 +19,7 @@ export default function ExtensionPage() {
                             Import Code to PairCode
                         </div>
                         <div className="my-6 sm:my-8 md:my-10">
-                            <span className="p-2 bg-[#BD9267] text-2xl sm:text-3xl md:text-4xl font-bold text-balance">
+                            <span className="p-2 bg-[#D7C0A9] text-2xl sm:text-3xl md:text-4xl font-bold text-balance">
                                 With One Click
                             </span>
                         </div>
@@ -28,15 +28,15 @@ export default function ExtensionPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 mt-8 sm:mt-10 md:mt-15 w-full sm:w-auto px-4">
                             <StyledButton text="" className="bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
-                                <div className="flex items-center justify-center">
-                                    <Download className="mr-2 h-5 w-5" />
+                                <div className="flex items-center justify-center gap-1.5 text-nowrap">
+                                    <Download className="h-5 w-5" />
                                     <span>Install Extension</span>
-                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </div>
                             </StyledButton>
                             <StyledButton text="" variant="default" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode" className="w-full sm:w-auto">
-                                <Link target="blank" href={"https://github.com/bandhan-majumder/paircode.ext"} className="flex justify-center items-center gap-1">
-                                    <Github className="mr-2 h-5 w-5" />
+                                <Link target="blank" href={"https://github.com/bandhan-majumder/paircode.ext"} className="flex justify-center items-center gap-1 text-nowrap">
+                                    <Github className="h-5 w-5" />
                                     Give us a<Star className="fill-yellow-400 text-yellow-400" />
                                 </Link>
                             </StyledButton>
@@ -181,7 +181,7 @@ export default function ExtensionPage() {
                                     Join developers who are already using PairCode to collaborate more effectively
                                 </p>
                                 <StyledButton text="" className="bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
-                                    <div className="flex items-center justify-center">
+                                    <div className="flex items-center justify-center text-nowrap">
                                         <Download className="mr-2 h-5 w-5" />
                                         <span>Download Now</span>
                                         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
