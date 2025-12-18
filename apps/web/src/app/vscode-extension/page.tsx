@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { Download, Zap, Shield, Code2, ArrowRight, CheckCircle2, Play, Github } from "lucide-react"
-import { FaqAccordianExtension } from "@/components/faq-extension"
+import { FAQExtension } from "@/components/faq-extension"
 import { Star } from "lucide-react"
 import { StyledButton } from "@/components/styled-buttons"
 
@@ -199,7 +199,7 @@ export default function ExtensionPage() {
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-balance text-center px-4">Frequently Asked Questions</h2>
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center mt-5 px-4">Everything you need to know about the PairCode extension</p>
                     </div>
-                    <FaqAccordianExtension />
+                    <FAQExtension />
                 </div>
             </section>
         </div>

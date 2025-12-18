@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import type { ReactElement } from "react"
+import type { UrlObject } from "url"
 
 type ButtonVariant = "light" | "dark" | "pink" | "default"
 type ButtonSize = "small" | "default"
@@ -56,8 +57,7 @@ export function StyledButton({
           {text}
         </button>
       ) : url ? (
-        //@ts-ignore
-        <Link href={url} className={buttonClasses}>
+        <Link href={url as unknown as UrlObject} className={buttonClasses}>
           {children}
           {text}
         </Link>

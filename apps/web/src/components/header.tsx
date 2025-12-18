@@ -23,7 +23,7 @@ export default function Header() {
 				</nav>
 				<UserMenu />
 			</div>
-			<hr />
+			{/* <hr /> */}
 		</div>
 	);
 }

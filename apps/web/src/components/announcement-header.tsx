@@ -31,7 +31,6 @@ export function AnnouncementBanner() {
                         </span>
 
                         <Link
-                            //@ts-ignore
                             href="/vscode-extension"
                             className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 transition-all duration-300 font-semibold whitespace-nowrap shadow-lg hover:shadow-xl"
                         >

@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-export function FaqAccordianExtension() {
+export function FAQExtension() {
   return (
     <Accordion type="single" collapsible className="w-full max-w-full sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] xl:max-w-[50vw]" defaultValue="item-1">
       <AccordionItem value="item-1">

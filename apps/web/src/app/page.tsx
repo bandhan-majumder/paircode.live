@@ -34,14 +34,14 @@ export default function Home() {
 				<ActionButtons showGithub />
 
 				<section className="my-30 -mx-4 sm:mx-0">
-					<div className="w-full">
+					<div className="w-full flex justify-center items-center flex-col">
 						<div className="relative overflow-hidden sm:rounded-2xl border-y sm:border border-border shadow-2xl">
-							<Image 
-								src="/demo-web.gif" 
-								width={1800} 
-								height={675} 
-								alt="PairCode VSCode Extension Demo" 
-								className="w-full h-auto" 
+							<Image
+								src="/demo-web.gif"
+								width={1800}
+								height={675}
+								alt="PairCode VSCode Extension Demo"
+								className="w-full h-auto"
 							/>
 						</div>
 					</div>
@@ -55,7 +55,7 @@ export default function Home() {
 				<FeedbackCarousel />
 
 				<div className="my-40">
-					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Collaboratively</p>
+					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Real Time, In a Video Call</p>
 					<ActionButtons />
 				</div>
 			</div>
