@@ -45,7 +45,7 @@ export default function ExtensionPage() {
                 </div>
             </section>
 
-            <section className="px-0 sm:px-4 mt-8 sm:mt-12 md:mt-16">
+            <section className="px-0 sm:px-4 mt-8 sm:mt-10 md:mt-12">
                 <div className="container mx-auto max-w-6xl">
                     <div className="relative overflow-hidden rounded-none sm:rounded-2xl border-0 sm:border border-border shadow-2xl">
                         <Image src="/demo-ext.gif" width={1200} height={675} alt="PairCode VSCode Extension Demo" className="w-full" />
@@ -53,7 +53,7 @@ export default function ExtensionPage() {
                 </div>
             </section>
 
-            <section className="px-4 py-12 sm:py-16 md:py-24">
+            <section className="px-4 py-12 sm:py-16 md:py-24 md:mt-10">
                 <div className="container mx-auto max-w-6xl">
                     <div className="mb-12 sm:mb-16 text-center">
                         <h2 className="mb-4 text-3xl sm:text-4xl text-balance text-center px-4">
@@ -66,39 +66,49 @@ export default function ExtensionPage() {
 
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         <Card className="group border-border/50 p-6 transition-all hover:border-[#BD9267]/50 hover:shadow-lg">
-                            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[#BD9267]/10 text-[#BD9267]">
+                            <div className="flex gap-2">
                                 <Zap className="h-6 w-6" />
+                                <p className="mb-2 text-lg font-semibold">Lightning Fast</p>
                             </div>
-                            <h3 className="mb-2 text-xl font-semibold">Lightning Fast</h3>
-                            <p className="text-muted-foreground">
-                                Import code instantly with a single click. No copying, pasting, or manual transfers needed.
-                            </p>
+
+                            <div>
+                                <p className="text-black dark:text-white">Import code instantly with a single click.</p>
+                                <p className="text-[#858585] mt-1">
+                                    No copying, pasting, or manual transfers needed. Just right click on the file and import directly to PairCode.
+                                </p>
+                            </div>
                         </Card>
 
                         <Card className="group border-border/50 p-6 transition-all hover:border-[#BD9267]/50 hover:shadow-lg">
-                            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[#BD9267]/10 text-[#BD9267]">
+                            <div className="flex gap-2">
                                 <Shield className="h-6 w-6" />
+                                <p className="mb-2 text-lg font-semibold">Secure & Private</p>
                             </div>
-                            <h3 className="mb-2 text-xl font-semibold">Secure & Private</h3>
-                            <p className="text-muted-foreground">
-                                Your code is never stored on our servers. We respect your privacy and ask for permission every time.
-                            </p>
+                            <div>
+                                <p className="text-black dark:text-white">We never store your code in our db.</p>
+                                <p className="text-[#858585] mt-1">
+                                    Your code is never stored on our servers. We respect your privacy and we ask for permission every time before importing.
+                                </p>
+                            </div>
                         </Card>
 
                         <Card className="group border-border/50 p-6 transition-all hover:border-[#BD9267]/50 hover:shadow-lg">
-                            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[#BD9267]/10 text-[#BD9267]">
+                            <div className="flex gap-2">
                                 <Code2 className="h-6 w-6" />
+                                <p className="mb-2 text-lg font-semibold">Smart Transfer</p>
                             </div>
-                            <h3 className="mb-2 text-xl font-semibold">Smart Transfer</h3>
-                            <p className="text-muted-foreground">
-                                Automatically handles small and large files with optimized transfer methods for the best experience.
-                            </p>
+                            <div>
+                                <p className="text-black dark:text-white">Support for large and small files</p>
+                                <p className="text-[#858585] mt-1">
+                                    Automatically handles small and large files with optimized transfer methods for the best experience.
+                                </p>
+                            </div>
                         </Card>
                     </div>
                 </div>
             </section>
 
-            <section className="bg-muted/30 px-4 py-12 sm:py-16 md:py-24 rounded-2xl">
+            <section className="bg-muted/30 px-4 py-12 sm:py-12 md:py-10 rounded-2xl">
                 <div className="container mx-auto max-w-5xl">
                     <div className="mb-12 sm:mb-16 text-center">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl text-balance text-center px-4">How to get started?</h2>

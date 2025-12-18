@@ -54,8 +54,8 @@ export default function Home() {
 
 				<FeedbackCarousel />
 
-				<div className="my-40">
-					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Real Time, In a Video Call</p>
+				<div className="my-30 md:my-40">
+					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wide text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Real Time, In a Video Call</p>
 					<ActionButtons />
 				</div>
 			</div>
