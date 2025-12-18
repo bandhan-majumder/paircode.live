@@ -61,7 +61,7 @@ export function FeedbackCarousel() {
       <div className="relative flex items-center">
         <div className="absolute left-0 top-0 z-10 h-full w-8 sm:w-12 bg-gradient-to-r from-[#F4F4F4] dark:from-background to-transparent pointer-events-none" />
 
-        <div className="flex animate-scroll gap-4 sm:gap-6 px-4 sm:px-6">
+        <div className="flex animate-scroll gap-4 sm:gap-6 px-4 sm:px-6" style={{ touchAction: 'none' }}>
           {allFeedbacks.map((feedback, index) => (
             <Card
               key={`${feedback.id}-${index}`}

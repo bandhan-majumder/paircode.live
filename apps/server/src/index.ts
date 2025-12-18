@@ -33,6 +33,17 @@ app.get("/health", (_req, res) => {
 
 io.on("connection", (socket: Socket) => {
 
+  const token = socket.handshake.query.token as string;
+  console.log("Token coming in is: ", token);
+  
+  if (!token) {
+    console.error("No token provided, disconnecting socket");
+    socket.disconnect(true);
+    return;
+  }
+
+  // validate token
+
   socket.on("join-room", (roomId: string) => {
     userManager.addUser(roomId, socket);
   });

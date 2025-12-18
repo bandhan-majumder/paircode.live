@@ -5,6 +5,7 @@ import { io, Socket } from "socket.io-client";
 import { NEXT_PUBLIC_SERVER_URL } from "../../config";
 
 interface UseSocketIOProps {
+  token: string;
   roomId: string;
   onMessageReceived: (content: string) => void;
   onUserJoined?: (socketId: string) => void;
@@ -16,8 +17,9 @@ interface UseSocketIOProps {
   onSendOffer?: (data: { roomId: string }) => void;
 }
 
-export function useSocketIO({ 
-  roomId, 
+export function useSocketIO({
+  token,
+  roomId,
   onMessageReceived,
   onUserJoined,
   onUserLeft,
@@ -32,6 +34,11 @@ export function useSocketIO({
   const mountedRef = useRef(false);
 
   useEffect(() => {
+    if (!token) {
+      console.error("No token provided, skipping Socket.IO connection");
+      return;
+    };
+
     if (mountedRef.current) return;
     mountedRef.current = true;
 
@@ -46,6 +53,7 @@ export function useSocketIO({
 
     try {
       const socket = io(NEXT_PUBLIC_SERVER_URL, {
+        query: { token }, // highly required
         transports: ['websocket', 'polling'],
         reconnection: true,
         reconnectionDelay: 3000,

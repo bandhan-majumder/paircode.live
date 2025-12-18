@@ -34,7 +34,7 @@ export function AnnouncementBanner() {
                             href="/vscode-extension"
                             className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 transition-all duration-300 font-semibold whitespace-nowrap shadow-lg hover:shadow-xl"
                         >
-                            <span className="text-xs sm:text-sm">Install now</span>
+                            <span className="text-xs sm:text-sm">Know more</span>
                             <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                     </div>

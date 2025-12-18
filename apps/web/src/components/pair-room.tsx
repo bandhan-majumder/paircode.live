@@ -252,6 +252,7 @@ export default function PairRoom({
     }
 
     const { sendMessage, emitOffer, emitAnswer, emitIceCandidate, leaveRoom, isConnected } = useSocketIO({
+        token: '', // TODO: fix token logic
         roomId: id,
         onMessageReceived: handleMessageReceived,
         onUserJoined: handleUserJoined,

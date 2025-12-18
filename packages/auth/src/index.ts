@@ -1,3 +1,7 @@
+/**
+ * see https://www.better-auth.com/docs/plugins/jwt page for more details
+ */
+
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@paircode/db";
