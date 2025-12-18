@@ -56,7 +56,7 @@ function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 smd:gap-15 md:gap-20">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 smd:gap-15 md:gap-20">
             <div>
               <h3 className="text-black dark:text-white font-medium mb-4">Products</h3>
               <ul className="space-y-3">
