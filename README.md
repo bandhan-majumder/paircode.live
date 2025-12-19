@@ -87,7 +87,7 @@ docker build -t paircode-be -f apps/server/Dockerfile .
 
 After successful build, run it with the .envs required.
 ```
-docker run -d -p 3000:3000 --net=host --env BETTER_AUTH_SECRET="" --env BETTER_AUTH_URL="" --env JWT_SECRET="" --env GOOGLE_CLIENT_ID="" --env GOOGLE_CLIENT_SECRET="" --env DATABASE_URL="" paircode-be:latest
+docker run -d -p 3000:3000 --net=host --env BETTER_AUTH_SECRET="" --env BETTER_AUTH_URL="http://localhost:3000" --env CORS_ORIGIN=http://localhost:3001 --env JWT_SECRET="" --env GOOGLE_CLIENT_ID="" --env GOOGLE_CLIENT_SECRET="" --env DATABASE_URL="" paircode-be:latest
 ```
 
 Open your browser and check `http://localhost:3000/health`

@@ -8,19 +8,35 @@
 		"GOOGLE_CLIENT_SECRET",
 		"USER_EMAIL",
 		"RECIPIENT_EMAIL",
-		"USER_EMAIL_PASS"
+		"USER_EMAIL_PASS",
+		"NEXT_PUBLIC_SERVER_URL",
+		"JWT_SECRET",
+		"BETTER_AUTH_SECRET",
+		"BETTER_AUTH_URL",
+		"NODE_ENV"
 	],
 	"tasks": {
 		"build": {
-			"dependsOn": ["^build"],
-			"inputs": ["$TURBO_DEFAULT$", ".env*"],
-			"outputs": ["dist/**"]
+			"dependsOn": [
+				"^build"
+			],
+			"inputs": [
+				"$TURBO_DEFAULT$",
+				".env*"
+			],
+			"outputs": [
+				"dist/**"
+			]
 		},
 		"lint": {
-			"dependsOn": ["^lint"]
+			"dependsOn": [
+				"^lint"
+			]
 		},
 		"check-types": {
-			"dependsOn": ["^check-types"]
+			"dependsOn": [
+				"^check-types"
+			]
 		},
 		"dev": {
 			"cache": false,
