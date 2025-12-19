@@ -8,6 +8,7 @@ import { db } from "@paircode/db";
 import * as schema from "@paircode/db/schema/auth";
 
 export const auth = betterAuth<BetterAuthOptions>({
+	baseURL: "https://backend.paircode.live",
 	database: drizzleAdapter(db, {
 		provider: "pg",
 
@@ -22,10 +23,15 @@ export const auth = betterAuth<BetterAuthOptions>({
 	},
 	advanced: {
 		crossSubDomainCookies: {
-            enabled: true,
-            domain: process.env.CLIENT_ORIGIN,
-        },
+			enabled: true,
+			domain: 'paircode.live',
+		},
+		useSecureCookies: true
 	},
 	// BETTER_AUTH_URL is set as baseURL
-	trustedOrigins: process.env.TRUSTED_ORIGINS?.split(" ") || [],
+	trustedOrigins: [
+		"https://paircode.live",
+		"https://backend.paircode.live",
+		...(process.env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
+	],
 });

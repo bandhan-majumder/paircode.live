@@ -15,7 +15,11 @@ const userManager = new UserManager(io);
 
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGIN || ''],
+    origin: [
+      "https://paircode.live",
+      "https://backend.paircode.live",
+      ...(process.env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
+    ],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
