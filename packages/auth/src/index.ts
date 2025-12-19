@@ -13,6 +13,7 @@ export const auth = betterAuth<BetterAuthOptions>({
 
 		schema: schema,
 	}),
+	// BETTER_AUTH_URL is set as baseURL
 	trustedOrigins: [process.env.CORS_ORIGIN || ""],
 	socialProviders: {
 		google: {

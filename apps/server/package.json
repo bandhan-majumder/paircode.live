@@ -8,12 +8,11 @@
     "test": "jest",
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
     "dev": "bun run --hot src/index.ts",
-    "start": "bun run dist/index.js"
+    "start": "bun src/index.js"
   },
   "dependencies": {
-    "@paircode/auth": "workspace:*",
-    "@types/jsonwebtoken": "^9.0.10",
     "better-auth": "catalog:",
+    "drizzle-orm": "^0.44.2",
     "cors": "^2.8.5",
     "dotenv": "catalog:",
     "express": "^5.1.0",
@@ -21,9 +20,12 @@
     "jsonwebtoken": "^9.0.3",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
-    "zod": "^4.1.11"
+    "zod": "^4.1.11",
+    "@paircode/auth": "workspace:*",
+    "@paircode/db": "workspace:*"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "@paircode/config": "workspace:*",
     "@types/bun": "^1.2.6",
     "@types/cors": "^2.8.17",

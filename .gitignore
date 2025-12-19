@@ -45,3 +45,6 @@ coverage
 .cache
 tmp
 temp
+
+# generated after bun turbo prune server --docker
+out

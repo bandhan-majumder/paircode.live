@@ -43,9 +43,9 @@ export default function LoginPage() {
         <div className="max-w-4xl text-center space-y-6 mb-12">
           <div>
             <p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Start your Pair Coding Journey..</p>
-            <p className={`mt-5 text-center text-xl sm:text-2xl md:text-3xl font-bold text-balance text-[#BD9267] tracking-wide`}>Import Code, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 hover:text-blue-300 transition-colors">
+            <p className={`mt-5 text-center text-xl sm:text-2xl md:text-3xl font-bold text-balance text-[#BD9267] tracking-tight`}>Import Code, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 hover:text-blue-300 transition-colors">
               vscode
-            </span>!!</p>
+            </span> !!</p>
           </div>
         </div>
 

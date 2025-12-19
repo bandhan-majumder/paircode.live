@@ -15,7 +15,7 @@ const userManager = new UserManager(io);
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: [process.env.CORS_ORIGIN || 'http://localhost:3001'],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -28,6 +28,10 @@ app.all("/api/auth{/*path}", toNodeHandler(auth));
 
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", uptime: process.uptime() });
+});
+
+app.all("/{*path}", (_req, res) => {
+  res.status(400).json({ message: "Route not found" });
 });
 
 // Middleware to verify JWT token

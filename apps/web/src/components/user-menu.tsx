@@ -38,31 +38,31 @@ export default function UserMenu() {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<div>
-					<Button variant="ghost">
-						<Image src={session.user.image ?? "/user.svg"} width={30} height={30} alt="User" className="rounded-full bg-gray-400" />
+					<Button variant="ghost" className="mt-1">
+						<Image src={session.user.image ?? "/user.svg"} width={35} height={35} alt="User" className="rounded-full bg-gray-400" />
 					</Button>
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="bg-card">
-				<DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
+				<DropdownMenuLabel className="text-md">{session.user.name}</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>{session.user.email}</DropdownMenuItem>
+				<DropdownMenuItem className="text-md">{session.user.email}</DropdownMenuItem>
 				<hr />
-				<DropdownMenuLabel className="text-[#817878]">Theme</DropdownMenuLabel>
-				<DropdownMenuItem className="pl-8 text-[#ADADAD]" onClick={() => setTheme("light")}>
+				<DropdownMenuLabel className="text-[#817878] text-sm">Theme</DropdownMenuLabel>
+				<DropdownMenuItem className="pl-8 text-[#ADADAD] text-sm" onClick={() => setTheme("light")}>
 					Light
-					{theme === 'light' && <Dot className="text-green-500" />}
+					{theme === 'light' && <Dot size={40} className="text-green-500" />}
 				</DropdownMenuItem>
-				<DropdownMenuItem className="pl-8 text-[#ADADAD]" onClick={() => setTheme("dark")}>
+				<DropdownMenuItem className="pl-8 text-[#ADADAD] text-sm" onClick={() => setTheme("dark")}>
 					Dark
 					{theme === 'dark' && <Dot className="text-green-500" />}
 				</DropdownMenuItem>
-				<DropdownMenuItem className="pl-8 text-[#ADADAD]" onClick={() => setTheme("system")}>
+				<DropdownMenuItem className="pl-8 text-[#ADADAD] text-sm" onClick={() => setTheme("system")}>
 					System
 					{theme === 'system' && <Dot className="text-green-500" />}
 				</DropdownMenuItem>
 				<hr />
-				<DropdownMenuItem className="mt-2 text-[#ADADAD]" asChild onClick={() => {
+				<DropdownMenuItem className="mt-2 text-[#ADADAD] text-sm" asChild onClick={() => {
 					authClient.signOut({
 						fetchOptions: {
 							onSuccess: () => {
