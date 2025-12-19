@@ -53,9 +53,10 @@ PACKAGES ENVS -
 
 AUTH ENVS-
 
-CORS_ORIGIN=http://localhost:3001
+CLIENT_ORIGIN=http://localhost:3001
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
+TRUSTED_ORIGINS=http://localhost:3000, http://localhost:3001
 ```
 
 #### Database Setup

@@ -13,8 +13,6 @@ export const auth = betterAuth<BetterAuthOptions>({
 
 		schema: schema,
 	}),
-	// BETTER_AUTH_URL is set as baseURL
-	trustedOrigins: [process.env.CORS_ORIGIN || ""],
 	socialProviders: {
 		google: {
 			prompt: "select_account", 
@@ -23,10 +21,11 @@ export const auth = betterAuth<BetterAuthOptions>({
 		},
 	},
 	advanced: {
-		defaultCookieAttributes: {
-			sameSite: "none",
-			secure: true,
-			httpOnly: true,
-		},
+		crossSubDomainCookies: {
+            enabled: true,
+            domain: process.env.CLIENT_ORIGIN,
+        },
 	},
+	// BETTER_AUTH_URL is set as baseURL
+	trustedOrigins: process.env.TRUSTED_ORIGINS?.split(" ") || [],
 });

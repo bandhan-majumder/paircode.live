@@ -15,7 +15,7 @@ const userManager = new UserManager(io);
 
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGIN || 'http://localhost:3001'],
+    origin: [process.env.CORS_ORIGIN || ''],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

@@ -13,7 +13,9 @@
 		"JWT_SECRET",
 		"BETTER_AUTH_SECRET",
 		"BETTER_AUTH_URL",
-		"NODE_ENV"
+		"NODE_ENV",
+		"CLIENT_ORIGIN",
+		"TRUSTED_DOMAINS"
 	],
 	"tasks": {
 		"build": {
