@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@paircode/auth": "workspace:*",
-    "@paircode/db": "workspace:*",
     "@types/jsonwebtoken": "^9.0.10",
     "better-auth": "catalog:",
     "cors": "^2.8.5",
