@@ -39,7 +39,7 @@ jobs:
           set -e
 
           echo 'Updating code'
-          cd paircode
+          cd paircode.live
           git pull origin main
 
           echo 'Stopping old containers'
