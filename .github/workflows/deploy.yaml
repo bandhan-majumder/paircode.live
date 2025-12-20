@@ -56,8 +56,7 @@ jobs:
           sudo docker run -d \
             --net=host \
             --name paircode-be \
-            --restart unless-stopped \
             -p 3000:3000 \
-            --env-file /home/ubuntu/paircode.live/.env \
-            paircode-be-img:latest
+            --env-file /home/bandhan/Codes/Projects/Better-T-Stack/paircode/.env \
+            server-dockerfile:latest
         "
