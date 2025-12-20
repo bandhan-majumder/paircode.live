@@ -54,6 +54,6 @@ jobs:
             --name paircode-be \
             --restart unless-stopped \
             -p 3000:3000 \
-            --env-file /home/ubuntu/paircode/.env \
+            --env-file /home/ubuntu/paircode.live/.env \
             paircode-be:latest
         "
