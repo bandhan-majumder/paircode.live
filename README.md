@@ -123,4 +123,4 @@ This project was created with [Better-T-Stack](https://github.com/AmanVarshney01
 - **Authentication** - Better-Auth
 - **Turborepo** - Optimized monorepo build system
 
-and webRTC apis provided by browser
+and webRTC apis provided by browser 
