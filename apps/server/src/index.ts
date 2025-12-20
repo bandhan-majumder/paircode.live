@@ -110,7 +110,9 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("disconnect", (reason) => {
-    /// leave-room handles cleanup
+    console.log(`Socket disconnected: ${socket.id}, reason: ${reason}`);
+    userManager.removeUser(userData.roomId, socket);
+    // leave-room handles cleanup
   });
 
   socket.on("error", (error) => {

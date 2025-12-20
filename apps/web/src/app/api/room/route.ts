@@ -2,12 +2,15 @@ import { createRoom, updateShareSession } from "@/lib/db/query";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
 import { auth } from "@paircode/auth";
-import { headers } from "next/headers";
+import { cookies } from 'next/headers';
 
 export async function POST(req: Request) {
+    const cookieStore = cookies();
+    const cookieHeader = cookieStore.toString();
+
     const session = await auth.api.getSession({
-        headers: await headers()
-    })
+        headers: new Headers({ Cookie: cookieHeader }),
+    });
     
     if (!session?.user) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -35,9 +38,12 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
+    const cookieStore = cookies();
+    const cookieHeader = cookieStore.toString();
+    
     const session = await auth.api.getSession({
-        headers: await headers()
-    })
+        headers: new Headers({ Cookie: cookieHeader }),
+    });
     
     if (!session?.user) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
