@@ -24,7 +24,7 @@ export const auth = betterAuth<BetterAuthOptions>({
 	advanced: {
 		crossSubDomainCookies: {
 			enabled: true,
-			domain: 'paircode.live',
+			domain: '.paircode.live',
 		},
 		useSecureCookies: true,
 		defaultCookieAttributes: {
