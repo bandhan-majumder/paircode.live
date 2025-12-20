@@ -54,7 +54,7 @@ jobs:
 
           echo 'Running container'
           sudo docker run -d \
-            --net=host
+            --net=host \
             --name paircode-be \
             --restart unless-stopped \
             -p 3000:3000 \
