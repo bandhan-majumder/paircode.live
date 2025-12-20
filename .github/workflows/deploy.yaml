@@ -46,8 +46,11 @@ jobs:
           sudo docker stop paircode-be || true
           sudo docker rm paircode-be || true
 
+          echo 'Deleting the image'
+          sudo docker rmi paircode-be-img || true
+
           echo 'Building image'
-          sudo docker build -t paircode-be -f apps/server/Dockerfile .
+          sudo docker build -t paircode-be-img -f apps/server/Dockerfile .
 
           echo 'Running container'
           sudo docker run -d \
@@ -55,5 +58,5 @@ jobs:
             --restart unless-stopped \
             -p 3000:3000 \
             --env-file /home/ubuntu/paircode.live/.env \
-            paircode-be:latest
+            paircode-be-img:latest
         "
