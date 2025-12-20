@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { ModeToggle } from "./mode-toggle";
 import UserMenu from "./user-menu";
 import { AnnouncementBanner } from "./announcement-header";
 
-export default function Header() {
+export default function NavBar() {
 	const links = [
 		// { to: "/", label: "Home" },
 	] as const;

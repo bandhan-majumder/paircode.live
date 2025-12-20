@@ -1,18 +1,11 @@
 import ActionButtons from "@/components/action-buttons";
 import Footer from "@/components/footer";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
-import Header from "@/components/header";
+import NavBar from "@/components/navbar";
 import Image from "next/image";
+import HeroSection from "@/components/hero-section";
 
-export const TITLE_TEXT = `
- ██████╗  █████╗ ██╗██████╗      ██████╗ ██████╗ ██████╗ ███████╗
- ██╔══██╗██╔══██╗██║██╔══██╗    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
- ██████╔╝███████║██║██████╔╝    ██║     ██║   ██║██║  ██║█████╗  
- ██╔═══╝ ██╔══██║██║██╔══██╗    ██║     ██║   ██║██║  ██║██╔══╝  
- ██║     ██║  ██║██║██║  ██║    ╚██████╗╚██████╔╝██████╔╝███████╗
- ╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-                                  
- `;
+
 
 export default function Home() {
 	return (
@@ -25,12 +18,9 @@ export default function Home() {
 					backgroundSize: "64px 64px",
 				}}
 			/>
-			<Header />
+			<NavBar />
 			<div className="container mx-auto max-w-[85vw] px-4 pb-6">
-				<div className="overflow-x-auto">
-					<pre className="font-mono text-[0.45rem] sm:text-xs md:text-sm text-[#BD9267] text-center whitespace-pre inline-block min-w-full">{TITLE_TEXT}</pre>
-				</div>
-				<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Do pair programming, on a video call.</p>
+				<HeroSection />
 				<ActionButtons showGithub />
 
 				<section className="my-30 -mx-4 sm:mx-0">
