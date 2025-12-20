@@ -35,7 +35,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.all("/{*path}", (_req, res) => {
-  res.status(400).json({ message: "Route not found" });
+  res.status(404).json({ message: "Route not found" });
 });
 
 // Middleware to verify JWT token

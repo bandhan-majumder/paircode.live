@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import PairRoom from "@/components/pair-room";
+import { toast } from "sonner";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -57,6 +58,7 @@ export default function CodeArena({ params }: Props) {
         });
       };
     } catch (err) {
+      toast.error("Please allow your microphone and camera permissions to make your video and voice appear correctly. Go to browser settings and change it.");
       console.error("Permission error", err);
     }
   }
@@ -65,7 +67,7 @@ export default function CodeArena({ params }: Props) {
     return (
       <>
         <div className="flex justify-center flex-col items-center gap-10 h-screen">
-          <p className="font-semibold text-2xl">Are you ready to debug,{" "} <span className="text-[#BD9267]">{session?.user.name}</span>{" "} ?</p>
+          <p className="font-semibold text-2xl text-center">Are you ready to debug,{" "} <span className="text-[#BD9267]">{session?.user.name}</span>{" "} ?</p>
           <div className="">
             <video style={{
               borderRadius: "20px"

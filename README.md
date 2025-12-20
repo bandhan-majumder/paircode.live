@@ -53,7 +53,7 @@ PACKAGES ENVS -
 
 AUTH ENVS-
 
-CLIENT_ORIGIN=http://localhost:3001
+CORS_ORIGIN=http://localhost:3001
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 TRUSTED_ORIGINS=http://localhost:3000, http://localhost:3001
