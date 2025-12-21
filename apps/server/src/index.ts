@@ -9,7 +9,6 @@ import { UserManager } from "./managers/user-managers";
 import jwt from "jsonwebtoken";
 
 const app = express();
-app.set("trust proxy", true);
 const server = createServer(app);
 const io = new Server(server);
 const userManager = new UserManager(io);
