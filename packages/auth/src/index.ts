@@ -25,7 +25,7 @@ export const auth = betterAuth<BetterAuthOptions>({
             enabled: true,
             domain: "paircode.live",
         },
-		useSecureCookies: true
+		useSecureCookies: false
 	},
 	trustedOrigins: ["https://paircode.live", "https://backend.paircode.live"],
 });
