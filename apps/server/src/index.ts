@@ -30,6 +30,10 @@ app.use(express.json());
 
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
+app.all("/auth-callback", async (req, res) => {
+  res.redirect(`https://paircode.live`);
+});
+
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", uptime: process.uptime() });
 });
