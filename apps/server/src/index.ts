@@ -30,7 +30,7 @@ app.use(express.json());
 
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
-app.all("/auth-callback", async (req, res) => {
+app.all("/", async (req, res) => {
   res.redirect(`https://paircode.live`);
 });
 
