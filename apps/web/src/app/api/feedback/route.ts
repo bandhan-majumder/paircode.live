@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         const { name, email, category, message } = parsedData.data;
 
         const emailText = `${name} (${email}) submitted the following feedback in the category "${category}":\n\n${message}`;
-        const emailSubject = `CodePair Feedback from ${name} - ${category}`;
+        const emailSubject = `PairCode Feedback from ${name} - ${category}`;
 
         await Promise.all([
             sendEmail({ senderName: name, body: emailText, subject: emailSubject }),

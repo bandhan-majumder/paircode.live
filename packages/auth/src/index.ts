@@ -21,12 +21,11 @@ export const auth = betterAuth<BetterAuthOptions>({
 		},
 	},
 	advanced: {
-		defaultCookieAttributes: {
-			sameSite: "none",
-			secure: true,
-			httpOnly: true,
-		},
+		crossSubDomainCookies: {
+            enabled: true,
+            domain: "paircode.live",
+        },
+		useSecureCookies: true
 	},
-	// BETTER_AUTH_URL is set as baseURL
-	trustedOrigins: [process.env.CORS_ORIGIN || ""],
+	trustedOrigins: ["https://paircode.live", "https://backend.paircode.live"],
 });
