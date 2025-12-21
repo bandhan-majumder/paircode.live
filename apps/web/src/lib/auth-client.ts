@@ -3,13 +3,13 @@ import { createAuthClient } from "better-auth/react";
 import { inferAdditionalFields } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
-	baseURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
+	baseURL: "https://backend.paircode.live",
 	plugins: [inferAdditionalFields<typeof auth>()],
 });
 
 export const signInWithGoogle = async () => {
 	await authClient.signIn.social({
 		provider: "google",
-		callbackURL: process.env.CALLBACK_URL || "http://localhost:3001",
+		callbackURL: "https://paircode.live",
 	});
 };
