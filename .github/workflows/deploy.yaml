@@ -57,5 +57,5 @@ jobs:
             --net=host \
             --name paircode-be \
             --env-file /home/bandhan/Codes/Projects/Better-T-Stack/paircode/.env \
-            server-dockerfile:latest
+            paircode-be-img:latest
         "
