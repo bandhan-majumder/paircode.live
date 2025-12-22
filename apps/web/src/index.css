@@ -147,12 +147,6 @@ body {
   animation: scroll 40s linear infinite;
 }
 
-.ascii-art {
-  font-family: "Courier New", monospace;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
 .animate-scroll:hover {
   animation-play-state: paused;
 }
@@ -162,4 +156,27 @@ body {
 }
 ::-webkit-scrollbar {
     display: none;
+}
+
+.ascii-art {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Courier New", "Liberation Mono", monospace;
+  line-height: 1.1;
+  letter-spacing: 0;
+  word-spacing: 0;
+  white-space: pre;
+
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  overflow-x: auto;
+}
+
+.ascii-art::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ascii-art::-webkit-scrollbar-thumb {
+  background: rgba(189, 146, 103, 0.3);
+  border-radius: 2px;
 }

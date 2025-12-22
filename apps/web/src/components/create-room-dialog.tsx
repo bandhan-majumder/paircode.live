@@ -20,6 +20,7 @@ import { useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
 import { StyledButton } from "./styled-buttons";
+import { Plus } from "lucide-react";
 
 export function CreateRoomDialog({ 
     session, 
@@ -89,7 +90,12 @@ export function CreateRoomDialog({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <StyledButton className="bg-[#BD9267] dark:bg-[#BD9267] text-nowrap" text="Create a room" />
+                <StyledButton className="bg-[#BD9267] dark:bg-[#BD9267] text-nowrap" text="">
+                    <div className="flex justify-center items-center gap-2 text-nowrap">
+                        <Plus className="h-5 w-5" />
+                        <span>Create a room</span>
+                    </div>
+                </StyledButton>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit} ref={formRef}>
