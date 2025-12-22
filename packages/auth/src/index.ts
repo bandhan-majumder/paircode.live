@@ -5,6 +5,7 @@ import { db } from "@paircode/db";
 import * as schema from "@paircode/db/schema/auth";
 
 export const auth = betterAuth<BetterAuthOptions>({
+	baseURL: "https://paircode.live",
 	database: drizzleAdapter(db, {
 		provider: "pg",
 		schema: schema,
