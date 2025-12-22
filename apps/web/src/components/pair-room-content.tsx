@@ -22,6 +22,15 @@ export interface PairRoomProps {
     localVideoTrack: MediaStreamTrack | null;
 }
 
+const configuration = {
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:stun2.l.google.com:19302' },
+    { urls: 'stun:stun.services.mozilla.com' }
+  ]
+};
+
 export function PairRoomContent({
     id,
     localAudioTrack,
@@ -134,7 +143,7 @@ export function PairRoomContent({
 
     const handleSendOffer = async ({ roomId }: { roomId: string }) => {
         setLobby(false);
-        const pc = new RTCPeerConnection();
+        const pc = new RTCPeerConnection(configuration);
         sendingPcRef.current = pc;
 
         if (localVideoTrack) {
@@ -173,7 +182,7 @@ export function PairRoomContent({
     const handleOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
         setLobby(false);
 
-        const pc = new RTCPeerConnection();
+        const pc = new RTCPeerConnection(configuration);
         receivingPcRef.current = pc;
 
         pc.ontrack = (e) => {
