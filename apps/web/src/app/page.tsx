@@ -25,7 +25,7 @@ export default function Home() {
 
 				<section className="my-30 -mx-4 sm:mx-0">
 					<div className="w-full flex justify-center items-center flex-col">
-						<div className="relative overflow-hidden sm:rounded-2xl border-y sm:border border-border shadow-2xl">
+						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
 							<Image
 								src="/demo-web.gif"
 								width={1800}

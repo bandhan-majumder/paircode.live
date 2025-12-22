@@ -1,9 +1,7 @@
 import Image from "next/image"
-import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { Download, Zap, Shield, Code2, ArrowRight, CheckCircle2, Play, Github } from "lucide-react"
 import { FAQExtension } from "@/components/faq-extension"
-import { Star } from "lucide-react"
 import { StyledButton } from "@/components/styled-buttons"
 
 export default function ExtensionPage() {
@@ -57,9 +55,9 @@ export default function ExtensionPage() {
                 </div>
             </section>
 
-            <section className="px-0 sm:px-4 mt-8 sm:mt-10 md:mt-12">
+            <section className="px-2 sm:px-4 mt-8 sm:mt-10 md:mt-12">
                 <div className="container mx-auto max-w-6xl">
-                    <div className="relative overflow-hidden rounded-none sm:rounded-2xl border-0 sm:border border-border shadow-2xl">
+                    <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
                         <Image src="/demo-ext.gif" width={1200} height={675} alt="PairCode VSCode Extension Demo" className="w-full" />
                     </div>
                 </div>
@@ -127,9 +125,9 @@ export default function ExtensionPage() {
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center mt-5 px-4">Get started in three simple steps</p>
                     </div>
 
-                    <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-                        <div className="relative">
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#BD9267] text-2xl font-bold text-white">
+                    <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 max-w-md mx-auto sm:max-w-none">
+                        <div className="relative text-center sm:text-left">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#BD9267] text-2xl font-bold text-white mx-auto sm:mx-0">
                                 1
                             </div>
                             <h3 className="mb-2 text-xl font-semibold">Install Extension</h3>
@@ -138,8 +136,8 @@ export default function ExtensionPage() {
                             </p>
                         </div>
 
-                        <div className="relative">
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#BD9267] text-2xl font-bold text-white">
+                        <div className="relative text-center sm:text-left">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#BD9267] text-2xl font-bold text-white mx-auto sm:mx-0">
                                 2
                             </div>
                             <h3 className="mb-2 text-xl font-semibold">Right Click File</h3>
@@ -148,8 +146,8 @@ export default function ExtensionPage() {
                             </p>
                         </div>
 
-                        <div className="relative">
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#BD9267] text-2xl font-bold text-white">
+                        <div className="relative text-center sm:text-left">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#BD9267] text-2xl font-bold text-white mx-auto sm:mx-0">
                                 3
                             </div>
                             <h3 className="mb-2 text-xl font-semibold">Start Collaborating</h3>
