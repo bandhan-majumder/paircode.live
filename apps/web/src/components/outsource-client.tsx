@@ -59,7 +59,7 @@ export default function OutsourceClient() {
                         toast.success('Code imported from VS Code!');
                     } else {
                         setSelectedLanguage('python');
-                        toast.warning(`Language "${decodedLang}" not supported. Defaulting to python.`);
+                        toast.warning('Language extension is not supported. Falling back to default');
                     }
                 } else {
                     // No code provided

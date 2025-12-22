@@ -56,6 +56,6 @@ jobs:
           sudo docker run -d \
             --net=host \
             --name paircode-be \
-            --env-file /home/ubuntu/paircode.live/.env \
+            --env-file /home/ubuntu/paircode.live/.env.server \
             paircode-be-img:latest
         "
