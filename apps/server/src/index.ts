@@ -3,8 +3,8 @@ import cors from "cors";
 import express from "express";
 import { createServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
-import { auth } from "@paircode/auth";
-import { toNodeHandler } from "better-auth/node";
+// import { auth } from "@paircode/auth";
+// import { toNodeHandler } from "better-auth/node";
 import { UserManager } from "./managers/user-managers";
 import jwt from "jsonwebtoken";
 
@@ -28,11 +28,11 @@ app.use(
 
 app.use(express.json());
 
-app.all("/api/auth{/*path}", toNodeHandler(auth));
+// app.all("/api/auth{/*path}", toNodeHandler(auth));
 
-app.all("/", async (req, res) => {
-  res.redirect(`https://paircode.live`);
-});
+// app.all("/", async (req, res) => {
+//   res.redirect(`https://paircode.live`);
+// });
 
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", uptime: process.uptime() });

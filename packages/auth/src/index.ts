@@ -1,9 +1,11 @@
 import { betterAuth, type BetterAuthOptions } from "better-auth";
+import { nextCookies } from "better-auth/next-js";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@paircode/db";
 import * as schema from "@paircode/db/schema/auth";
 
 export const auth = betterAuth<BetterAuthOptions>({
+	baseURL: process.env.BASE_URL || "http://localhost:3001",
 	database: drizzleAdapter(db, {
 		provider: "pg",
 
@@ -17,11 +19,12 @@ export const auth = betterAuth<BetterAuthOptions>({
 		},
 	},
 	advanced: {
-		crossSubDomainCookies: {
-            enabled: true,
-            domain: "paircode.live",
-        },
-		useSecureCookies: true,
+		defaultCookieAttributes: {
+			sameSite: "none",
+			secure: true,
+			httpOnly: true,
+		},
 	},
-	trustedOrigins: ["https://paircode.live", "https://backend.paircode.live"],
+	trustedOrigins: ["https://paircode.live"],
+	plugins: [nextCookies()],
 });
