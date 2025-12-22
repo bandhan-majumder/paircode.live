@@ -21,6 +21,7 @@ export const auth = betterAuth<BetterAuthOptions>({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     },
   },
+  baseURL: process.env.BETTER_AUTH_URL || "https://paircode.live",
   trustedOrigins: ["https://paircode.live",
-    "https://www.paircode.live",],
+    "https://www.paircode.live"],
 });
