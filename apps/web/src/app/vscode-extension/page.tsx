@@ -8,37 +8,49 @@ import { StyledButton } from "@/components/styled-buttons"
 
 export default function ExtensionPage() {
     return (
-        <div className="min-h-screen px-4 sm:px-6 md:px-8 lg:px-16 xl:px-40 pb-6 bg-[#F4F4F4] dark:bg-background">
-            <section className="relative overflow-hidden px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 lg:py-32 rounded-2xl">
-                <div className="container mx-auto max-w-6xl">
+        <div className="min-h-screen relative bg-background">
+            <div
+                className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.1] text-foreground pointer-events-none"
+                style={{
+                    backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px),
+                        linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+                    backgroundSize: "64px 64px",
+                }}
+            />
+
+            <section className="relative overflow-hidden px-4 sm:px-6 md:px-8 py-20 sm:py-24 md:py-32 lg:py-40">
+                <div className="container mx-auto max-w-5xl relative z-10">
                     <div className="flex flex-col items-center text-center">
-                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#BD9267]/30 bg-[#BD9267]/10 px-4 py-1.5 text-sm font-medium text-[#BD9267]">
-                            Available on <Image src={"/vscode.svg"} width={25} height={25} alt="200" />
-                        </div>
-                        <div className="text-3xl sm:text-4xl md:text-5xl tracking-wide text-balance text-center px-4">
-                            Import Code to PairCode
-                        </div>
-                        <div className="my-6 sm:my-8 md:my-10">
-                            <span className="p-2 bg-[#BD9267] text-2xl sm:text-3xl md:text-4xl font-bold text-balance">
-                                With One Click
+                        <div className="mb-6 animate-fade-in-up">
+                            <span className="inline-flex items-center gap-2 rounded-full border border-[#BD9267]/30 bg-[#BD9267]/10 px-4 py-1.5 text-sm font-medium text-[#BD9267] shadow-sm backdrop-blur-sm">
+                                <Image src={"/vscode.svg"} width={20} height={20} alt="VSCode Icon" />
+                                <span>Available on VS Marketplace</span>
                             </span>
                         </div>
-                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">
-                            Seamlessly transfer your code from VSCode to PairCode
+
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground text-balance mb-6">
+                            Import Code to PairCode <br className="hidden sm:block" />
+                            <span className="bg-gradient-to-r from-[#BD9267] to-[#e6b98a] bg-clip-text text-transparent">
+                                With One Click
+                            </span>
+                        </h1>
+
+                        <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground text-balance max-w-2xl mb-10">
+                            Seamlessly transfer your code from VSCode to PairCode for instant real-time collaboration.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 mt-8 sm:mt-10 md:mt-15 w-full sm:w-auto px-4">
-                            <StyledButton text="" variant="dark" className="w-full sm:w-auto" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
-                                <div className="flex items-center justify-center gap-1.5 text-nowrap">
+
+                        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 justify-center">
+                            <StyledButton text="" variant="dark" className="w-full sm:w-auto min-w-[200px]" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
+                                <div className="flex items-center justify-center gap-2 text-nowrap">
                                     <Download className="h-5 w-5" />
                                     <span>Install Extension</span>
-                                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </div>
                             </StyledButton>
-                            <StyledButton text="" variant="default" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode" className="w-full sm:w-auto">
-                                <Link target="blank" href={"https://github.com/bandhan-majumder/paircode.ext"} className="flex justify-center items-center gap-1 text-nowrap">
+                            <StyledButton text="" variant="default" url="https://github.com/bandhan-majumder/paircode.ext" className="w-full sm:w-auto min-w-[200px]">
+                                <div className="flex justify-center items-center gap-2 text-nowrap">
                                     <Github className="h-5 w-5" />
-                                    Give us a<Star className="fill-yellow-400 text-yellow-400" />
-                                </Link>
+                                    <span>Star on GitHub</span>
+                                </div>
                             </StyledButton>
                         </div>
                     </div>
@@ -111,7 +123,7 @@ export default function ExtensionPage() {
             <section className="bg-muted/30 px-4 py-12 sm:py-12 md:py-10 rounded-2xl">
                 <div className="container mx-auto max-w-5xl">
                     <div className="mb-12 sm:mb-16 text-center">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl text-balance text-center px-4">How to get started?</h2>
+                        <h2 className="tmb-4 text-3xl sm:text-4xl text-balance text-center px-4">How to get started?</h2>
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center mt-5 px-4">Get started in three simple steps</p>
                     </div>
 

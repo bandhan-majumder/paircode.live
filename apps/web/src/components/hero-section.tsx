@@ -3,7 +3,7 @@ export default function HeroSection() {
     <div>
       <div className="mb-8 flex items-center justify-center">
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-6">
-          <pre className="ascii-art text-[#BD9267] text-xs leading-tight sm:text-sm">
+          <pre className="ascii-art text-[#BD9267] text-[10px] xs:text-xs sm:text-sm leading-tight">
             {`
 ██████╗  █████╗ ██╗██████╗ 
 ██╔══██╗██╔══██╗██║██╔══██╗
@@ -13,7 +13,7 @@ export default function HeroSection() {
 ╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝`}
           </pre>
 
-          <pre className="ascii-art text-[#BD9267] text-xs leading-tight sm:text-sm">
+          <pre className="ascii-art text-[#BD9267] text-[10px] xs:text-xs sm:text-sm leading-tight">
             {`
  ██████╗ ██████╗ ██████╗ ███████╗
 ██╔════╝██╔═══██╗██╔══██╗██╔════╝

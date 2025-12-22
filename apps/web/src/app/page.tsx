@@ -19,7 +19,7 @@ export default function Home() {
 				}}
 			/>
 			<NavBar />
-			<div className="container mx-auto max-w-[85vw] px-4 pb-6">
+			<div className="container mx-auto w-[95vw] md:max-w-[85vw] px-4 pb-6">
 				<HeroSection />
 				<ActionButtons showGithub />
 
@@ -45,7 +45,7 @@ export default function Home() {
 				<FeedbackCarousel />
 
 				<div className="my-30 md:my-40">
-					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wide text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Real Time, In a Video Call</p>
+					<p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'><span className="text-[#898989]">Fix Issues, Change Lines -</span> Real Time, In a Video Call</p>
 					<ActionButtons />
 				</div>
 			</div>

@@ -42,8 +42,8 @@ export default function LoginPage() {
       <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
         <div className="max-w-4xl text-center space-y-6 mb-12">
           <div>
-            <p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Start your Pair Coding Journey..</p>
-            <p className={`mt-5 text-center text-xl sm:text-2xl md:text-3xl font-bold text-balance text-[#BD9267] tracking-tight`}>Import Code, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 hover:text-blue-300 transition-colors">
+            <p className='text-center text-3xl md:text-4xl font-bold text-balance'>Start your Pair Coding Journey..</p>
+            <p className={`mt-5 text-center text-2xl md:text-3xl font-bold text-balance text-[#BD9267] tracking-tight`}>Import Code, directly from <span className="relative text-blue-400 font-extrabold underline decoration-wavy decoration-blue-700 underline-offset-4 hover:text-blue-300 transition-colors">
               vscode
             </span> !!</p>
           </div>
@@ -54,7 +54,7 @@ export default function LoginPage() {
             <div className="space-y-6">
               <div className="space-y-2 text-center">
                 <h2 className="text-2xl font-semibold tracking-tight">Get started</h2>
-                <p className="text-sm text-muted-foreground">Sign in to create your first debug room</p>
+                <p className="text-sm text-muted-foreground">Sign in to create your first pair coding room</p>
               </div>
 
               <Button
@@ -79,7 +79,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <p className="mt-8 text-center text-sm text-muted-foreground">Trusted by developers and interviewers worldwide</p>
+          <p className="mt-8 text-center text-sm text-muted-foreground">your feedback helps us improve, don't forget to submit <Link href={"/feedback"} className="font-bold underline">here</Link></p>
         </div>
       </div>
     </div>

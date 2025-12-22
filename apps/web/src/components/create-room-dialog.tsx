@@ -89,7 +89,7 @@ export function CreateRoomDialog({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <StyledButton className="bg-[#BD9267] dark:bg-[#BD9267] text-nowrap" text="Create a room" url="/login" />
+                <StyledButton className="bg-[#BD9267] dark:bg-[#BD9267] text-nowrap" text="Create a room" />
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit} ref={formRef}>
