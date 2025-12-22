@@ -22,15 +22,18 @@
     "db:push": "turbo -F @paircode/db db:push",
     "db:studio": "turbo -F @paircode/db db:studio",
     "db:generate": "turbo -F @paircode/db db:generate",
-    "db:migrate": "turbo -F @paircode/db db:migrate"
+    "db:migrate": "turbo -F @paircode/db db:migrate",
+    "prepare": "husky"
   },
   "dependencies": {
     "dotenv": "^17.2.2",
     "zod": "^4.2.1"
   },
   "devDependencies": {
-    "turbo": "^2.5.4",
-    "@types/bun": "^1.2.6"
+    "@types/bun": "^1.2.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "turbo": "^2.5.4"
   },
   "packageManager": "bun@1.2.19"
 }

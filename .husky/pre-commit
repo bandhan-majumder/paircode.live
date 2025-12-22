@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running DB generation..."
+bun run db:generate || exit 1
+
+echo "Running build..."
+bun run build || exit 1
