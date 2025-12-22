@@ -17,13 +17,23 @@ export const auth = betterAuth<BetterAuthOptions>({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
 		},
 	},
-	// advanced: {
-	// 	defaultCookieAttributes: {
-	// 		sameSite: "none",
-	// 		secure: true,
-	// 		httpOnly: true,
-	// 	},
-	// },
-	trustedOrigins: ["https://paircode.live"],
+	advanced: {
+		defaultCookieAttributes: {
+			sameSite: "lax",
+			secure: true,
+			httpOnly: true,
+			domain: ".paircode.live",
+		},
+	},
+	session: {
+		cookieCache: {
+			enabled: true,
+			maxAge: 5 * 60, // 5 minutes
+		},
+	},
+	trustedOrigins: [
+		"https://paircode.live",
+		"https://backend.paircode.live",
+	],
 	plugins: [nextCookies()],
 });

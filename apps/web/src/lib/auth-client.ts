@@ -5,6 +5,9 @@ import { inferAdditionalFields } from "better-auth/client/plugins";
 export const authClient = createAuthClient({
 	baseURL: "https://paircode.live",
 	plugins: [inferAdditionalFields<typeof auth>()],
+	fetchOptions: {
+		credentials: "include",
+	},
 });
 
 export const signInWithGoogle = async () => {
