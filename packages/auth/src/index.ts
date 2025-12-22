@@ -4,11 +4,11 @@ import { db } from "@paircode/db";
 import * as schema from "@paircode/db/schema/auth";
 
 export const auth = betterAuth<BetterAuthOptions>({
-	database: drizzleAdapter(db, {
-		provider: "pg",
-		schema: schema,
-	}),
-	rateLimit: {
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: schema,
+  }),
+  rateLimit: {
     enabled: true,
     window: 10, // time window in seconds
     max: 100, // max requests in the window
@@ -21,5 +21,6 @@ export const auth = betterAuth<BetterAuthOptions>({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     },
   },
-  trustedOrigins: [process.env.CORS_ORIGIN || "http://localhost:3001"],
+  trustedOrigins: ["https://paircode.live",
+    "https://www.paircode.live",],
 });
