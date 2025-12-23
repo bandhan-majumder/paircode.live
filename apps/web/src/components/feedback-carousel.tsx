@@ -8,53 +8,39 @@ interface Feedback {
   avatar: string
 }
 
-const dummyFeedbacks: Feedback[] = [
+const customerFeedbacks: Feedback[] = [
   {
     id: 1,
-    name: "Sarah Chen",
-    role: "Product Manager",
-    content: "This product has completely transformed how we work. The attention to detail is incredible.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    name: "Akash Mittal",
+    role: "Developer",
+    content: "Never experienced like this before!",
+    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
   },
   {
     id: 2,
-    name: "Michael Rodriguez",
+    name: "Sudhir Malai",
     role: "Software Engineer",
-    content: "Outstanding support and documentation. Everything works exactly as promised.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
+    content: "Super. Would love to see more features on this!",
+    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
   },
   {
     id: 3,
-    name: "Emma Watson",
+    name: "Anonymous user",
     role: "Designer",
-    content: "The UI is so intuitive and beautiful. My team loves using it every day.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
+    content: "The UI is clean.",
+    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
   },
   {
     id: 4,
-    name: "David Kim",
-    role: "Startup Founder",
-    content: "Best investment we made this year. The ROI has been fantastic and support is amazing.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
-  },
-  {
-    id: 5,
-    name: "Lisa Anderson",
-    role: "Marketing Lead",
-    content: "Seamless integration with our existing tools. Saved us so much time and effort.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa",
-  },
-  {
-    id: 6,
-    name: "James Wilson",
-    role: "CTO",
-    content: "The technical architecture is solid and well-documented. Highly recommended for enterprises.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
-  },
+    name: "Anonymous user",
+    role: "Developer & Student",
+    content: "VSCode support made it so easy. Super experience",
+    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
+  }
 ]
 
 export function FeedbackCarousel() {
-  const allFeedbacks = [...dummyFeedbacks, ...dummyFeedbacks]
+  const allFeedbacks = [...customerFeedbacks, ...customerFeedbacks]
 
   return (
     <div className="w-full overflow-hidden bg-[#F4F4F4] dark:bg-background py-8 sm:py-10 md:py-12 rounded-2xl sm:rounded-3xl md:rounded-4xl">
@@ -65,7 +51,7 @@ export function FeedbackCarousel() {
           {allFeedbacks.map((feedback, index) => (
             <Card
               key={`${feedback.id}-${index}`}
-              className="flex-shrink-0 w-72 sm:w-80 md:w-[340px] p-5 sm:p-6 bg-card border-border hover:shadow-lg transition-shadow duration-300"
+              className="flex flex-col justify-between w-72 sm:w-80 md:w-[340px] p-5 sm:p-6 bg-card border-border hover:shadow-lg transition-shadow duration-300"
             >
               <p className="text-card-foreground mb-5 sm:mb-6 leading-relaxed text-sm sm:text-base">
                 {feedback.content}

@@ -16,10 +16,10 @@ export class RoomManager {
         })
         
         const totalSocketInRoom = await this.io.in(roomId).fetchSockets();
-        if (totalSocketInRoom.length > 1) {
-            if (totalSocketInRoom[0]) {
-                totalSocketInRoom[0].emit("send-offer", { roomId });
-            }
+        if (totalSocketInRoom.length === 2) {
+            totalSocketInRoom.forEach((s) => {
+                s.emit("send-offer", { roomId });
+            });
         }
     }
 
