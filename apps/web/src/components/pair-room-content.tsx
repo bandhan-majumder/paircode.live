@@ -314,7 +314,9 @@ export function PairRoomContent({
         roomId: id,
         onMessageReceived: handleMessageReceived,
         onUserJoined: handleUserJoined,
-        onUserLeft: () => { },
+        onUserLeft: () => {
+            setLobby(false);
+        },
         onSendOffer: handleSendOffer,
         onOffer: handleOffer,
         onAnswer: handleAnswer,

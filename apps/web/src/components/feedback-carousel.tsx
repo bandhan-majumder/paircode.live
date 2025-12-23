@@ -36,7 +36,14 @@ const customerFeedbacks: Feedback[] = [
     role: "Developer & Student",
     content: "VSCode support made it so easy. Super experience",
     avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
-  }
+  },
+  {
+    id: 5,
+    name: "Manika Majumder",
+    role: "Designer",
+    content: "Happy to be one of the first users to test this on mobile.",
+    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
+  },
 ]
 
 export function FeedbackCarousel() {

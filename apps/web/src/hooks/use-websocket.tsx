@@ -9,7 +9,7 @@ interface UseSocketIOProps {
   roomId: string;
   onMessageReceived: (content: string) => void;
   onUserJoined?: (socketId: string) => void;
-  onUserLeft?: (socketId: string) => void;
+  onUserLeft?: () => void;
   onOffer?: (data: { roomId: string; sdp: RTCSessionDescriptionInit }) => void;
   onAnswer?: (data: { roomId: string; sdp: RTCSessionDescriptionInit }) => void;
   onIceCandidate?: (data: { candidate: RTCIceCandidate; type: "sender" | "receiver" }) => void;
@@ -92,7 +92,7 @@ export function useSocketIO({
 
       socket.on("user-left", (data: { socketId: string; timestamp: number }) => {
         if (onUserLeft) {
-          onUserLeft(data.socketId);
+          onUserLeft();
         }
       });
 
