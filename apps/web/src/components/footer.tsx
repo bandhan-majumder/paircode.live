@@ -17,7 +17,7 @@ function Footer() {
       { label: "Coding challenges", href: "#" }
     ],
     developers: [
-      { label: "Contributing", href: "https://github.com/bandhan-majumder/paircode.live/contributing.md" },
+      { label: "Contributing", href: "https://github.com/bandhan-majumder/paircode.live/blob/main/CONTRIBUTING.md" },
       { label: "Open Source", href: "https://github.com/bandhan-majumder/paircode.live" },
     ],
     company: [
