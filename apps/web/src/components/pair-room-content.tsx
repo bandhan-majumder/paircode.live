@@ -262,10 +262,38 @@ export function PairRoomContent({
     };
 
     const handleLeaveRoom = () => {
+        if (localAudioTrack) {
+            localAudioTrack.stop();
+        }
+
+        if (localVideoTrack) {
+            localVideoTrack.stop();
+        }
+
+        if (localVideoRef.current?.srcObject) {
+            const stream = localVideoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
+        }
+        
+        if (remoteVideoRef.current?.srcObject) {
+            const stream = remoteVideoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
+        }
+
+        if (sendingPcRef.current) {
+            sendingPcRef.current.close();
+            sendingPcRef.current = null;
+        }
+
+        if (receivingPcRef.current) {
+            receivingPcRef.current.close();
+            receivingPcRef.current = null;
+        }
+
         if (leaveRoom) {
             leaveRoom();
         }
-        router.push("/");
+        router.push(`/end-call?roomId=${id}`);
     };
 
     const handleLanguageChange = (language: string) => {

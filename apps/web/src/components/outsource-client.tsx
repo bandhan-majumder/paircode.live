@@ -2,7 +2,6 @@
 
 import CodeShare from '@/components/code-share';
 import { DropdownMenuLanguageCheckboxes } from '@/components/lang-dropdown';
-import { authClient } from '@/lib/auth-client';
 import { languageExtensions } from '@/lib/languageExtensions';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -12,12 +11,15 @@ import { CreateRoomDialog } from '@/components/create-room-dialog';
 import { Hand, Info } from 'lucide-react';
 import Link from 'next/link';
 
-export default function OutsourceClient() {
+interface OutsourceClientProps {
+    session: any;
+}
+
+export default function OutsourceClient({ session }: OutsourceClientProps) {
     const searchParams = useSearchParams();
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [code, setCode] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const { data: session, isPending } = authClient.useSession();
 
     useEffect(() => {
         const loadCode = async () => {
@@ -74,7 +76,7 @@ export default function OutsourceClient() {
         loadCode();
     }, [searchParams]);
 
-    if (!isPending && !session) {
+    if (!session) {
         return (
             <div className='flex justify-center items-center flex-col h-screen'>
                 <Hand size={50} className='mb-3' />
@@ -112,7 +114,7 @@ export default function OutsourceClient() {
         );
     }
 
-    if (!isPending && session) {
+    if (session) {
         return (
             <div className="flex h-screen w-screen flex-col overflow-hidden">
                 <div className='flex justify-between'>
@@ -134,7 +136,7 @@ export default function OutsourceClient() {
                         <div className='bg-red-50 dark:bg-gray-600 flex flex-col justify-center items-center border border-black p-10 mt-10'>
                             <Info />
                             <p className='text-center my-5'>Videos only appear when you share a session. Please click on the button below to share and debug in real time!</p>
-                            {!isPending && session && <CreateRoomDialog session={session} isOutSourced={true} outSourcedCode={code} outSourcedLanguage={selectedLanguage} />}
+                            {session && <CreateRoomDialog session={session} isOutSourced={true} outSourcedCode={code} outSourcedLanguage={selectedLanguage} />}
                         </div>
                     </div>
                 </div>

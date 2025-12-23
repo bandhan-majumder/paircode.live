@@ -2,10 +2,9 @@ import { createRoom, updateShareSession } from "@/lib/db/query";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
 import { auth } from "@paircode/auth";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 
 export async function POST(req: Request) {
-    console.log("all the cookies are: ", (await cookies()).getAll())
     const session = await auth.api.getSession({
         headers: await headers()
     })

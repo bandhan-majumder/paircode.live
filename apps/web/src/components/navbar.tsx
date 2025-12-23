@@ -1,5 +1,5 @@
 import Link from "next/link";
-import UserMenu from "./user-menu";
+import UserMenuWrapper from "./user-menu-wrapper";
 import { AnnouncementBanner } from "./announcement-header";
 
 export default function NavBar() {
@@ -20,7 +20,7 @@ export default function NavBar() {
 						);
 					})}
 				</nav>
-				<UserMenu />
+				<UserMenuWrapper />
 			</div>
 			{/* <hr /> */}
 		</div>

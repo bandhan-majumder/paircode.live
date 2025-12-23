@@ -1,20 +1,17 @@
-"use client";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@paircode/auth";
 
-import { authClient } from '@/lib/auth-client';
-import { useRouter } from "next/navigation";
-import { useEffect } from 'react';
+async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
 
-function Page() {
-    const router = useRouter();
-    const { data: session, isPending } = authClient.useSession();
+  if (!session || !session?.user || !session.user.id) {
+    redirect("/login");
+  }
 
-    useEffect(() => {
-        if (!isPending && (!session || !session?.user || !session.user.id)) {
-          router.push("/login");
-        }
-      }, [isPending, session, router]);
-      
-    router.push("/");
+  redirect("/");
 }
 
 export default Page
