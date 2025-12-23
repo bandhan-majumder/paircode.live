@@ -92,7 +92,8 @@ export default function CodeShare({ code, onChange, extensions }: CodeShareProps
     <CodeMirror
       style={{ padding: '0px', margin: '0px', borderRadius: "4px" }}
       value={code}
-      height="100vh"
+      height="calc(100vh - 60px)"
+      className="md:h-screen!"
       theme={theme === "dark" ? myDarkTheme : myLightTheme}
       extensions={extensions}
       onChange={onChangeArg}

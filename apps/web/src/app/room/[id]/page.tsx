@@ -66,12 +66,20 @@ export default function CodeArena({ params }: Props) {
   if (!isJoined) {
     return (
       <>
-        <div className="flex justify-center flex-col items-center gap-10 h-screen">
-          <p className="font-semibold text-2xl text-center">Are you ready to debug,{" "} <span className="text-[#BD9267]">{session?.user.name}</span>{" "} ?</p>
-          <div className="">
-            <video style={{
-              borderRadius: "20px"
-            }} autoPlay width={600} height={500} ref={videoRef}></video>
+        <div className="flex justify-center flex-col items-center gap-6 md:gap-10 h-screen px-4">
+          <p className="font-semibold text-xl md:text-2xl text-center">
+            Are you ready to debug,{" "}
+            <span className="text-[#BD9267]">{session?.user.name}</span>{" "}?
+          </p>
+          <div className="w-full max-w-[600px]">
+            <video 
+              style={{
+                borderRadius: "20px"
+              }} 
+              autoPlay 
+              className="w-full h-auto"
+              ref={videoRef}
+            ></video>
           </div>
           <Button onClick={() => {
             setIsJoined(true);

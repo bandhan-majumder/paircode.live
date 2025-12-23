@@ -329,33 +329,26 @@ export function PairRoomContent({
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <div className="flex items-center justify-between p-4 border-b bg-background dark:bg-[#292929]">
-                <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between p-3 md:p-4 border-b bg-background dark:bg-[#292929]">
+                <div className="flex items-center gap-2 md:gap-4">
                     <DropdownMenuLanguageCheckboxes
                         selectedLanguage={selectedLanguage}
                         onLanguageChange={handleLanguageChange}
                     />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-sm md:text-base">
                     <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-                    {isConnected ? "Connected" : "Disconnected"}
+                    <span className="hidden sm:inline">{isConnected ? "Connected" : "Disconnected"}</span>
                 </div>
             </div>
 
-            <div className="flex flex-1 overflow-hidden">
-                <div className="flex-1">
-                    <CodeShare
-                        code={code || ''}
-                        onChange={handleCodeChange}
-                        extensions={currentExtensions}
-                    />
-                </div>
-                <div className="w-96 border-l p-4 flex flex-col gap-4 bg-background dark:bg-[#292929]">
+            <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+                <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#292929] md:order-2 overflow-y-auto md:overflow-y-visible">
                     <div>
-                        <h3 className="font-semibold mb-2">Your Video</h3>
+                        <h3 className="font-semibold mb-2 text-sm md:text-base">Your Video</h3>
                         <video
                             style={{
-                                borderRadius: '20px'
+                                borderRadius: '12px'
                             }}
                             ref={localVideoRef}
                             autoPlay
@@ -363,51 +356,55 @@ export function PairRoomContent({
                             playsInline
                             className="w-full rounded bg-gray-900"
                         />
-                        <div className="flex flex-row gap-3 justify-center items-center mt-5">
+                        
+                        <div className="flex flex-row gap-2 md:gap-3 justify-center items-center mt-2 md:mt-5">
                             <Button
                                 onClick={toggleMicrophone}
-                                className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
                                 aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}
                             >
                                 {localMicOff ? (
-                                    <MicOff className="text-red-500" size={20} />
+                                    <MicOff className="text-red-500" size={18} />
                                 ) : (
-                                    <Mic className="text-white" size={20} />
+                                    <Mic className="text-white" size={18} />
                                 )}
                             </Button>
                             <Button
                                 onClick={toggleVideo}
-                                className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
                                 aria-label={localVidOff ? "Turn on video" : "Turn off video"}
                             >
                                 {localVidOff ? (
-                                    <VideoOff className="text-red-500" size={20} />
+                                    <VideoOff className="text-red-500" size={18} />
                                 ) : (
-                                    <Video className="text-white" size={20} />
+                                    <Video className="text-white" size={18} />
                                 )}
                             </Button>
                             <Button
                                 onClick={handleLeaveRoom}
-                                className="p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
+                                className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
                                 aria-label="Leave room"
                             >
-                                <PhoneOff className="text-white" size={20} />
+                                <PhoneOff className="text-white" size={18} />
                             </Button>
                         </div>
                     </div>
+
                     {lobby ? (
-                        <div className="p-4 text-center">
-                            Waiting for your friend to join...
-                            <div className="flex gap-3 mt-5">
+                        <div className="p-2 md:p-4 text-center text-sm md:text-base">
+                            <p className="mb-2 md:mb-4">Waiting for your friend to join...</p>
+                            <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                                 <Input
                                     value={inviteEmail}
                                     onChange={(e) => setInviteEmail(e.target.value)}
                                     type="email"
                                     placeholder="friend@gmail.com"
+                                    className="text-sm"
                                 />
                                 <Button
                                     disabled={!inviteEmail || sentInvite}
                                     onClick={handleSendInvite}
+                                    className="whitespace-nowrap text-sm"
                                 >
                                     {sentInvite ? 'Inviting..' : 'Invite'}
                                 </Button>
@@ -415,9 +412,9 @@ export function PairRoomContent({
                         </div>
                     ) : (
                         <div>
-                            <h3 className="font-semibold mb-2">Friend's Video</h3>
+                            <h3 className="font-semibold mb-2 text-sm md:text-base">Friend's Video</h3>
                             <video
-                                style={{ borderRadius: '20px' }}
+                                style={{ borderRadius: '12px' }}
                                 ref={remoteVideoRef}
                                 autoPlay
                                 playsInline
@@ -425,6 +422,14 @@ export function PairRoomContent({
                             />
                         </div>
                     )}
+                </div>
+
+                <div className="flex-1 md:order-1 h-[50vh] md:h-auto">
+                    <CodeShare
+                        code={code || ''}
+                        onChange={handleCodeChange}
+                        extensions={currentExtensions}
+                    />
                 </div>
             </div>
         </div>
