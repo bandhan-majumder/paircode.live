@@ -9,16 +9,17 @@ export class RoomManager {
             return;
         }
         await socket.join(roomId);
-        socket.emit('lobby');
+
         socket.to(roomId).emit("user-joined", {
             socketId: socket.id,
             timestamp: Date.now()
         })
+        
         const totalSocketInRoom = await this.io.in(roomId).fetchSockets();
         if (totalSocketInRoom.length > 1) {
-            totalSocketInRoom.forEach((s) => {
-                s.emit("send-offer", { roomId });
-            });
+            socket.emit("send-offer", { roomId });
+        } else {
+            socket.emit('lobby');
         }
     }
 
