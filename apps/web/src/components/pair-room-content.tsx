@@ -344,52 +344,6 @@ export function PairRoomContent({
 
             <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
                 <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#292929] md:order-2 overflow-y-auto md:overflow-y-visible">
-                    <div>
-                        <h3 className="font-semibold mb-2 text-sm md:text-base">Your Video</h3>
-                        <video
-                            style={{
-                                borderRadius: '12px'
-                            }}
-                            ref={localVideoRef}
-                            autoPlay
-                            muted
-                            playsInline
-                            className="w-full rounded bg-gray-900"
-                        />
-                        
-                        <div className="flex flex-row gap-2 md:gap-3 justify-center items-center mt-2 md:mt-5">
-                            <Button
-                                onClick={toggleMicrophone}
-                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-                                aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}
-                            >
-                                {localMicOff ? (
-                                    <MicOff className="text-red-500" size={18} />
-                                ) : (
-                                    <Mic className="text-white" size={18} />
-                                )}
-                            </Button>
-                            <Button
-                                onClick={toggleVideo}
-                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-                                aria-label={localVidOff ? "Turn on video" : "Turn off video"}
-                            >
-                                {localVidOff ? (
-                                    <VideoOff className="text-red-500" size={18} />
-                                ) : (
-                                    <Video className="text-white" size={18} />
-                                )}
-                            </Button>
-                            <Button
-                                onClick={handleLeaveRoom}
-                                className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
-                                aria-label="Leave room"
-                            >
-                                <PhoneOff className="text-white" size={18} />
-                            </Button>
-                        </div>
-                    </div>
-
                     {lobby ? (
                         <div className="p-2 md:p-4 text-center text-sm md:text-base">
                             <p className="mb-2 md:mb-4">Waiting for your friend to join...</p>
@@ -414,17 +368,67 @@ export function PairRoomContent({
                         <div>
                             <h3 className="font-semibold mb-2 text-sm md:text-base">Friend's Video</h3>
                             <video
-                                style={{ borderRadius: '12px' }}
+                                style={{ 
+                                    borderRadius: '12px',
+                                    maxHeight: '220px',
+                                }}
                                 ref={remoteVideoRef}
                                 autoPlay
                                 playsInline
-                                className="w-full rounded bg-gray-900"
+                                className="w-full rounded md:max-h-none"
                             />
                         </div>
                     )}
+
+                    <div>
+                        <h3 className="font-semibold mb-2 text-sm md:text-base">Your Video</h3>
+                        <video
+                            style={{
+                                borderRadius: '12px',
+                                maxHeight: '220px',
+                            }}
+                            ref={localVideoRef}
+                            autoPlay
+                            muted
+                            playsInline
+                            className="w-full rounded md:max-h-none"
+                        />
+                        
+                        <div className="flex flex-row gap-2 md:gap-3 justify-center items-center mt-2 md:mt-3">
+                            <Button
+                                onClick={toggleMicrophone}
+                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                                aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}
+                            >
+                                {localMicOff ? (
+                                    <MicOff className="text-red-500" size={16} />
+                                ) : (
+                                    <Mic className="text-white" size={16} />
+                                )}
+                            </Button>
+                            <Button
+                                onClick={toggleVideo}
+                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                                aria-label={localVidOff ? "Turn on video" : "Turn off video"}
+                            >
+                                {localVidOff ? (
+                                    <VideoOff className="text-red-500" size={16} />
+                                ) : (
+                                    <Video className="text-white" size={16} />
+                                )}
+                            </Button>
+                            <Button
+                                onClick={handleLeaveRoom}
+                                className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
+                                aria-label="Leave room"
+                            >
+                                <PhoneOff className="text-white" size={16} />
+                            </Button>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex-1 md:order-1 h-[50vh] md:h-auto">
+                <div className="flex-1 md:order-1 h-[60vh] md:h-auto">
                     <CodeShare
                         code={code || ''}
                         onChange={handleCodeChange}
