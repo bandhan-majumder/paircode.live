@@ -130,11 +130,11 @@ export function useSocketIO({
         console.error("Socket.IO error:", error);
       });
 
-      socket.on("disconnect", (reason) => {
+      socket.on("disconnect", (reason: any) => {
         setIsConnected(false);
       });
 
-      socket.on("connect_error", (error) => {
+      socket.on("connect_error", (error: any) => {
         console.error("Socket.IO connection error:", error);
         setIsConnected(false);
       });

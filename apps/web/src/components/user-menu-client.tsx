@@ -67,30 +67,36 @@ export default function UserMenu({ initialSession }: UserMenuProps) {
         <DropdownMenuLabel className="text-[#817878] text-sm">
           Theme
         </DropdownMenuLabel>
-        <DropdownMenuItem 
-          className="pl-8 text-[#ADADAD] text-sm" 
+        <DropdownMenuItem
+          className="pl-8 text-[#ADADAD] text-sm"
           onClick={() => setTheme("light")}
         >
           Light
-          {theme === 'light' && <Dot size={40} className="text-green-500" />}
+          {theme === 'light' && (
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+          )}
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="pl-8 text-[#ADADAD] text-sm" 
+        <DropdownMenuItem
+          className="pl-8 text-[#ADADAD] text-sm"
           onClick={() => setTheme("dark")}
         >
           Dark
-          {theme === 'dark' && <Dot size={40} className="text-green-500" />}
+          {theme === 'dark' && (
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+          )}
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="pl-8 text-[#ADADAD] text-sm" 
+        <DropdownMenuItem
+          className="pl-8 text-[#ADADAD] text-sm"
           onClick={() => setTheme("system")}
         >
           System
-          {theme === 'system' && <Dot size={40} className="text-green-500" />}
+          {theme === 'system' && (
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+          )}
         </DropdownMenuItem>
         <hr />
-        <DropdownMenuItem 
-          className="mt-2 text-[#ADADAD] text-sm cursor-pointer" 
+        <DropdownMenuItem
+          className="mt-2 text-[#ADADAD] text-sm cursor-pointer"
           onClick={handleSignOut}
         >
           <LogOut className="mr-2" /> Log Out

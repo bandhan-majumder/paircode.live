@@ -22,7 +22,7 @@ export default function ExtensionPage() {
                         <div className="mb-6 animate-fade-in-up">
                             <span className="inline-flex items-center gap-2 rounded-full border border-[#BD9267]/30 bg-[#BD9267]/10 px-4 py-1.5 text-sm font-medium text-[#BD9267] shadow-sm backdrop-blur-sm">
                                 <Image src={"/vscode.svg"} width={20} height={20} alt="VSCode Icon" />
-                                <span>Available on VS Marketplace</span>
+                                <span>Available on VSCode</span>
                             </span>
                         </div>
 
@@ -34,7 +34,7 @@ export default function ExtensionPage() {
                         </h1>
 
                         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground text-balance max-w-2xl mb-10">
-                            Seamlessly transfer your code from VSCode to PairCode for instant real-time collaboration.
+                            Import code from VSCode with a single click.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 justify-center">

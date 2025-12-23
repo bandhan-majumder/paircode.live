@@ -315,7 +315,7 @@ export function PairRoomContent({
         onMessageReceived: handleMessageReceived,
         onUserJoined: handleUserJoined,
         onUserLeft: () => {
-            setLobby(false);
+            setLobby(true);
         },
         onSendOffer: handleSendOffer,
         onOffer: handleOffer,
