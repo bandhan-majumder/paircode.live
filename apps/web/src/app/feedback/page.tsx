@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: 'Share your thoughts and suggestions with us. Report bugs, request features, or provide general feedback to help us improve PairCode.',
     siteName: 'PairCode',
     images: [{
-      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
       width: '1200',
       height: '630'
     }],
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Send Feedback - PairCode',
     description: 'Share your thoughts and suggestions with us. Report bugs, request features, or provide general feedback to help us improve PairCode.',
     creator: '@paircode',
-    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
   },
   robots: {
     index: true,

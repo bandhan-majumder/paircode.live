@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: 'Join a collaboration room on PairCode to start pair programming with your team in real-time.',
     siteName: 'PairCode',
     images: [{
-      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
       width: '1200',
       height: '630'
     }],
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Join Room - PairCode',
     description: 'Join a collaboration room on PairCode to start pair programming with your team in real-time.',
     creator: '@paircode',
-    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
   },
   robots: {
     index: false,

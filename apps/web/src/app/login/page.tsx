@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Sign in to PairCode with Google authentication. Start collaborating on code with real-time video calls and direct VSCode import support.',
     siteName: 'PairCode',
     images: [{
-      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
       width: '1200',
       height: '630'
     }],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: 'Sign In - PairCode',
     description: 'Sign in to PairCode with Google authentication. Start collaborating on code with real-time video calls and direct VSCode import support.',
     creator: '@paircode',
-    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
   },
   robots: {
     index: true,

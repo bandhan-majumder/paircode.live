@@ -14,7 +14,7 @@ export const metadata: Metadata = {
         description: 'Import code from VSCode to PairCode with a single click. Secure, fast, and private. No code storage, permission-based transfers, and smart handling for all file sizes.',
         siteName: 'PairCode',
         images: [{
-            url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+            url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
             width: '1200',
             height: '630'
         }],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
         title: 'VSCode Extension - Import Code with One Click | PairCode',
         description: 'Import code from VSCode to PairCode with a single click. Secure, fast, and private. No code storage, permission-based transfers, and smart handling for all file sizes.',
         creator: '@paircode',
-        images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+        images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
     },
     robots: {
         index: true,

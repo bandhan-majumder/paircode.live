@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: 'Import your code from VSCode directly into PairCode for real-time collaboration. Secure, fast, and seamless code transfer.',
         siteName: 'PairCode',
         images: [{
-            url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+            url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
             width: '1200',
             height: '630'
         }],
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         title: 'Import Code - PairCode',
         description: 'Import your code from VSCode directly into PairCode for real-time collaboration. Secure, fast, and seamless code transfer.',
         creator: '@paircode',
-        images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+        images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
     },
     robots: {
         index: true,

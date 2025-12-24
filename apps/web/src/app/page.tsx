@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 		description: 'Collaborate on code in real-time with video calling. Import code directly from VSCode, pair program with teammates, and fix issues together instantly.',
 		siteName: 'PairCode',
 		images: [{
-			url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+			url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
 			width: '1200',
 			height: '630'
 		}],
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 		title: 'PairCode - Real-Time Code Collaboration with Video',
 		description: 'Collaborate on code in real-time with video calling. Import code directly from VSCode, pair program with teammates, and fix issues together instantly.',
 		creator: '@paircode',
-		images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+		images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
 	},
 	robots: {
 		index: true,
@@ -59,7 +59,7 @@ export default function Home() {
 				"url": "https://paircode.live",
 				"logo": {
 					"@type": "ImageObject",
-					"url": "https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg"
+					"url": "https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg"
 				},
 				"description": "Real-time code collaboration platform with video calling and VSCode integration",
 				"sameAs": [

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: 'Read the Terms of Service for PairCode. Understand your rights and responsibilities when using our real-time code collaboration platform.',
     siteName: 'PairCode',
     images: [{
-      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
       width: '1200',
       height: '630'
     }],
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Terms of Service - PairCode',
     description: 'Read the Terms of Service for PairCode. Understand your rights and responsibilities when using our real-time code collaboration platform.',
     creator: '@paircode',
-    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
   },
   robots: {
     index: true,

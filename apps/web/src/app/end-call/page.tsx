@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: 'Your collaboration session has ended. Thank you for using PairCode for pair programming.',
     siteName: 'PairCode',
     images: [{
-      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
       width: '1200',
       height: '630'
     }],
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Call Ended - PairCode',
     description: 'Your collaboration session has ended. Thank you for using PairCode for pair programming.',
     creator: '@paircode',
-    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
   },
   robots: {
     index: false,
