@@ -15,6 +15,7 @@ export default function CodeArena({ params }: Props) {
   const { id } = use(params);
   const { data: session, isPending } = authClient.useSession();
   const [isJoined, setIsJoined] = useState<boolean>(false);
+  const [showJoinButton, setShowJoinButton] = useState<boolean>(false);
   const [localAudioTrack, setLocalAudioTrack] = useState<MediaStreamTrack | null>(null);
   const [localVideoTrack, setlocalVideoTrack] = useState<MediaStreamTrack | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -27,10 +28,8 @@ export default function CodeArena({ params }: Props) {
   }, [isPending, session, router]);
 
   useEffect(() => {
-    if (videoRef && videoRef.current) {
-      getCameraMicPermissions()
-    }
-  }, [videoRef]);
+    getCameraMicPermissions()
+  }, []);
 
   const getCameraMicPermissions = async () => {
     try {
@@ -57,6 +56,8 @@ export default function CodeArena({ params }: Props) {
           console.error("Play failed:", err);
         });
       };
+      
+      setShowJoinButton(true);
     } catch (err) {
       toast.error("Please allow your microphone and camera permissions to make your video and voice appear correctly. Go to browser settings and change it.");
       console.error("Permission error", err);
@@ -81,11 +82,11 @@ export default function CodeArena({ params }: Props) {
               ref={videoRef}
             ></video>
           </div>
-          <Button onClick={() => {
+          {showJoinButton && <Button onClick={() => {
             setIsJoined(true);
           }}>
             Join Now
-          </Button>
+          </Button>}
         </div>
       </>
     )

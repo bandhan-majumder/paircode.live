@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
         const { senderEmail, senderName, receiverEmail, roomId } = parsedData.data;
 
-        const emailText = `${senderName} - (${senderEmail}) has invited you to join a coding session. Click the link below to join:\n\nhttps://paircode.live/room/${roomId}`;
+        const emailText = `${senderName} - (${senderEmail}) has invited you to join a pair coding session. Click the link below to join:\n\nhttps://paircode.live/room/${roomId}`;
         const emailSubject = `PairCode Join Request from ${senderName}`;
 
         await Promise.all([
