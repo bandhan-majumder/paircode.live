@@ -28,7 +28,7 @@ export default function HeroSection() {
       </div>
 
       <div className="flex justify-center items-center md:hidden mb-8">
-        <Image src={"/paircode-ascii.svg"} width={230} height={200} alt="PairCode" className="" />
+        <Image src={"/paircode-ascii.svg"} width={230} height={200} alt="PairCode" className="z-10" />
       </div>
 
       <div className="text-center">
