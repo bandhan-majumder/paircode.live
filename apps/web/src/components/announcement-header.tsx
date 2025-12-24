@@ -9,7 +9,7 @@ export function AnnouncementBanner() {
 
   if (showBanner) {
     return (
-      <div className="bg-gradient-to-r from-[#3CB371] via-[#2E8B57] to-[#3CB371] bg-[length:200%_auto] animate-gradient-slow relative overflow-hidden">
+      <aside className="bg-gradient-to-r from-[#3CB371] via-[#2E8B57] to-[#3CB371] bg-[length:200%_auto] animate-gradient-slow relative overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
         </div>
@@ -97,7 +97,7 @@ export function AnnouncementBanner() {
           animation: shimmer 3s infinite;
         }
       `}</style>
-      </div>
+      </aside>
     )
   }
   return null;

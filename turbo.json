@@ -14,8 +14,7 @@
 		"BETTER_AUTH_SECRET",
 		"BETTER_AUTH_URL",
 		"NODE_ENV",
-		"CORS_ORIGIN",
-		"TRUSTED_DOMAINS"
+		"CORS_ORIGIN"
 	],
 	"tasks": {
 		"build": {

@@ -1,13 +1,52 @@
-"use client"
-
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
+export const metadata: Metadata = {
+  title: 'Terms of Service - PairCode',
+  description: 'Read the Terms of Service for PairCode. Understand your rights and responsibilities when using our real-time code collaboration platform.',
+  keywords: ['terms of service', 'legal', 'terms and conditions', 'user agreement', 'service terms', 'privacy policy'],
+  openGraph: {
+    title: 'Terms of Service - PairCode',
+    description: 'Read the Terms of Service for PairCode. Understand your rights and responsibilities when using our real-time code collaboration platform.',
+    siteName: 'PairCode',
+    images: [{
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      width: '1200',
+      height: '630'
+    }],
+    locale: 'en_US',
+    type: "website"
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Terms of Service - PairCode',
+    description: 'Read the Terms of Service for PairCode. Understand your rights and responsibilities when using our real-time code collaboration platform.',
+    creator: '@paircode',
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large"
+    }
+  },
+  alternates: {
+    canonical: 'https://paircode.live/terms-and-services'
+  }
+}
+
 export default function TermsAndServices() {
   return (
     <div className="min-h-screen bg-[#F4F4F4] dark:bg-background text-foreground">
-      <div className="border-b border-border">
+      <header className="border-b border-border">
         <div className="container mx-auto max-w-4xl px-4 py-6">
           <Link href="/">
             <Button variant="ghost" className="mb-4">
@@ -17,10 +56,10 @@ export default function TermsAndServices() {
           <h1 className="text-4xl font-bold text-[#BD9267]">Terms of Service</h1>
           <p className="text-muted-foreground mt-2">Last updated: December 2025</p>
         </div>
-      </div>
+      </header>
 
-      <div className="container mx-auto max-w-4xl px-4 py-12">
-        <div className="space-y-8">
+      <main className="container mx-auto max-w-4xl px-4 py-12">
+        <article className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle className="text-[#BD9267]">1. Agreement to Terms</CardTitle>
@@ -131,14 +170,14 @@ export default function TermsAndServices() {
               </p>
             </CardContent>
           </Card>
-        </div>
+        </article>
 
         <div className="mt-12 flex justify-center">
           <Link href="/">
             <Button className="bg-[#BD9267] hover:bg-[#a0815a] text-white">Return to Home</Button>
           </Link>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

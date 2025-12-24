@@ -8,7 +8,7 @@ export default function NavBar() {
 	] as const;
 
 	return (
-		<div>
+		<header>
 			<AnnouncementBanner />
 			<div className="flex flex-row items-center justify-between px-2 py-1">
 				<nav className="flex gap-4 text-lg">
@@ -23,6 +23,6 @@ export default function NavBar() {
 				<UserMenuWrapper />
 			</div>
 			{/* <hr /> */}
-		</div>
+		</header>
 	);
 }

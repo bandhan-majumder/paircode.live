@@ -1,21 +1,59 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { GoogleSignInButton } from "@/components/google-sign-in"
 import { auth } from "@paircode/auth"
 import { headers } from "next/headers";
 
+export const metadata: Metadata = {
+  title: 'Sign In - PairCode',
+  description: 'Sign in to PairCode with Google authentication. Start collaborating on code with real-time video calls and direct VSCode import support.',
+  keywords: ['sign in', 'login', 'authentication', 'Google OAuth', 'user login', 'PairCode login'],
+  openGraph: {
+    title: 'Sign In - PairCode',
+    description: 'Sign in to PairCode with Google authentication. Start collaborating on code with real-time video calls and direct VSCode import support.',
+    siteName: 'PairCode',
+    images: [{
+      url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg',
+      width: '1200',
+      height: '630'
+    }],
+    locale: 'en_US',
+    type: "website"
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sign In - PairCode',
+    description: 'Sign in to PairCode with Google authentication. Start collaborating on code with real-time video calls and direct VSCode import support.',
+    creator: '@paircode',
+    images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii.svg'
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large"
+    }
+  }
+}
+
 export default async function LoginPage() {
   const session = await auth.api.getSession({
-          headers: await headers()
-      })
-  
+    headers: await headers()
+  })
+
   if (session) {
     redirect("/")
   }
 
   return (
     <div className="h-screen overflow-hidden bg-background">
-      <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
+      <main className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="rounded-2xl border border-border bg-card/50 dark:bg-card/80 backdrop-blur-sm p-8 shadow-2xl">
             <div className="space-y-6">
@@ -33,8 +71,8 @@ export default async function LoginPage() {
 
               <p className="text-xs text-center text-muted-foreground leading-relaxed">
                 By continuing, you agree to our{" "}
-                <Link 
-                  href="/terms-and-services" 
+                <Link
+                  href="/terms-and-services"
                   className="underline underline-offset-2"
                 >
                   Terms of Service
@@ -47,7 +85,7 @@ export default async function LoginPage() {
             Have feedback? <Link href="/feedback" className="font-bold underline">Let us know</Link>
           </p>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

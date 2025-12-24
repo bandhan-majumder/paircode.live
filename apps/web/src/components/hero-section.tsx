@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <div>
+    <section>
       <div className="hidden md:block mb-8 flex items-center justify-center">
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-6">
           <pre className="ascii-art text-[#BD9267] text-[10px] xs:text-xs sm:text-sm">
@@ -32,8 +32,8 @@ export default function HeroSection() {
       </div>
 
       <div className="text-center">
-        <p className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Do pair programming, on a video call.</p>
+        <h1 className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Do pair programming, on a video call.</h1>
       </div>
-    </div>
+    </section>
   );
 }
