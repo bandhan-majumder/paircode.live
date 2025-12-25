@@ -373,6 +373,9 @@ export function PairRoomContent({
                                 style={{ 
                                     borderRadius: '12px',
                                     maxHeight: '220px',
+                                    objectFit: 'cover', 
+                                    width: '100%',
+                                    aspectRatio: '4:3', 
                                 }}
                                 ref={remoteVideoRef}
                                 autoPlay
@@ -388,6 +391,9 @@ export function PairRoomContent({
                             style={{
                                 borderRadius: '12px',
                                 maxHeight: '220px',
+                                objectFit: 'cover', 
+                                width: '100%',
+                                aspectRatio: '4:3', 
                             }}
                             ref={localVideoRef}
                             autoPlay
@@ -395,7 +401,7 @@ export function PairRoomContent({
                             playsInline
                             className="w-full rounded md:max-h-none"
                         />
-                        
+
                         <div className="flex flex-row gap-2 md:gap-3 justify-center items-center mt-2 md:mt-3">
                             <Button
                                 onClick={toggleMicrophone}
