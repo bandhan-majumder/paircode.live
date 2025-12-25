@@ -129,10 +129,31 @@ export default function ExtensionPage() {
                     </div>
                 </section>
 
-                <section className="px-2 sm:px-4 mt-8 sm:mt-10 md:mt-12">
-                    <div className="container mx-auto max-w-6xl">
+                <section className="my-30 -mx-4 sm:mx-0">
+                    <div className="w-full flex justify-center items-center flex-col">
                         <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
-                            <Image src="/demo-ext.gif" width={1200} height={675} alt="PairCode VSCode Extension Demo" className="w-full" />
+                            <video
+								className="w-full md:max-w-[70vw] h-auto"
+								autoPlay
+								loop
+								muted
+								playsInline
+								preload="metadata"
+							>
+								<source
+									src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-ext.webm"
+									type="video/webm"
+								/>
+								<source
+									src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.webm"
+									type="video/webm"
+								/>
+								<source
+									src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.mp4"
+									type="video/mp4"
+								/>
+								Your browser doesn't support video playback.
+							</video>
                         </div>
                     </div>
                 </section>

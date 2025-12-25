@@ -145,13 +145,28 @@ export default function Home() {
 				<section className="my-30 -mx-4 sm:mx-0">
 					<div className="w-full flex justify-center items-center flex-col">
 						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
-							<Image
-								src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.gif"
-								width={1800}
-								height={675}
-								alt="PairCode VSCode Extension Demo"
+							<video
 								className="w-full md:max-w-[70vw] h-auto"
-							/>
+								autoPlay
+								loop
+								muted
+								playsInline
+								preload="metadata"
+							>
+								<source
+									src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-web.webm"
+									type="video/webm"
+								/>
+								<source
+									src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.webm"
+									type="video/webm"
+								/>
+								<source
+									src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.mp4"
+									type="video/mp4"
+								/>
+								Your browser doesn't support video playback.
+							</video>
 						</div>
 					</div>
 				</section>
