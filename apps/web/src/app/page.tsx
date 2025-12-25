@@ -146,7 +146,7 @@ export default function Home() {
 					<div className="w-full flex justify-center items-center flex-col">
 						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
 							<Image
-								src="/demo-web.gif"
+								src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.gif"
 								width={1800}
 								height={675}
 								alt="PairCode VSCode Extension Demo"
