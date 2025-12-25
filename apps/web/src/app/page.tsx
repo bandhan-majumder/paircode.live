@@ -150,7 +150,7 @@ export default function Home() {
 								width={1800}
 								height={675}
 								alt="PairCode VSCode Extension Demo"
-								className="w-full h-auto"
+								className="w-full md:max-w-[70vw] h-auto"
 							/>
 						</div>
 					</div>
