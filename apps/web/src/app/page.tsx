@@ -142,7 +142,7 @@ export default function Home() {
 				<HeroSection />
 				<ActionButtons showGithub />
 
-				<section className="my-30 -mx-4 sm:mx-0">
+				<section className="my-20 md:my-30 -mx-4 sm:mx-0">
 					<div className="w-full flex justify-center items-center flex-col">
 						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
 							<video
@@ -152,6 +152,7 @@ export default function Home() {
 								muted
 								playsInline
 								preload="metadata"
+								poster="./demo-web.jpg"
 							>
 								<source
 									src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-web.webm"

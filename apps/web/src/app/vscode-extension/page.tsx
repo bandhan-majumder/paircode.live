@@ -88,8 +88,7 @@ export default function ExtensionPage() {
                 }}
             />
 
-            <main>
-
+            <main className="container mx-auto w-[95vw] md:max-w-[85vw] px-4 pb-6">
                 <section className="relative overflow-hidden px-4 sm:px-6 md:px-8 py-20 sm:py-24 md:py-32 lg:py-40">
                     <div className="container mx-auto max-w-5xl relative z-10">
                         <div className="flex flex-col items-center text-center">
@@ -129,7 +128,7 @@ export default function ExtensionPage() {
                     </div>
                 </section>
 
-                <section className="my-30 -mx-4 sm:mx-0">
+                <section className="mb-10 md:my-20 md:mb-0 -mx-4 sm:mx-0">
                     <div className="w-full flex justify-center items-center flex-col">
                         <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
                             <video
@@ -139,6 +138,7 @@ export default function ExtensionPage() {
 								muted
 								playsInline
 								preload="metadata"
+                                poster="./demo-ext.jpg"
 							>
 								<source
 									src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-ext.webm"
