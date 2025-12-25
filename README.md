@@ -7,6 +7,27 @@
 - VSCode Extension to import code directly
   [See more](https://paircode.live/vscode-extension)
 
+## Previews
+
+### Website
+
+<video autoplay loop muted playsinline preload="metadata" poster="./demo-web.jpg">
+<source src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-web.webm" type="video/webm" />
+<source src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.webm" type="video/webm" />
+<source src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.mp4" type="video/mp4" />
+Your browser doesn't support video playback.
+</video>
+
+
+### VSCode extension
+
+<video autoplay loop muted playsinline preload="metadata" poster="./demo-web.jpg">
+<source src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-ext.webm" type="video/webm" />
+<source src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.webm" type="video/webm" />
+<source src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.mp4" type="video/mp4" />
+Your browser doesn't support video playback.
+</video>
+
 ## Setup & Contribution
 
 Please check [contributing.md](https://github.com/bandhan-majumder/paircode.live/blob/main/CONTRIBUTING.md) for more details
