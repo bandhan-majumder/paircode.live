@@ -233,7 +233,7 @@ export default function ExtensionPage() {
                                 </div>
                                 <h3 className="mb-2 text-xl font-semibold">Right Click File</h3>
                                 <p className="text-muted-foreground">
-                                    Select any file in your project, right-click, and choose "Open with PairCode"
+                                    Open any file in your project, right-click, and choose "Open with PairCode" on top
                                 </p>
                             </div>
 

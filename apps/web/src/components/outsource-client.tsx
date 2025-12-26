@@ -1,7 +1,6 @@
 'use client';
 
 import CodeShare from '@/components/code-share';
-import { DropdownMenuLanguageCheckboxes } from '@/components/lang-dropdown';
 import { languageExtensions } from '@/lib/languageExtensions';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -10,6 +9,7 @@ import { defaultCodeSnippets } from '@/lib/defaultCodeSnippets';
 import { CreateRoomDialog } from '@/components/create-room-dialog';
 import { Hand, Info } from 'lucide-react';
 import Link from 'next/link';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface OutsourceClientProps {
     session: any;
@@ -90,14 +90,6 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
         setCode(newCode);
     };
 
-    const handleLanguageChange = (language: string) => {
-        setSelectedLanguage(language);
-        if (!code || code === defaultCodeSnippets[selectedLanguage]) {
-            const newCode = defaultCodeSnippets[language] || "";
-            setCode(newCode);
-        }
-    };
-
     const currentExtensions =
         selectedLanguage && languageExtensions[selectedLanguage]
             ? languageExtensions[selectedLanguage]
@@ -123,19 +115,21 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
                             code={code || ''}
                             onChange={handleCodeChange}
                             extensions={currentExtensions}
+                            isOutSourcedScreen={true}
                         />
                     </div>
                     <div className='w-[20vw] p-10'>
-                        <div className='flex flex-col justify-center items-center mb-10'>
-                            <p className='text-xl mb-5'>Select your language</p>
-                            <DropdownMenuLanguageCheckboxes
-                                selectedLanguage={selectedLanguage || ''}
-                                onLanguageChange={handleLanguageChange}
-                            />
-                        </div>
-                        <div className='bg-red-50 dark:bg-gray-600 flex flex-col justify-center items-center border border-black p-10 mt-10'>
-                            <Info />
-                            <p className='text-center my-5'>Videos only appear when you share a session. Please click on the button below to share and debug in real time!</p>
+                        <div className='bg-orange-100 dark:bg-gray-700 border-2 border-gray-800 dark:border-amber-50 flex flex-col justify-center items-center p-10 mt-10 rounded-4xl'>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Info />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Note</p>
+                                </TooltipContent>
+                            </Tooltip>
+
+                            <p className='text-center my-5 font-semibold'>Other features will only appear when you share a session. Please click on the button below to share and debug in real time!</p>
                             {session && <CreateRoomDialog session={session} isOutSourced={true} outSourcedCode={code} outSourcedLanguage={selectedLanguage} />}
                         </div>
                     </div>

@@ -10,6 +10,7 @@ interface CodeShareProps {
   code: string;
   onChange: (value: string) => void;
   extensions: any[];
+  isOutSourcedScreen?: boolean
 }
 
 const myDarkTheme = createTheme({
@@ -81,7 +82,7 @@ const myLightTheme = createTheme({
 });
 
 
-export default function CodeShare({ code, onChange, extensions }: CodeShareProps) {
+export default function CodeShare({ code, onChange, extensions, isOutSourcedScreen = false }: CodeShareProps) {
   const onChangeArg = React.useCallback((code: any, viewUpdate: any) => {
     onChange(code);
   }, []);
@@ -92,8 +93,8 @@ export default function CodeShare({ code, onChange, extensions }: CodeShareProps
     <CodeMirror
       style={{ padding: '0px', margin: '0px', borderRadius: "4px" }}
       value={code}
-      height="calc(100vh - 60px)"
-      className="md:h-screen!"
+      height={isOutSourcedScreen ? "100vh" : "calc(100vh - 60px)"}
+      className="md:h-full"
       theme={theme === "dark" ? myDarkTheme : myLightTheme}
       extensions={extensions}
       onChange={onChangeArg}
