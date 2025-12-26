@@ -140,17 +140,28 @@ export default function Home() {
 			/>
 			<NavBar />
 			<main className="container mx-auto w-[95vw] md:max-w-[85vw] px-4 pb-6">
-				<HeroSection />
-				{/* <div className="md:hidden">
+				<div className="hidden md:block">
+					<HeroSection />
+				</div>
+				<div className="md:hidden">
 					<HeroSectionMobile />
-				</div> */}
+				</div>
+				<div className="text-center">
+					<h1 className='text-center text-xl sm:text-2xl md:text-3xl font-bold text-balance'>Do pair programming, on a video call.</h1>
+				</div>
+
 				<ActionButtons showGithub />
 
 				<section className="my-20 md:my-30 -mx-4 sm:mx-0">
 					<div className="w-full flex justify-center items-center flex-col">
-						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
+						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-[#DFDFDF] shadow-2xl p-2 dark:border-[#2E2E2E]">
+							<div className="flex gap-3 ml-3 my-2">
+								<div className="w-3 h-3 rounded-full bg-[#DFDFDF] dark:bg-[#2E2E2E]" />
+								<div className="w-3 h-3 rounded-full bg-[#DFDFDF] dark:bg-[#2E2E2E]" />
+								<div className="w-3 h-3 rounded-full bg-[#DFDFDF] dark:bg-[#2E2E2E]" />
+							</div>
 							<video
-								className="w-full md:max-w-[70vw] h-auto"
+								className="mt-2 w-full md:max-w-[70vw] h-auto rounded-xl border border-[#DFDFDF] dark:border-[#2E2E2E]"
 								autoPlay
 								loop
 								muted

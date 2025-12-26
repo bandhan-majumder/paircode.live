@@ -160,12 +160,16 @@ body {
 
 .ascii-art {
   font-family: 'Roboto Mono', 'Courier New', monospace;
-  font-size: clamp(8px, 2vw, 12px);
-  line-height: 0.9;
+  line-height: 1.1;
+  letter-spacing: 0;
+  word-spacing: 0;
   white-space: pre;
+
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  font-feature-settings: "liga" 0;
-  image-rendering: pixelated;
+
+  overflow-x: auto;
 }
 
 .ascii-art::-webkit-scrollbar {

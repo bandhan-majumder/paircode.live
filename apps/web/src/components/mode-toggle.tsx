@@ -27,28 +27,22 @@ export function ModeToggle() {
 					className="pl-8 text-[#ADADAD] text-sm"
 					onClick={() => setTheme("light")}
 				>
+					<div className={`w-2 h-2 rounded-full ${theme === 'light' ? 'bg-green-500' : 'bg-transparent'}`} />
 					Light
-					{theme === 'light' && (
-						<div className="w-2 h-2 rounded-full bg-green-500" />
-					)}
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					className="pl-8 text-[#ADADAD] text-sm"
 					onClick={() => setTheme("dark")}
 				>
+					<div className={`w-2 h-2 rounded-full ${theme === 'dark' ? 'bg-green-500' : 'bg-transparent'}`} />
 					Dark
-					{theme === 'dark' && (
-						<div className="w-2 h-2 rounded-full bg-green-500" />
-					)}
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					className="pl-8 text-[#ADADAD] text-sm"
 					onClick={() => setTheme("system")}
 				>
+					<div className={`w-2 h-2 rounded-full ${theme === 'system' ? 'bg-green-500' : 'bg-transparent'}`} />
 					System
-					{theme === 'system' && (
-						<div className="w-2 h-2 rounded-full bg-green-500" />
-					)}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

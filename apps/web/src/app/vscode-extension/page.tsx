@@ -130,30 +130,35 @@ export default function ExtensionPage() {
 
                 <section className="mb-10 md:my-20 md:mb-0 -mx-4 sm:mx-0">
                     <div className="w-full flex justify-center items-center flex-col">
-                        <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-border shadow-2xl">
+                        <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-[#DFDFDF] shadow-2xl p-3 dark:border-[#2E2E2E]">
+                            <div className="flex gap-3 ml-3 my-2">
+                                <div className="w-3 h-3 rounded-full bg-[#DFDFDF] dark:bg-[#2E2E2E]" />
+                                <div className="w-3 h-3 rounded-full bg-[#DFDFDF] dark:bg-[#2E2E2E]" />
+                                <div className="w-3 h-3 rounded-full bg-[#DFDFDF] dark:bg-[#2E2E2E]" />
+                            </div>
                             <video
-								className="w-full md:max-w-[70vw] h-auto"
-								autoPlay
-								loop
-								muted
-								playsInline
-								preload="metadata"
+                                className="mt-2 w-full md:max-w-[70vw] h-auto rounded-xl border border-[#DFDFDF] dark:border-[#2E2E2E]"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
                                 poster="./demo-ext.jpg"
-							>
-								<source
-									src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-ext.webm"
-									type="video/webm"
-								/>
-								<source
-									src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.webm"
-									type="video/webm"
-								/>
-								<source
-									src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.mp4"
-									type="video/mp4"
-								/>
-								Your browser doesn't support video playback.
-							</video>
+                            >
+                                <source
+                                    src="https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/demo-ext.webm"
+                                    type="video/webm"
+                                />
+                                <source
+                                    src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.webm"
+                                    type="video/webm"
+                                />
+                                <source
+                                    src="https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.mp4"
+                                    type="video/mp4"
+                                />
+                                Your browser doesn't support video playback.
+                            </video>
                         </div>
                     </div>
                 </section>
@@ -295,13 +300,18 @@ export default function ExtensionPage() {
                                     <p className="mb-6 text-base sm:text-lg md:text-xl text-muted-foreground">
                                         Join developers who are already using PairCode to collaborate more effectively
                                     </p>
-                                    <StyledButton text="" className="bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto" url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode">
-                                        <div className="flex items-center justify-center text-nowrap">
-                                            <Download className="mr-2 h-5 w-5" />
-                                            <span>Download Now</span>
-                                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                        </div>
-                                    </StyledButton>
+                                    <div className="flex justify-center items-center">
+                                        <StyledButton
+                                            className='bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto text-nowrap'
+                                            text=""
+                                            url="https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode"
+                                        >
+                                            <div className="flex justify-center items-center gap-2 text-nowrap">
+                                                <Download className="h-5 w-5" />
+                                                <span>Download Now</span>
+                                            </div>
+                                        </StyledButton>
+                                    </div>
                                 </Card>
                             </div>
                         </div>

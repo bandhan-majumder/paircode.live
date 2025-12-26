@@ -26,8 +26,8 @@ const variantClasses: Record<ButtonVariant, string> = {
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
-  small: "h-12 px-3 text-base lg:h-12 lg:px-6 lg:text-base",
-  default: "h-14 px-8 text-xl lg:h-16 lg:px-10 lg:text-xl",
+  small: "h-10 px-4 text-sm sm:h-11 sm:px-5 sm:text-base lg:h-12 lg:px-6",
+  default: "h-12 px-6 text-base sm:h-13 sm:px-7 sm:text-lg lg:h-16 lg:px-10 lg:text-xl",
 }
 
 export function StyledButton({
@@ -41,16 +41,16 @@ export function StyledButton({
   children
 }: StyledButtonProps) {
   const buttonClasses = cn(
-    "relative inline-flex rounded-sm no-underline items-center justify-center border border-black transition-all duration-150 group-hover:-translate-x-2 group-hover:-translate-y-2 z-[3] w-full lg:w-auto font-semibold",
+    "relative inline-flex rounded-sm no-underline items-center justify-center border border-black transition-all duration-150 group-hover:-translate-x-1 group-hover:-translate-y-1 sm:group-hover:-translate-x-1.5 sm:group-hover:-translate-y-1.5 lg:group-hover:-translate-x-2 lg:group-hover:-translate-y-2 z-[3] w-full lg:w-auto font-semibold",
     sizeClasses[size],
     variantClasses[variant],
     className,
   )
 
   const content = (
-    <div className="relative inline-block group">
+    <div className="relative inline-block group w-full lg:w-auto">
       <div className="absolute inset-0 rounded-sm bg-yellow-400 border border-black transition-transform duration-150 z-[2]"></div>
-      <div className="absolute inset-0 rounded-sm bg-red-500 border border-black transition-transform duration-150 group-hover:translate-x-2 group-hover:translate-y-2 z-[1]"></div>
+      <div className="absolute inset-0 rounded-sm bg-red-500 border border-black transition-transform duration-150 group-hover:translate-x-1 group-hover:translate-y-1 sm:group-hover:translate-x-1.5 sm:group-hover:translate-y-1.5 lg:group-hover:translate-x-2 lg:group-hover:translate-y-2 z-[1]"></div>
       {type === "submit" || type === "button" ? (
         <button type={type} className={buttonClasses} onClick={onClick}>
           {children}

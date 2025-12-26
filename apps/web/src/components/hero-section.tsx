@@ -24,10 +24,6 @@ export default function HeroSection() {
           </pre>
         </div>
       </div>
-
-      <div className="text-center">
-        <h1 className='text-center text-2xl sm:text-3xl md:text-4xl font-bold text-balance'>Do pair programming, on a video call.</h1>
-      </div>
     </section>
   );
 }
