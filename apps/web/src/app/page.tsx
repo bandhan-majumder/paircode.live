@@ -140,12 +140,10 @@ export default function Home() {
 			/>
 			<NavBar />
 			<main className="container mx-auto w-[95vw] md:max-w-[85vw] px-4 pb-6">
-				<div className="hidden md:block">
-					<HeroSection />
-				</div>
-				<div className="md:hidden">
+				<HeroSection />
+				{/* <div className="md:hidden">
 					<HeroSectionMobile />
-				</div>
+				</div> */}
 				<ActionButtons showGithub />
 
 				<section className="my-20 md:my-30 -mx-4 sm:mx-0">

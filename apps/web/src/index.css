@@ -159,17 +159,13 @@ body {
 }
 
 .ascii-art {
-  font-family: "Courier New", Courier, monospace;
-  line-height: 1.1;
-  letter-spacing: 0;
-  word-spacing: 0;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-size: clamp(8px, 2vw, 12px);
+  line-height: 0.9;
   white-space: pre;
-
-  -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
-
-  overflow-x: auto;
+  font-feature-settings: "liga" 0;
+  image-rendering: pixelated;
 }
 
 .ascii-art::-webkit-scrollbar {
