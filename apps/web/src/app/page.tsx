@@ -3,20 +3,19 @@ import ActionButtons from "@/components/action-buttons";
 import Footer from "@/components/footer";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
 import NavBar from "@/components/navbar";
-import Image from "next/image";
 import HeroSection from "@/components/hero-section";
 import HeroSectionMobile from "@/components/hero-section-mobile";
 
 export const metadata: Metadata = {
 	title: 'PairCode - Real-Time Code Collaboration with Video',
 	description: 'Collaborate on code in real-time with video calling. Import code directly from VSCode, pair program with teammates, and fix issues together instantly.',
-	keywords: ['pair programming', 'code collaboration', 'real-time coding', 'video call', 'VSCode extension', 'collaborative coding', 'remote pair programming', 'code review', 'live coding', 'developer tools'],
+	keywords: ['pair programming', 'live programming', 'live pair programming', 'code collaboration', 'real-time coding', 'video call coding', 'PairCode VSCode extension', 'collaborative coding', 'remote pair programming', 'code review', 'live coding', 'developer tools'],
 	openGraph: {
 		title: 'PairCode - Real-Time Code Collaboration with Video',
 		description: 'Collaborate on code in real-time with video calling. Import code directly from VSCode, pair program with teammates, and fix issues together instantly.',
 		siteName: 'PairCode',
 		images: [{
-			url: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg',
+			url: 'https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/pair.png',
 			width: '1200',
 			height: '630'
 		}],
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
 		title: 'PairCode - Real-Time Code Collaboration with Video',
 		description: 'Collaborate on code in real-time with video calling. Import code directly from VSCode, pair program with teammates, and fix issues together instantly.',
 		creator: '@paircode',
-		images: 'https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg'
+		images: 'https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/pair.png'
 	},
 	robots: {
 		index: true,
@@ -60,7 +59,7 @@ export default function Home() {
 				"url": "https://paircode.live",
 				"logo": {
 					"@type": "ImageObject",
-					"url": "https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/paircode-ascii-dark.svg"
+					"url": "https://qaqtvoxob8zyd7wl.public.blob.vercel-storage.com/pair.png"
 				},
 				"description": "Real-time code collaboration platform with video calling and VSCode integration",
 				"sameAs": [
@@ -75,7 +74,7 @@ export default function Home() {
 				"name": "PairCode",
 				"description": "Collaborate on code in real-time with video calling. Import code directly from VSCode, pair program with teammates, and fix issues together instantly.",
 				"publisher": {
-					"@id": "https://paircode.live/#organization"
+					"@id": "https://paircode.live"
 				},
 				"inLanguage": "en-US"
 			},
@@ -113,7 +112,7 @@ export default function Home() {
 				"description": "Import code from VSCode to PairCode with a single click. Secure, fast, and private.",
 				"url": "https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode",
 				"downloadUrl": "https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode",
-				"softwareVersion": "1.0",
+				"softwareVersion": "0.1.0",
 				"featureList": [
 					"One-click code import",
 					"Permission-based transfers",
