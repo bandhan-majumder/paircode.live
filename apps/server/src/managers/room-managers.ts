@@ -3,10 +3,10 @@ import type { Server, Socket } from "socket.io";
 export class RoomManager {
     constructor(private io: Server) { }
 
-    async joinRoom(roomId: string, socket: Socket) {
+    async joinRoom(roomId: string, socket: Socket): Promise<boolean> {
         if (!roomId || !socket) {
             socket.emit("error", { message: "Inefficient info provided" });
-            return;
+            return false;
         }
 
         const room = this.io.sockets.adapter.rooms.get(roomId);
@@ -15,11 +15,19 @@ export class RoomManager {
         // '>' is for safety, should not exceed 2
         if (roomSize >= 2) {
             socket.emit("error", { message: "Room is full" });
-            return;
+            return false;
         };
 
         try {
             await socket.join(roomId);
+
+            const updatedRoom = this.io.sockets.adapter.rooms.get(roomId);
+            if (updatedRoom && updatedRoom.size > 2) {
+                await socket.leave(roomId);
+                socket.emit("error", { message: "Room is full" });
+                return false;
+            }
+
             socket.emit('lobby');
             socket.to(roomId).emit("user-joined", {
                 socketId: socket.id,
@@ -29,9 +37,11 @@ export class RoomManager {
             if (roomSize === 1) {
                 this.io.in(roomId).emit("send-offer", { roomId });
             }
+            return true;
         } catch (err) {
             socket.emit("error", { message: "Failed to join room" });
             console.error("Join room error:", err);
+            return false;
         }
     }
 

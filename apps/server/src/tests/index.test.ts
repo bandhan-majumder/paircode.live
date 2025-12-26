@@ -289,6 +289,49 @@ describe("Test suite for Socket.IO backend", () => {
       }
     });
 
+    it("should strictly enforce limit during concurrent joins", async () => {
+      const roomId = "concurrent-race-room";
+      const token1 = generateToken("race1@example.com", roomId);
+      const token2 = generateToken("race2@example.com", roomId);
+      const token3 = generateToken("race3@example.com", roomId);
+
+      const clients = await Promise.all([
+        createSocketClient(token1),
+        createSocketClient(token2),
+        createSocketClient(token3)
+      ]);
+
+      try {
+        const results: string[] = [];
+
+        // Setup listeners
+        clients.forEach((c, i) => {
+          c.on("lobby", () => results.push(`success-${i}`));
+          c.on("error", (err) => {
+            if (err.message === "Room is full") results.push(`fail-${i}`);
+          });
+        });
+
+        // Trigger concurrent joins
+        await Promise.all(clients.map(c => {
+          c.emit("join-room", roomId);
+          return Promise.resolve();
+        }));
+
+        // Wait for processing
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Count successes and failures
+        const successes = results.filter(r => r.startsWith("success")).length;
+        const failures = results.filter(r => r.startsWith("fail")).length;
+
+        expect(successes).toBe(2);
+        expect(failures).toBe(1);
+      } finally {
+        await Promise.all(clients.map(c => cleanupClient(c)));
+      }
+    });
+
     it("should allow third user to join after someone leaves", async () => {
       const token1 = generateToken("user1@example.com", "capacity-room-2");
       const token2 = generateToken("user2@example.com", "capacity-room-2");

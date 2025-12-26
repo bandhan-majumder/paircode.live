@@ -15,6 +15,7 @@ interface UseSocketIOProps {
   onIceCandidate?: (data: { candidate: RTCIceCandidate; type: "sender" | "receiver" }) => void;
   onLobby?: () => void;
   onSendOffer?: (data: { roomId: string }) => void;
+  onError?: (error: { message: string }) => void;
 }
 
 export function useSocketIO({
@@ -27,7 +28,8 @@ export function useSocketIO({
   onAnswer,
   onIceCandidate,
   onLobby,
-  onSendOffer
+  onSendOffer,
+  onError
 }: UseSocketIOProps) {
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -128,6 +130,9 @@ export function useSocketIO({
 
       socket.on("error", (error: { message: string }) => {
         console.error("Socket.IO error:", error);
+        if (onError) {
+          onError(error);
+        }
       });
 
       socket.on("disconnect", (reason: any) => {

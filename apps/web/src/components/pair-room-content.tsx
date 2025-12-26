@@ -309,6 +309,13 @@ export function PairRoomContent({
         }
     };
 
+    const handleError = (error: { message: string }) => {
+        if (error.message === "Room is full") {
+            toast.error("Room is already full, please contact the person sent you the link");
+            router.push('/');
+        }
+    }
+
     const { sendMessage, emitOffer, emitAnswer, emitIceCandidate, leaveRoom, isConnected } = useSocketIO({
         token,
         roomId: id,
@@ -322,6 +329,7 @@ export function PairRoomContent({
         onAnswer: handleAnswer,
         onIceCandidate: handleIceCandidate,
         onLobby: handleLobby,
+        onError: handleError
     });
 
     const currentExtensions =

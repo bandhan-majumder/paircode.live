@@ -9,8 +9,10 @@ export class UserManager {
     }
 
     async addUser(roomId: string, socket: Socket) {
-        await this.roomManager.joinRoom(roomId, socket);
-        this.initHandlers(socket);
+        const joined = await this.roomManager.joinRoom(roomId, socket);
+        if (joined) {
+            this.initHandlers(socket);
+        }
     }
 
     async removeUser(roomId: string, socket: Socket) {
