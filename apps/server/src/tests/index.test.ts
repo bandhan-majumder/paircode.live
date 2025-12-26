@@ -237,11 +237,164 @@ describe("Test suite for Socket.IO backend", () => {
     });
   });
 
+  describe("Room capacity", () => {
+    it("should reject third user from joining a full room", async () => {
+      const token1 = generateToken("user1@example.com", "capacity-room");
+      const token2 = generateToken("user2@example.com", "capacity-room");
+      const token3 = generateToken("user3@example.com", "capacity-room");
+
+      client1 = await createSocketClient(token1);
+      client2 = await createSocketClient(token2);
+      const client3 = await createSocketClient(token3);
+
+      try {
+        const roomId = "capacity-room";
+
+        // First two users join successfully
+        const lobby1Promise = waitForMessage(client1, "lobby");
+        client1.emit("join-room", roomId);
+        await lobby1Promise;
+
+        const lobby2Promise = waitForMessage(client2, "lobby");
+        client2.emit("join-room", roomId);
+        await lobby2Promise;
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        // Third user should receive an error
+        const errorPromise = waitForMessage(client3, "error", 2000);
+
+        client3.emit("join-room", roomId);
+
+        const error = await errorPromise;
+        expect(error).toBeDefined();
+        expect(error.message).toBe("Room is full");
+
+        // Verify third user cannot send messages to the room
+        let messageReceived = false;
+        client1.on("receive-message", () => {
+          messageReceived = true;
+        });
+        client2.on("receive-message", () => {
+          messageReceived = true;
+        });
+
+        client3.emit("send-message", { roomId, content: "Should not work" });
+
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        expect(messageReceived).toBe(false);
+      } finally {
+        await cleanupClient(client3);
+      }
+    });
+
+    it("should allow third user to join after someone leaves", async () => {
+      const token1 = generateToken("user1@example.com", "capacity-room-2");
+      const token2 = generateToken("user2@example.com", "capacity-room-2");
+      const token3 = generateToken("user3@example.com", "capacity-room-2");
+
+      client1 = await createSocketClient(token1);
+      client2 = await createSocketClient(token2);
+      const client3 = await createSocketClient(token3);
+
+      try {
+        const roomId = "capacity-room-2";
+
+        // First two users join
+        const lobby1Promise = waitForMessage(client1, "lobby");
+        client1.emit("join-room", roomId);
+        await lobby1Promise;
+
+        const lobby2Promise = waitForMessage(client2, "lobby");
+        client2.emit("join-room", roomId);
+        await lobby2Promise;
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        // Second user leaves
+        client2.emit("leave-room", roomId);
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        // Third user should now be able to join
+        const lobby3Promise = waitForMessage(client3, "lobby", 2000);
+
+        client3.emit("join-room", roomId);
+
+        await lobby3Promise;
+
+        // Verify third user can communicate
+        const messagePromise = waitForMessage(client1, "receive-message");
+
+        client3.emit("send-message", { roomId, content: "Hello from user 3" });
+
+        const received = await messagePromise;
+        expect(received.content).toBe("Hello from user 3");
+      } finally {
+        await cleanupClient(client3);
+      }
+    });
+
+    it("should emit send-offer when second user joins", async () => {
+      const token1 = generateToken("user1@example.com", "offer-room");
+      const token2 = generateToken("user2@example.com", "offer-room");
+
+      client1 = await createSocketClient(token1);
+      client2 = await createSocketClient(token2);
+
+      try {
+        const roomId = "offer-room";
+
+        // First user joins
+        client1.emit("join-room", roomId);
+        await waitForMessage(client1, "lobby");
+
+        // Both clients should receive send-offer when second user joins
+        const offer1Promise = waitForMessage(client1, "send-offer");
+        const offer2Promise = waitForMessage(client2, "send-offer");
+
+        client2.emit("join-room", roomId);
+        await waitForMessage(client2, "lobby");
+
+        const [offer1, offer2] = await Promise.all([offer1Promise, offer2Promise]);
+
+        expect(offer1.roomId).toBe(roomId);
+        expect(offer2.roomId).toBe(roomId);
+      } finally {
+        // Cleanup handled by afterEach
+      }
+    });
+
+    it("should not emit send-offer when first user joins alone", async () => {
+      const token1 = generateToken("user1@example.com", "no-offer-room");
+
+      client1 = await createSocketClient(token1);
+
+      try {
+        const roomId = "no-offer-room";
+
+        let offerReceived = false;
+        client1.on("send-offer", () => {
+          offerReceived = true;
+        });
+
+        client1.emit("join-room", roomId);
+        await waitForMessage(client1, "lobby");
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        expect(offerReceived).toBe(false);
+      } finally {
+        // Cleanup handled by afterEach
+      }
+    });
+  });
+
   describe("Connection management", () => {
     it("should establish Socket.IO connections successfully", async () => {
       const token1 = generateToken("user1@example.com", "test-room");
       const token2 = generateToken("user2@example.com", "test-room");
-      
+
       client1 = await createSocketClient(token1);
       client2 = await createSocketClient(token2);
 
@@ -266,7 +419,7 @@ describe("Test suite for Socket.IO backend", () => {
     beforeEach(async () => {
       const token1 = generateToken("user1@example.com", "test-room");
       const token2 = generateToken("user2@example.com", "test-room");
-      
+
       client1 = await createSocketClient(token1);
       client2 = await createSocketClient(token2);
     });
@@ -279,7 +432,6 @@ describe("Test suite for Socket.IO backend", () => {
       
       client1.emit("join-room", roomId);
       client2.emit("join-room", roomId);
-      
       await new Promise(resolve => setTimeout(resolve, 200));
 
       const messagePromise = waitForMessage(client2, "receive-message");
@@ -355,30 +507,25 @@ describe("Test suite for Socket.IO backend", () => {
       try {
         client1.emit("join-room", roomId);
         client2.emit("join-room", roomId);
-        client3.emit("join-room", roomId);
 
+        // Wait for joins
         await new Promise(resolve => setTimeout(resolve, 200));
 
+        // Client 2 leaves, opening a spot
         client2.emit("leave-room", roomId);
         await new Promise(resolve => setTimeout(resolve, 200));
 
-        let messageCountForClient3 = 0;
-        let messageCountForClient2 = 0;
-        
-        client3.on("receive-message", () => {
-          messageCountForClient3++;
-        });
+        // Client 3 should now be able to join
+        const lobby3Promise = waitForMessage(client3, "lobby", 2000);
+        client3.emit("join-room", roomId);
+        await lobby3Promise;
 
-        client2.on("receive-message", () => {
-          messageCountForClient2++;
-        });
-
+        // Verify communication 1 -> 3
+        const messagePromise = waitForMessage(client3, "receive-message");
         client1.emit("send-message", { roomId, content: "test" });
+        const msg = await messagePromise;
 
-        await new Promise(resolve => setTimeout(resolve, 300));
-
-        expect(messageCountForClient3).toBe(1);
-        expect(messageCountForClient2).toBe(0);
+        expect(msg.content).toBe("test");
       } finally {
         await cleanupClient(client3);
       }
@@ -411,7 +558,6 @@ describe("Test suite for Socket.IO backend", () => {
       try {
         client1.emit("join-room", roomId);
         client2.emit("join-room", roomId);
-        client3.emit("join-room", roomId);
 
         await new Promise(resolve => setTimeout(resolve, 200));
 
@@ -420,15 +566,17 @@ describe("Test suite for Socket.IO backend", () => {
         
         await new Promise(resolve => setTimeout(resolve, 200));
 
-        let messageCount = 0;
-        client3.on("receive-message", () => {
-          messageCount++;
-        });
+        // Client 3 should now be able to join
+        const lobby3Promise = waitForMessage(client3, "lobby", 2000);
+        client3.emit("join-room", roomId);
+        await lobby3Promise;
+
+        const messagePromise = waitForMessage(client3, "receive-message");
 
         client1.emit("send-message", { roomId, content: "test" });
-        await new Promise(resolve => setTimeout(resolve, 300));
+        const msg = await messagePromise;
 
-        expect(messageCount).toBe(1);
+        expect(msg.content).toBe("test");
       } finally {
         await cleanupClient(client3);
       }
@@ -680,7 +828,7 @@ describe("Test suite for Socket.IO backend", () => {
 
   describe("Concurrent operations", () => {
     it("should handle multiple clients joining simultaneously", async () => {
-      const tokens = Array.from({ length: 5 }, (_, i) => 
+      const tokens = Array.from({ length: 2 }, (_, i) =>
         generateToken(`user${i}@example.com`, "concurrent-room")
       );
 
@@ -689,7 +837,7 @@ describe("Test suite for Socket.IO backend", () => {
       );
 
       try {
-        expect(clients.length).toBe(5);
+        expect(clients.length).toBe(2);
         clients.forEach(client => {
           expect(client.connected).toBe(true);
         });
@@ -700,15 +848,15 @@ describe("Test suite for Socket.IO backend", () => {
 
         await new Promise(resolve => setTimeout(resolve, 300));
 
-        const messagePromises = clients.slice(1).map(client => 
+        const messagePromises = clients.slice(1).map(client =>
           waitForMessage(client, "receive-message")
         );
 
         if (!clients[0]) throw new Error("Client not initialized");
         
-        clients[0].emit("send-message", { 
-          roomId: "concurrent-room", 
-          content: "broadcast test" 
+        clients[0].emit("send-message", {
+          roomId: "concurrent-room",
+          content: "broadcast test"
         });
 
         const results = await Promise.all(messagePromises);

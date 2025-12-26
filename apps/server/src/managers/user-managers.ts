@@ -8,13 +8,13 @@ export class UserManager {
         this.roomManager = new RoomManager(io);
     }
 
-    addUser(roomId: string, socket: Socket) {
-        this.roomManager.joinRoom(roomId, socket);
+    async addUser(roomId: string, socket: Socket) {
+        await this.roomManager.joinRoom(roomId, socket);
         this.initHandlers(socket);
     }
 
-    removeUser(roomId: string, socket: Socket) {
-        this.roomManager.leaveRoom(roomId, socket);
+    async removeUser(roomId: string, socket: Socket) {
+        await this.roomManager.leaveRoom(roomId, socket);
     }
 
     sendMessage(roomId: string, socket: Socket, content: string) {

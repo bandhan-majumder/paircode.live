@@ -9,10 +9,11 @@ export class RoomManager {
             return;
         }
 
-        const socketsInRoom = await this.io.in(roomId).fetchSockets();
+        const room = this.io.sockets.adapter.rooms.get(roomId);
+        const roomSize = room ? room.size : 0;
 
         // '>' is for safety, should not exceed 2
-        if (socketsInRoom.length >= 2) {
+        if (roomSize >= 2) {
             socket.emit("error", { message: "Room is full" });
             return;
         };
@@ -25,7 +26,7 @@ export class RoomManager {
                 timestamp: Date.now()
             });
 
-            if (socketsInRoom.length === 1) {
+            if (roomSize === 1) {
                 this.io.in(roomId).emit("send-offer", { roomId });
             }
         } catch (err) {
@@ -53,14 +54,14 @@ export class RoomManager {
         });
     }
 
-    leaveRoom(roomId: string, socket: Socket) {
+    async leaveRoom(roomId: string, socket: Socket) {
         if (!roomId) {
             socket.emit('error', {
                 message: "No room id"
             });
             return;
         }
-        socket.leave(roomId);
+        await socket.leave(roomId);
 
         socket.to(roomId).emit("user-left", {
             socketId: socket.id,

@@ -88,19 +88,19 @@ io.on("connection", (socket: Socket) => {
     return;
   }
 
-  socket.on("join-room", (roomId: string) => {
+  socket.on("join-room", async (roomId: string) => {
     if (!roomId || userData.roomId !== roomId) {
       console.error(`RoomId mismatch: requested ${roomId}, expected ${userData.roomId}`);
       socket.emit("error", { message: "Invalid roomId" });
       socket.disconnect(true);
       return;
     }
-    
-    userManager.addUser(roomId, socket);
+
+    await userManager.addUser(roomId, socket);
   });
 
-  socket.on("leave-room", (roomId: string) => {
-    userManager.removeUser(roomId, socket);
+  socket.on("leave-room", async (roomId: string) => {
+    await userManager.removeUser(roomId, socket);
   });
 
   socket.on("send-message", (data: { roomId: string; content: string }) => {
@@ -109,13 +109,19 @@ io.on("connection", (socket: Socket) => {
       socket.emit("error", { message: "Unauthorized" });
       return;
     }
-    
+
+    if (!socket.rooms.has(data.roomId)) {
+      console.error(`User ${socket.id} attempted to send message to room ${data.roomId} without joining`);
+      socket.emit("error", { message: "Not in room" });
+      return;
+    }
+
     userManager.sendMessage(data.roomId, socket, data.content);
   });
 
-  socket.on("disconnect", (reason) => {
+  socket.on("disconnect", async (reason) => {
     console.log(`Socket disconnected: ${socket.id}, reason: ${reason}`);
-    userManager.removeUser(userData.roomId, socket);
+    await userManager.removeUser(userData.roomId, socket);
     // leave-room handles cleanup
   });
 
