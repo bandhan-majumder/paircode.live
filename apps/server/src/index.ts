@@ -96,6 +96,14 @@ io.on("connection", (socket: Socket) => {
       return;
     }
 
+    const room = io.sockets.adapter.rooms.get(roomId);
+    if (room && room.size >= 2) {
+      console.error(`Room ${roomId} is full. Disconnecting user ${socket.id}`);
+      socket.emit("error", { message: "Room is full" });
+      socket.disconnect(true);
+      return;
+    }
+
     await userManager.addUser(roomId, socket);
   });
 

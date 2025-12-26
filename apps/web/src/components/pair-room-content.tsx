@@ -264,11 +264,13 @@ export function PairRoomContent({
         if (localVideoRef.current?.srcObject) {
             const stream = localVideoRef.current.srcObject as MediaStream;
             stream.getTracks().forEach(track => track.stop());
+            localVideoRef.current.srcObject = null;
         }
         
         if (remoteVideoRef.current?.srcObject) {
             const stream = remoteVideoRef.current.srcObject as MediaStream;
             stream.getTracks().forEach(track => track.stop());
+            remoteVideoRef.current.srcObject = null;
         }
 
         if (sendingPcRef.current) {

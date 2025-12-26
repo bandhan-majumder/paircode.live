@@ -28,6 +28,8 @@ export class RoomManager {
                 return false;
             }
 
+            socket.data.isJoined = true;
+
             socket.emit('lobby');
             socket.to(roomId).emit("user-joined", {
                 socketId: socket.id,
@@ -71,12 +73,16 @@ export class RoomManager {
             });
             return;
         }
-        await socket.leave(roomId);
 
-        socket.to(roomId).emit("user-left", {
-            socketId: socket.id,
-            timestamp: Date.now()
-        });
+        if (socket.data.isJoined) {
+            socket.to(roomId).emit("user-left", {
+                socketId: socket.id,
+                timestamp: Date.now()
+            });
+            socket.data.isJoined = false;
+        }
+
+        await socket.leave(roomId);
     }
 
     private async getOtherSocketsInRoom(roomId: string, senderId: string) {
