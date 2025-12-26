@@ -7,8 +7,8 @@ import type { UrlObject } from "url";
 function Footer() {
   const footerLinks = {
     products: [
-      { label: "PairCoding site", href: "/" },
-      { label: "PairCode Extension", href: "https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode" }
+      { label: "Pair Video Call", href: "/" },
+      { label: "VSCode Extension", href: "https://marketplace.visualstudio.com/items?itemName=BandhanMajumder.paircode" }
     ],
     solutions: [
       { label: "Interviews", href: "#" },
