@@ -8,18 +8,29 @@ export class RoomManager {
             socket.emit("error", { message: "Inefficient info provided" });
             return;
         }
-        await socket.join(roomId);
-        socket.emit('lobby');
-        socket.to(roomId).emit("user-joined", {
-            socketId: socket.id,
-            timestamp: Date.now()
-        })
-        
-        const totalSocketInRoom = await this.io.in(roomId).fetchSockets();
-        if (totalSocketInRoom.length === 2) {
-            totalSocketInRoom.forEach((s) => {
-                s.emit("send-offer", { roomId });
+
+        const socketsInRoom = await this.io.in(roomId).fetchSockets();
+
+        // '>' is for safety, should not exceed 2
+        if (socketsInRoom.length >= 2) {
+            socket.emit("error", { message: "Room is full" });
+            return;
+        };
+
+        try {
+            await socket.join(roomId);
+            socket.emit('lobby');
+            socket.to(roomId).emit("user-joined", {
+                socketId: socket.id,
+                timestamp: Date.now()
             });
+
+            if (socketsInRoom.length === 1) {
+                this.io.in(roomId).emit("send-offer", { roomId });
+            }
+        } catch (err) {
+            socket.emit("error", { message: "Failed to join room" });
+            console.error("Join room error:", err);
         }
     }
 
