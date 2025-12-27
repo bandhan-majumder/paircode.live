@@ -37,7 +37,7 @@ export class RoomManager {
             });
 
             if (roomSize === 1) {
-                socket.emit("send-offer", { roomId });
+                this.io.in(roomId).emit("send-offer", { roomId });
             }
             return true;
         } catch (err) {
