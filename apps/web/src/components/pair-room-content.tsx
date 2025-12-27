@@ -348,7 +348,7 @@ export function PairRoomContent({
                         <TooltipTrigger>
                             <Info size={15} />
                         </TooltipTrigger>
-                        <TooltipContent>
+                        <TooltipContent className="w-[95vw] md:w-auto ml-2">
                             <p>Switching languages replaces your code with a default template.</p>
                             <p>Pressing Ctrl+Z may restore your code.</p>
                             <p>However, the selected language might still be incorrect.</p>
@@ -367,7 +367,7 @@ export function PairRoomContent({
             </div>
 
             <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
-                <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#292929] md:order-2 overflow-y-auto md:overflow-y-visible">
+                <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#130303] md:order-2 overflow-y-auto md:overflow-y-visible">
                     {lobby ? (
                         <div className="p-2 md:p-4 text-center text-sm md:text-base">
                             <p className="mb-2 md:mb-4">Invite your friend to join...</p>
@@ -392,12 +392,12 @@ export function PairRoomContent({
                         <div>
                             <h3 className="font-semibold mb-2 text-sm md:text-base">Friend's Video</h3>
                             <video
-                                style={{ 
+                                style={{
                                     borderRadius: '12px',
                                     maxHeight: '220px',
-                                    objectFit: 'cover', 
+                                    objectFit: 'cover',
                                     width: '100%',
-                                    aspectRatio: '4:3', 
+                                    aspectRatio: '4:3',
                                 }}
                                 ref={remoteVideoRef}
                                 autoPlay
@@ -413,49 +413,39 @@ export function PairRoomContent({
                             style={{
                                 borderRadius: '12px',
                                 maxHeight: '220px',
-                                objectFit: 'cover', 
+                                objectFit: 'cover',
                                 width: '100%',
-                                aspectRatio: '4:3', 
+                                aspectRatio: '4:3',
                             }}
                             ref={localVideoRef}
                             autoPlay
                             muted
                             playsInline
-                            className="w-full rounded md:max-h-none"
+                            className="w-full rounded md:max-h-none dark:border-2 dark:border-[#D1D5DC]"
                         />
 
                         <div className="flex flex-row gap-2 md:gap-3 justify-center items-center mt-2 md:mt-3">
                             <Tooltip>
-                                <TooltipTrigger>
-                                    <Button
-                                        onClick={toggleMicrophone}
-                                        className="p-2 md:p-3 rounded-full bg-gray-800 dark:bg-white transition-colors"
-                                        aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}
-                                    >
-                                        {localMicOff ? (
-                                            <MicOff className="text-red-500" size={16} />
-                                        ) : (
-                                            <Mic className="text-white dark:text-black" size={16} />
-                                        )}
-                                    </Button>
+                                <TooltipTrigger onClick={toggleMicrophone} className="p-2 md:p-3 rounded-full bg-gray-800 dark:bg-white transition-colors" aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}>
+                                    {localMicOff ? (
+                                        <MicOff className="text-red-500" size={16} />
+                                    ) : (
+                                        <Mic className="text-white dark:text-black" size={16} />
+                                    )}
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>on/off audio</p>
                                 </TooltipContent>
                             </Tooltip>
                             <Tooltip>
-                                <TooltipTrigger>
-                                    <Button
-                                        onClick={toggleVideo}
-                                        className="p-2 md:p-3 rounded-full bg-gray-800 dark:bg-white transition-colors"
-                                        aria-label={localVidOff ? "Turn on video" : "Turn off video"}
-                                    >
-                                        {localVidOff ? (
-                                            <VideoOff className="text-red-500" size={16} />
-                                        ) : (
-                                            <Video className="text-white dark:text-black" size={16} />
-                                        )}
-                                    </Button>
+                                <TooltipTrigger onClick={toggleVideo}
+                                    className="p-2 md:p-3 rounded-full bg-gray-800 dark:bg-white transition-colors"
+                                    aria-label={localVidOff ? "Turn on video" : "Turn off video"}>
+                                    {localVidOff ? (
+                                        <VideoOff className="text-red-500" size={16} />
+                                    ) : (
+                                        <Video className="text-white dark:text-black" size={16} />
+                                    )}
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>on/off video</p>
@@ -463,14 +453,10 @@ export function PairRoomContent({
                             </Tooltip>
 
                             <Tooltip>
-                                <TooltipTrigger>
-                                    <Button
-                                        onClick={handleLeaveRoom}
-                                        className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
-                                        aria-label="Leave room"
-                                    >
-                                        <PhoneOff className="text-white dark:text-black" size={16} />
-                                    </Button>
+                                <TooltipTrigger onClick={handleLeaveRoom}
+                                    className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
+                                    aria-label="Leave room">
+                                    <PhoneOff className="text-white dark:text-black" size={16} />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>leave</p>
@@ -488,6 +474,6 @@ export function PairRoomContent({
                     />
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
