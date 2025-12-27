@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -42,9 +41,9 @@ export function DropdownMenuLanguageCheckboxes({
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-27 bg-[#503728] text-white hover:bg-[#503728] hover:text-white">{selectedLanguage || 'default'}</Button>
+                <Button variant="outline" className="w-27 bg-[#D1D5DC] dark:bg-[#292929] text-black dark:text-[#D1D5DC]  hover:bg-[#D1D5DC] dark:hover:bg-[#292929] dark:hover:text-white">{selectedLanguage || 'default'}</Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 bg-[#364153] text-[#D1D5DC]">
+            <DropdownMenuContent className="w-56 text-black dark:bg-[#292929] dark:text-[#D1D5DC]">
                 {languages.map((language) => (
                     <DropdownMenuCheckboxItem
                         key={language}

@@ -8,13 +8,14 @@ import { defaultCodeSnippets } from "@/lib/defaultCodeSnippets";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useSocketIO } from "@/hooks/use-websocket";
-import { MicOff, VideoOff, Mic, Video, PhoneOff } from "lucide-react";
+import { MicOff, VideoOff, Mic, Video, PhoneOff, Info } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import axios from "axios";
 import { toast } from "sonner";
 import z from "zod";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export interface PairRoomProps {
     id: string;
@@ -343,6 +344,17 @@ export function PairRoomContent({
         <div className="flex flex-col w-full h-screen">
             <div className="flex items-center justify-between p-3 md:p-4 border-b bg-background dark:bg-[#292929]">
                 <div className="flex items-center gap-2 md:gap-4">
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Info size={15} />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Switching languages replaces your code with a default template.</p>
+                            <p>Pressing Ctrl+Z may restore your code.</p>
+                            <p>However, the selected language might still be incorrect.</p>
+                            <p>The change happens in real time for both you and your pair partner.</p>
+                        </TooltipContent>
+                    </Tooltip>
                     <DropdownMenuLanguageCheckboxes
                         selectedLanguage={selectedLanguage}
                         onLanguageChange={handleLanguageChange}
@@ -358,7 +370,7 @@ export function PairRoomContent({
                 <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#292929] md:order-2 overflow-y-auto md:overflow-y-visible">
                     {lobby ? (
                         <div className="p-2 md:p-4 text-center text-sm md:text-base">
-                            <p className="mb-2 md:mb-4">Waiting for your friend to join...</p>
+                            <p className="mb-2 md:mb-4">Invite your friend to join...</p>
                             <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                                 <Input
                                     value={inviteEmail}
@@ -413,35 +425,57 @@ export function PairRoomContent({
                         />
 
                         <div className="flex flex-row gap-2 md:gap-3 justify-center items-center mt-2 md:mt-3">
-                            <Button
-                                onClick={toggleMicrophone}
-                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-                                aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}
-                            >
-                                {localMicOff ? (
-                                    <MicOff className="text-red-500" size={16} />
-                                ) : (
-                                    <Mic className="text-white" size={16} />
-                                )}
-                            </Button>
-                            <Button
-                                onClick={toggleVideo}
-                                className="p-2 md:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-                                aria-label={localVidOff ? "Turn on video" : "Turn off video"}
-                            >
-                                {localVidOff ? (
-                                    <VideoOff className="text-red-500" size={16} />
-                                ) : (
-                                    <Video className="text-white" size={16} />
-                                )}
-                            </Button>
-                            <Button
-                                onClick={handleLeaveRoom}
-                                className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
-                                aria-label="Leave room"
-                            >
-                                <PhoneOff className="text-white" size={16} />
-                            </Button>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Button
+                                        onClick={toggleMicrophone}
+                                        className="p-2 md:p-3 rounded-full bg-gray-800 dark:bg-white transition-colors"
+                                        aria-label={localMicOff ? "Turn on microphone" : "Turn off microphone"}
+                                    >
+                                        {localMicOff ? (
+                                            <MicOff className="text-red-500" size={16} />
+                                        ) : (
+                                            <Mic className="text-white dark:text-black" size={16} />
+                                        )}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>on/off audio</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Button
+                                        onClick={toggleVideo}
+                                        className="p-2 md:p-3 rounded-full bg-gray-800 dark:bg-white transition-colors"
+                                        aria-label={localVidOff ? "Turn on video" : "Turn off video"}
+                                    >
+                                        {localVidOff ? (
+                                            <VideoOff className="text-red-500" size={16} />
+                                        ) : (
+                                            <Video className="text-white dark:text-black" size={16} />
+                                        )}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>on/off video</p>
+                                </TooltipContent>
+                            </Tooltip>
+
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Button
+                                        onClick={handleLeaveRoom}
+                                        className="p-2 md:p-3 rounded-full bg-red-600 hover:bg-red-700 transition-colors"
+                                        aria-label="Leave room"
+                                    >
+                                        <PhoneOff className="text-white dark:text-black" size={16} />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>leave</p>
+                                </TooltipContent>
+                            </Tooltip>
                         </div>
                     </div>
                 </div>
