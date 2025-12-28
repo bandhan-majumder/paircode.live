@@ -199,7 +199,7 @@ export function PairRoomContent({
         pc.onnegotiationneeded = async () => {
             console.log("Negotiation needed");
             const sdp = await pc.createOffer();
-            await pc.setLocalDescription(sdp);
+            await pc.setLocalDescription();
             console.log("Set local description (offer)", sdp.type);
             emitOffer({ sdp, roomId });
         };
