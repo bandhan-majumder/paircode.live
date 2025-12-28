@@ -143,7 +143,6 @@ export function PairRoomContent({
 
     const handleSendOffer = async ({ roomId }: { roomId: string }) => {
         setLobby(false);
-        console.log("Creating sending PeerConnection");
         const pc = new RTCPeerConnection(rtcConfig);
         sendingPcRef.current = pc;
 
@@ -155,7 +154,6 @@ export function PairRoomContent({
         }
 
         pc.ontrack = (e) => {
-            console.log("Receiving remote track in sending PC (unexpected but logged)");
             if (remoteVideoRef.current) {
                 if (!remoteVideoRef.current.srcObject) {
                     remoteVideoRef.current.srcObject = new MediaStream();
@@ -166,7 +164,6 @@ export function PairRoomContent({
 
         pc.onicecandidate = (e) => {
             if (e.candidate) {
-                console.log("Sending ICE candidate (sender):", e.candidate.candidate);
                 emitIceCandidate({
                     candidate: e.candidate,
                     type: "sender",
@@ -175,36 +172,20 @@ export function PairRoomContent({
             }
         };
 
-        pc.oniceconnectionstatechange = () => {
-            console.log("Sending PC ICE Connection State:", pc.iceConnectionState);
-        };
-
-        pc.onicegatheringstatechange = () => {
-            console.log("Sending PC ICE Gathering State:", pc.iceGatheringState);
-        };
-
-        pc.onsignalingstatechange = () => {
-            console.log("Sending PC Signaling State:", pc.signalingState);
-        };
-
         pc.onnegotiationneeded = async () => {
-            console.log("Negotiation needed");
             const sdp = await pc.createOffer();
             await pc.setLocalDescription(sdp);
-            console.log("Set local description (offer)", sdp.type);
             emitOffer({ sdp, roomId });
         };
     };
 
     const handleOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
         setLobby(false);
-        console.log("Received offer, creating receiving PeerConnection");
 
         const pc = new RTCPeerConnection(rtcConfig);
         receivingPcRef.current = pc;
 
         pc.ontrack = (e) => {
-            console.log("Receiving remote track");
             if (remoteVideoRef.current) {
                 if (!remoteVideoRef.current.srcObject) {
                     remoteVideoRef.current.srcObject = new MediaStream();
@@ -215,7 +196,6 @@ export function PairRoomContent({
 
         pc.onicecandidate = (e) => {
             if (e.candidate) {
-                console.log("Sending ICE candidate (receiver):", e.candidate.candidate);
                 emitIceCandidate({
                     candidate: e.candidate,
                     type: "receiver",
@@ -224,23 +204,9 @@ export function PairRoomContent({
             }
         };
 
-        pc.oniceconnectionstatechange = () => {
-            console.log("Receiving PC ICE Connection State:", pc.iceConnectionState);
-        };
-
-        pc.onicegatheringstatechange = () => {
-            console.log("Receiving PC ICE Gathering State:", pc.iceGatheringState);
-        };
-
-        pc.onsignalingstatechange = () => {
-            console.log("Receiving PC Signaling State:", pc.signalingState);
-        };
-
         await pc.setRemoteDescription(remoteSdp);
-        console.log("Set remote description (offer)");
         const sdp = await pc.createAnswer();
         await pc.setLocalDescription(sdp);
-        console.log("Set local description (answer)");
 
         emitAnswer({ roomId, sdp });
     };
@@ -252,7 +218,7 @@ export function PairRoomContent({
     };
 
     const handleIceCandidate = async ({ candidate, type }: { candidate: any; type: "sender" | "receiver" }) => {
-        console.log(`Received ICE candidate (${type}):`, candidate.candidate);
+
         try {
             const iceCandidate = candidate instanceof RTCIceCandidate
                 ? candidate
