@@ -133,17 +133,9 @@ export function PairRoomContent({
         }
     };
 
-    const rtcConfig = {
-        iceServers: [
-            {
-                urls: ["stun:stun.l.google.com:19302"],
-            },
-        ],
-    };
-
     const handleSendOffer = async ({ roomId }: { roomId: string }) => {
         setLobby(false);
-        const pc = new RTCPeerConnection(rtcConfig);
+        const pc = new RTCPeerConnection();
         sendingPcRef.current = pc;
 
         if (localVideoTrack) {
@@ -182,7 +174,7 @@ export function PairRoomContent({
     const handleOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
         setLobby(false);
 
-        const pc = new RTCPeerConnection(rtcConfig);
+        const pc = new RTCPeerConnection();
         receivingPcRef.current = pc;
 
         pc.ontrack = (e) => {
