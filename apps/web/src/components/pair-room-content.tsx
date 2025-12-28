@@ -137,13 +137,7 @@ export function PairRoomContent({
     const rtcConfig = {
         iceServers: [
             {
-                urls: [
-                    "stun:stun.l.google.com:19302",
-                    "stun:stun1.l.google.com:19302",
-                    "stun:stun2.l.google.com:19302",
-                    "stun:stun3.l.google.com:19302",
-                    "stun:stun4.l.google.com:19302",
-                ],
+                urls: ["stun:stun.l.google.com:19302"],
             },
         ],
     };
@@ -209,13 +203,6 @@ export function PairRoomContent({
 
         const pc = new RTCPeerConnection(rtcConfig);
         receivingPcRef.current = pc;
-
-        if (localVideoTrack) {
-            pc.addTrack(localVideoTrack);
-        }
-        if (localAudioTrack) {
-            pc.addTrack(localAudioTrack);
-        }
 
         pc.ontrack = (e) => {
             console.log("Receiving remote track");
