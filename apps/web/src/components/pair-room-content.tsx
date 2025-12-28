@@ -69,7 +69,6 @@ export function PairRoomContent({
 
     const remoteVideoRef = useRef<HTMLVideoElement>(null);
     const localVideoRef = useRef<HTMLVideoElement>(null);
-    const candidateQueue = useRef<{ candidate: any; type: "sender" | "receiver" }[]>([]);
 
     useEffect(() => {
         if (!hasConsumedOutsourcedCode.current && (outSourcedCode || outSourcedLanguage)) {
@@ -244,35 +243,11 @@ export function PairRoomContent({
         console.log("Set local description (answer)");
 
         emitAnswer({ roomId, sdp });
-
-        const queuedCandidates = candidateQueue.current.filter(c => c.type === "sender");
-        for (const c of queuedCandidates) {
-            try {
-                const iceCandidate = new RTCIceCandidate(c.candidate);
-                await receivingPcRef.current.addIceCandidate(iceCandidate);
-                console.log("Added queued candidate for receiver");
-            } catch (e) {
-                console.error("Error adding queued candidate:", e);
-            }
-        }
-        candidateQueue.current = candidateQueue.current.filter(c => c.type !== "sender");
     };
 
     const handleAnswer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
         if (sendingPcRef.current) {
             await sendingPcRef.current.setRemoteDescription(remoteSdp);
-
-            const queuedCandidates = candidateQueue.current.filter(c => c.type === "receiver");
-            for (const c of queuedCandidates) {
-                try {
-                    const iceCandidate = new RTCIceCandidate(c.candidate);
-                    await sendingPcRef.current.addIceCandidate(iceCandidate);
-                    console.log("Added queued candidate for sender");
-                } catch (e) {
-                    console.error("Error adding queued candidate:", e);
-                }
-            }
-            candidateQueue.current = candidateQueue.current.filter(c => c.type !== "receiver");
         }
     };
 
@@ -283,20 +258,10 @@ export function PairRoomContent({
                 ? candidate
                 : new RTCIceCandidate(candidate);
 
-            if (type === "sender") {
-                if (receivingPcRef.current && receivingPcRef.current.remoteDescription) {
-                    await receivingPcRef.current.addIceCandidate(iceCandidate);
-                } else {
-                    console.log("Queueing sender candidate (receiver PC not ready)");
-                    candidateQueue.current.push({ candidate, type });
-                }
-            } else if (type === "receiver") {
-                if (sendingPcRef.current && sendingPcRef.current.remoteDescription) {
-                    await sendingPcRef.current.addIceCandidate(iceCandidate);
-                } else {
-                    console.log("Queueing receiver candidate (sender PC not ready)");
-                    candidateQueue.current.push({ candidate, type });
-                }
+            if (type === "sender" && receivingPcRef.current) {
+                await receivingPcRef.current.addIceCandidate(iceCandidate);
+            } else if (type === "receiver" && sendingPcRef.current) {
+                await sendingPcRef.current.addIceCandidate(iceCandidate);
             }
         } catch (error) {
             console.error("Error adding ICE candidate:", error);
