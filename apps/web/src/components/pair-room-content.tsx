@@ -220,7 +220,7 @@ export function PairRoomContent({
 
         pc.onconnectionstatechange = () => {
             if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
-                setLobby(true);
+                // setLobby(true);
             }
         };
 
