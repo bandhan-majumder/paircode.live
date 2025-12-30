@@ -12,12 +12,6 @@ export class RoomManager {
         const room = this.io.sockets.adapter.rooms.get(roomId);
         const roomSize = room ? room.size : 0;
 
-        // '>' is for safety, should not exceed 2
-        if (roomSize >= 2) {
-            socket.emit("error", { message: "Room is full" });
-            return false;
-        };
-
         try {
             await socket.join(roomId);
 

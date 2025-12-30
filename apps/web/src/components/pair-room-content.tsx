@@ -70,6 +70,22 @@ export function PairRoomContent({
     const remoteVideoRef = useRef<HTMLVideoElement>(null);
     const localVideoRef = useRef<HTMLVideoElement>(null);
 
+
+    // more info: https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
+    const rtcConfig = {
+        iceServers: [
+            {
+                urls: [
+                    "stun:stun.l.google.com:19302",
+                    "stun:stun1.l.google.com:19302",
+                    "stun:stun2.l.google.com:19302",
+                    "stun:stun3.l.google.com:19302",
+                    "stun:stun4.l.google.com:19302",
+                ],
+            },
+        ],
+    };
+
     useEffect(() => {
         if (!hasConsumedOutsourcedCode.current && (outSourcedCode || outSourcedLanguage)) {
             hasConsumedOutsourcedCode.current = true;
@@ -124,6 +140,7 @@ export function PairRoomContent({
     };
 
     const handleUserJoined = (socketId: string) => {
+        // sync states of code and lang everytime a new user joins an existing user in the room
         if (isFirstUserInRoom.current) {
             sendMessage(JSON.stringify({
                 code,
@@ -134,8 +151,14 @@ export function PairRoomContent({
     };
 
     const handleSendOffer = async ({ roomId }: { roomId: string }) => {
+        if (sendingPcRef.current) {
+            sendingPcRef.current.close();
+            sendingPcRef.current = null;
+        }
+
         setLobby(false);
-        const pc = new RTCPeerConnection();
+
+        const pc = new RTCPeerConnection(rtcConfig);
         sendingPcRef.current = pc;
 
         if (localVideoTrack) {
@@ -144,6 +167,12 @@ export function PairRoomContent({
         if (localAudioTrack) {
             pc.addTrack(localAudioTrack);
         }
+
+        pc.onconnectionstatechange = () => {
+            if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
+                setLobby(true);
+            }
+        };
 
         pc.ontrack = (e) => {
             if (remoteVideoRef.current) {
@@ -171,11 +200,29 @@ export function PairRoomContent({
         };
     };
 
-    const handleOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
+    const handleReceivedOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
+        if (sendingPcRef.current) {
+            sendingPcRef.current.close();
+            sendingPcRef.current = null;
+        }
+        
         setLobby(false);
 
-        const pc = new RTCPeerConnection();
+        const pc = new RTCPeerConnection(rtcConfig);
         receivingPcRef.current = pc;
+
+        if (localVideoTrack) {
+            pc.addTrack(localVideoTrack);
+        }
+        if (localAudioTrack) {
+            pc.addTrack(localAudioTrack);
+        }
+
+        pc.onconnectionstatechange = () => {
+            if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
+                setLobby(true);
+            }
+        };
 
         pc.ontrack = (e) => {
             if (remoteVideoRef.current) {
@@ -267,7 +314,7 @@ export function PairRoomContent({
             stream.getTracks().forEach(track => track.stop());
             localVideoRef.current.srcObject = null;
         }
-        
+
         if (remoteVideoRef.current?.srcObject) {
             const stream = remoteVideoRef.current.srcObject as MediaStream;
             stream.getTracks().forEach(track => track.stop());
@@ -326,9 +373,11 @@ export function PairRoomContent({
         onUserJoined: handleUserJoined,
         onUserLeft: () => {
             setLobby(true);
+            // code should always sync with the current state for new users, even if they leave and rejoin.
+            isFirstUserInRoom.current = true;
         },
         onSendOffer: handleSendOffer,
-        onOffer: handleOffer,
+        onOffer: handleReceivedOffer,
         onAnswer: handleAnswer,
         onIceCandidate: handleIceCandidate,
         onLobby: handleLobby,
@@ -402,7 +451,7 @@ export function PairRoomContent({
                                 ref={remoteVideoRef}
                                 autoPlay
                                 playsInline
-                                className="w-full rounded md:max-h-none"
+                                className="w-full rounded md:max-h-none dark:border-2 dark:border-[#D1D5DC]"
                             />
                         </div>
                     )}

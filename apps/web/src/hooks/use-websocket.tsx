@@ -38,7 +38,7 @@ export function useSocketIO({
 
   useEffect(() => {
     if (!token) {
-      console.warn("No token provided, skipping Socket.IO connection");
+      console.error("No token provided, skipping Socket.IO connection");
       return;
     };
 
@@ -76,6 +76,7 @@ export function useSocketIO({
         }
       });
 
+      // CHECK: changing state for correct rooms for concurrent connections
       socket.on("receive-message", (data: { content: string; senderId: string; timestamp: number }) => {
         try {
           if (data.content) {
@@ -163,7 +164,7 @@ export function useSocketIO({
       }
       setIsConnected(false);
     };
-  }, [token, roomId]); 
+  }, [token, roomId]);
 
   const sendMessage = useCallback(
     (content: string) => {
@@ -177,7 +178,7 @@ export function useSocketIO({
           console.error("Error sending message:", error);
         }
       } else {
-        console.warn("Cannot send message: Socket not connected or no roomId");
+        console.error("Cannot send message: Socket not connected or malformed data");
       }
     },
     [roomId]

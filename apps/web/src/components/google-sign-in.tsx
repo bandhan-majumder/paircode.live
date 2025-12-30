@@ -14,7 +14,7 @@ export function GoogleSignInButton() {
     try {
       await signInWithGoogle()
     } catch (error) {
-      console.log("Error signing in: ", error)
+      console.error("Error signing in: ", error)
       setIsClicked(false)
     }
   }

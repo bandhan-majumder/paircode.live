@@ -33,10 +33,20 @@ export default function CodeArena({ params }: Props) {
 
   const getCameraMicPermissions = async () => {
     try {
+      // List all the devices
+      
+      // navigator.mediaDevices.enumerateDevices().then((data) => {
+      //   console.log("the data is: ", data)
+      // }).catch(()=> {
+      //   console.error('error')
+      // })
+      
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: true
+        audio: true,
       });
+
+      // Feature: Add filters. For more info:https://youtu.be/-Uons2hxonI
 
       const audioTrack = stream.getAudioTracks()[0];
       const videoTrack = stream.getVideoTracks()[0];
