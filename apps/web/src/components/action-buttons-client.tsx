@@ -15,7 +15,7 @@ export function ActionButtonsClient({ session, showGithub = false }: ActionButto
             {session && <CreateRoomDialog session={session} />}
             {!session && (
                 <StyledButton
-                    className='bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto text-nowrap'
+                    className='bg-[#BD9267] dark:bg-[#BD9267] w-full sm:w-auto min-w-[200px] text-nowrap'
                     text=""
                     url="/login"
                 >

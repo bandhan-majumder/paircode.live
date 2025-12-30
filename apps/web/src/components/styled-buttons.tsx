@@ -41,14 +41,14 @@ export function StyledButton({
   children
 }: StyledButtonProps) {
   const buttonClasses = cn(
-    "relative inline-flex rounded-sm no-underline items-center justify-center border border-black transition-all duration-150 group-hover:-translate-x-1 group-hover:-translate-y-1 sm:group-hover:-translate-x-1.5 sm:group-hover:-translate-y-1.5 lg:group-hover:-translate-x-2 lg:group-hover:-translate-y-2 z-[3] w-full lg:w-auto font-semibold",
+    "relative inline-flex rounded-sm no-underline items-center justify-center border border-black transition-all duration-150 group-hover:-translate-x-1 group-hover:-translate-y-1 sm:group-hover:-translate-x-1.5 sm:group-hover:-translate-y-1.5 lg:group-hover:-translate-x-2 lg:group-hover:-translate-y-2 z-[3] w-full sm:w-auto font-semibold",
     sizeClasses[size],
     variantClasses[variant],
     className,
   )
 
   const content = (
-    <div className="relative inline-block group w-full lg:w-auto">
+    <div className="relative inline-block group w-full sm:w-auto">
       <div className="absolute inset-0 rounded-sm bg-yellow-400 border border-black transition-transform duration-150 z-[2]"></div>
       <div className="absolute inset-0 rounded-sm bg-red-500 border border-black transition-transform duration-150 group-hover:translate-x-1 group-hover:translate-y-1 sm:group-hover:translate-x-1.5 sm:group-hover:translate-y-1.5 lg:group-hover:translate-x-2 lg:group-hover:translate-y-2 z-[1]"></div>
       {type === "submit" || type === "button" ? (
