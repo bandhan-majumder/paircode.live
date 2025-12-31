@@ -181,9 +181,15 @@ export function PairRoomContent({
 
         pc.onconnectionstatechange = () => {
             if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
+                console.log("Sent offer side connection state: ", pc.connectionState)
                 setLobby(true);
             }
         };
+
+        pc.oniceconnectionstatechange = (e) => {
+            const state = pc.iceConnectionState;
+            console.log("ICE CONNECTION STATE IS: ", state);
+        }
 
         pc.ontrack = (e) => {
             if (remoteVideoRef.current) {
@@ -231,6 +237,7 @@ export function PairRoomContent({
 
         pc.onconnectionstatechange = () => {
             if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
+                console.log("Recevied offer side connection state: ", pc.connectionState)
                 // setLobby(true);
             }
         };

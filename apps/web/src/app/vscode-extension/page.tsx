@@ -79,6 +79,14 @@ export default function ExtensionPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
             />
+            <div
+				className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.1] text-foreground pointer-events-none"
+				style={{
+					backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px),
+                        linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+					backgroundSize: "64px 64px",
+				}}
+			/>
             <main className="container mx-auto w-[95vw] md:max-w-[85vw] px-4 pb-6">
                 <section className="relative overflow-hidden px-4 sm:px-6 md:px-8 py-20 sm:py-24 md:py-32 lg:py-40">
                     <div className="container mx-auto max-w-5xl relative z-10">
