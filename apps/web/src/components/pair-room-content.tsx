@@ -71,7 +71,7 @@ export function PairRoomContent({
     const localVideoRef = useRef<HTMLVideoElement>(null);
 
 
-    // more info: https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
+    // more info: https://stackoverflow.com/a/75734789/17825147
     const rtcConfig = {
         iceServers: [
             {
@@ -83,7 +83,18 @@ export function PairRoomContent({
                     "stun:stun4.l.google.com:19302",
                 ],
             },
+            {
+                urls: "turn:openrelay.metered.ca:80",
+                username: "openrelayproject",
+                credential: "openrelayproject",
+            },
+            {
+                urls: "turn:openrelay.metered.ca:443",
+                username: "openrelayproject",
+                credential: "openrelayproject",
+            }
         ],
+        iceCandidatePoolSize: 10
     };
 
     useEffect(() => {
