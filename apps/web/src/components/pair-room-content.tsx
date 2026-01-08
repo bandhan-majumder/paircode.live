@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import peerConfiguration from "@/utils/webrtc/stun-server";
 
 export interface PairRoomProps {
     id: string;
@@ -69,33 +70,6 @@ export function PairRoomContent({
 
     const remoteVideoRef = useRef<HTMLVideoElement>(null);
     const localVideoRef = useRef<HTMLVideoElement>(null);
-
-
-    // more info: https://stackoverflow.com/a/75734789/17825147
-    const rtcConfig = {
-        iceServers: [
-            {
-                urls: [
-                    "stun:stun.l.google.com:19302",
-                    "stun:stun1.l.google.com:19302",
-                    "stun:stun2.l.google.com:19302",
-                    "stun:stun3.l.google.com:19302",
-                    "stun:stun4.l.google.com:19302",
-                ],
-            },
-            // {
-            //     urls: "turn:openrelay.metered.ca:80",
-            //     username: "openrelayproject",
-            //     credential: "openrelayproject",
-            // },
-            // {
-            //     urls: "turn:openrelay.metered.ca:443",
-            //     username: "openrelayproject",
-            //     credential: "openrelayproject",
-            // }
-        ],
-        // iceCandidatePoolSize: 10
-    };
 
     useEffect(() => {
         if (!hasConsumedOutsourcedCode.current && (outSourcedCode || outSourcedLanguage)) {
@@ -169,7 +143,7 @@ export function PairRoomContent({
 
         setLobby(false);
 
-        const pc = new RTCPeerConnection(rtcConfig);
+        const pc = new RTCPeerConnection(peerConfiguration);
         sendingPcRef.current = pc;
 
         if (localVideoTrack) {
@@ -211,13 +185,13 @@ export function PairRoomContent({
         };
 
         pc.onnegotiationneeded = async () => {
-            const sdp = await pc.createOffer();
+            const sdp = await pc.createOffer(); // it creates offer object { type: "offer" | "answer", sdp: ...}
             await pc.setLocalDescription(sdp);
             emitOffer({ sdp, roomId });
         };
     };
 
-    const handleReceivedOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
+    const handleReceivedOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: any }) => {
         if (sendingPcRef.current) {
             sendingPcRef.current.close();
             sendingPcRef.current = null;
@@ -225,7 +199,7 @@ export function PairRoomContent({
 
         setLobby(false);
 
-        const pc = new RTCPeerConnection(rtcConfig);
+        const pc = new RTCPeerConnection(peerConfiguration);
         receivingPcRef.current = pc;
 
         if (localVideoTrack) {

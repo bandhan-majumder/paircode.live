@@ -56,8 +56,8 @@ io.use((socket: Socket, next) => {
       return next(new Error("Server configuration error"));
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as { 
-      email: string; 
+    const decoded = jwt.verify(token, JWT_SECRET) as {
+      email: string;
       roomId: string;
     };
 
@@ -127,9 +127,14 @@ io.on("connection", (socket: Socket) => {
     userManager.sendMessage(data.roomId, socket, data.content);
   });
 
+  socket.on("disconnecting", () => {
+    console.log(`Socker ${socket.id} is disconnecting from rooms: ${JSON.stringify(socket.rooms)}`); // the Set contains at least the socket ID
+  });
+
   socket.on("disconnect", async (reason) => {
-    console.log(`Socket disconnected: ${socket.id}, reason: ${reason}`);
+    // socket.rooms.size === 0
     await userManager.removeUser(userData.roomId, socket);
+    console.log(`Socket disconnected: ${socket.id}, reason: ${reason}`);
     // leave-room handles cleanup
   });
 

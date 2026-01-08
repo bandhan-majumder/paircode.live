@@ -1,3 +1,8 @@
+/**
+ * For more information about rooms in Socket.IO, visit:
+ * https://socket.io/docs/v4/rooms/
+ */
+
 import type { Server, Socket } from "socket.io";
 
 export class RoomManager {
@@ -25,13 +30,19 @@ export class RoomManager {
             socket.data.isJoined = true;
 
             socket.emit('lobby');
+
+            // broadcast to a room from a given socket
             socket.to(roomId).emit("user-joined", {
                 socketId: socket.id,
                 timestamp: Date.now()
             });
 
             if (roomSize === 1) {
-                this.io.in(roomId).emit("send-offer", { roomId });
+                // BUG: both user gets the offer event.
+                // this.io.in(roomId).emit("send-offer", { roomId });
+                socket.to(roomId).emit("send-offer", {
+                    roomId
+                });
             }
             return true;
         } catch (err) {
@@ -61,9 +72,9 @@ export class RoomManager {
     }
 
     async leaveRoom(roomId: string, socket: Socket) {
-        if (!roomId) {
+        if (!roomId || !socket) {
             socket.emit('error', {
-                message: "No room id"
+                message: "No socket or room id"
             });
             return;
         }
@@ -85,18 +96,21 @@ export class RoomManager {
     }
 
     async onOffer(roomId: string, sdp: string, senderSocketId: string) {
+        console.log("onoffer called: ", roomId, senderSocketId, sdp);
         const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
         if (!others.length || !others[0]) return;
         others[0].emit("offer", { sdp, roomId });
     }
 
     async onAnswer(roomId: string, sdp: string, senderSocketId: string) {
+        console.log("onanswer called: ", roomId, senderSocketId, sdp);
         const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
         if (!others.length || !others[0]) return;
         others[0].emit("answer", { sdp, roomId });
     }
 
     async onIceCandidates(roomId: string, senderSocketId: string, candidate: any, type: "sender" | "receiver") {
+        console.log("onIceCandidates called: ", roomId, senderSocketId, candidate, type || "no-type");
         const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
         if (!others.length || !others[0]) return;
         others[0].emit("add-ice-candidate", { candidate, type });
