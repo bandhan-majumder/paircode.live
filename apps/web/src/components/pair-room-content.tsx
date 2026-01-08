@@ -158,18 +158,18 @@ export function PairRoomContent({
         }
 
         pc.onconnectionstatechange = () => {
-            console.log("Connection state: ", pc.connectionState);
+            // console.log("Connection state: ", pc.connectionState);
             if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
                 setLobby(true);
             }
         };
 
         pc.oniceconnectionstatechange = () => {
-            console.log("ICE connection state: ", pc.iceConnectionState);
+            // console.log("ICE connection state: ", pc.iceConnectionState);
         };
 
         pc.ontrack = (e) => {
-            console.log("Received remote track:", e.track.kind);
+            // console.log("Received remote track:", e.track.kind);
             if (remoteVideoRef.current) {
                 if (!remoteVideoRef.current.srcObject) {
                     remoteVideoRef.current.srcObject = new MediaStream();
@@ -201,7 +201,7 @@ export function PairRoomContent({
         for (const candidate of candidates) {
             try {
                 await pc.addIceCandidate(new RTCIceCandidate(candidate));
-                console.log("Added queued ICE candidate");
+                // console.log("Added queued ICE candidate");
             } catch (error) {
                 console.error("Error adding queued ICE candidate:", error);
             }
@@ -273,14 +273,14 @@ export function PairRoomContent({
 
         // Queue ICE candidates if remote description hasn't been set yet
         if (!hasRemoteDescriptionRef.current) {
-            console.log("Queuing ICE candidate - remote description not set yet");
+            // console.log("Queuing ICE candidate - remote description not set yet");
             pendingIceCandidatesRef.current.push(candidate);
             return;
         }
 
         try {
             await pc.addIceCandidate(new RTCIceCandidate(candidate));
-            console.log("Added ICE candidate directly");
+            // console.log("Added ICE candidate directly");
         } catch (error) {
             console.error("Error adding ICE candidate:", error);
         }

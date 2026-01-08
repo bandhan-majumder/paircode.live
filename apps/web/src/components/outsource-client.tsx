@@ -42,29 +42,35 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
 
                     const lang = searchParams.get('language');
                     if (lang) {
-                        setSelectedLanguage(decodeURIComponent(lang));
+                        setSelectedLanguage(lang);
                     }
                 }
             }
             else {
-                const outSourcedCode = searchParams.get('code');
-                const outSourcedCodeLang = searchParams.get('language');
+                try {
+                    const outSourcedCode = searchParams.get('code');
+                    const outSourcedCodeLang = searchParams.get('language');
 
-                if (outSourcedCode && outSourcedCodeLang) {
-                    const decodedCode = decodeURIComponent(outSourcedCode);
-                    const decodedLang = decodeURIComponent(outSourcedCodeLang);
+                    if (outSourcedCode && outSourcedCodeLang) {
+                        // const decodedCode = decodeURIComponent(outSourcedCode);
+                        // const decodedLang = decodeURIComponent(outSourcedCodeLang);
 
-                    setCode(decodedCode);
+                        setCode(outSourcedCode);
 
-                    if (defaultCodeSnippets[decodedLang]) {
-                        setSelectedLanguage(decodedLang);
-                        toast.success('Code imported from VS Code!');
+                        if (defaultCodeSnippets[outSourcedCodeLang]) {
+                            setSelectedLanguage(outSourcedCodeLang);
+                            toast.success('Code imported from VS Code!');
+                        } else {
+                            setSelectedLanguage('python');
+                            toast.warning('Language extension is not supported. Falling back to default');
+                        }
                     } else {
+                        // No code provided
+                        setCode(defaultCodeSnippets['python'] || '');
                         setSelectedLanguage('python');
-                        toast.warning('Language extension is not supported. Falling back to default');
                     }
-                } else {
-                    // No code provided
+                } catch (error) {
+                    toast.error('Failed to load code from URL');
                     setCode(defaultCodeSnippets['python'] || '');
                     setSelectedLanguage('python');
                 }
