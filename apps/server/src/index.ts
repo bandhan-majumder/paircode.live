@@ -10,7 +10,18 @@ import jwt from "jsonwebtoken";
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "https://paircode.live",
+      "https://backend.paircode.live",
+      ...(process.env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
+    ],
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+  transports: ['websocket', 'polling'],
+});
 const userManager = new UserManager(io);
 
 app.use(

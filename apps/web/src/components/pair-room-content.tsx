@@ -65,8 +65,9 @@ export function PairRoomContent({
     const [inviteEmail, setInviteEmail] = useState('');
     const [sentInvite, setSentInvite] = useState(false);
 
-    const sendingPcRef = useRef<RTCPeerConnection | null>(null);
-    const receivingPcRef = useRef<RTCPeerConnection | null>(null);
+    const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
+    const pendingIceCandidatesRef = useRef<RTCIceCandidateInit[]>([]);
+    const hasRemoteDescriptionRef = useRef(false);
 
     const remoteVideoRef = useRef<HTMLVideoElement>(null);
     const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -135,16 +136,19 @@ export function PairRoomContent({
         }
     };
 
-    const handleSendOffer = async ({ roomId }: { roomId: string }) => {
-        if (sendingPcRef.current) {
-            sendingPcRef.current.close();
-            sendingPcRef.current = null;
+    const createPeerConnection = (roomId: string, isCaller: boolean) => {
+        // Clean up existing connection
+        if (peerConnectionRef.current) {
+            peerConnectionRef.current.close();
+            peerConnectionRef.current = null;
         }
 
-        setLobby(false);
+        // Reset state for new connection
+        pendingIceCandidatesRef.current = [];
+        hasRemoteDescriptionRef.current = false;
 
         const pc = new RTCPeerConnection(peerConfiguration);
-        sendingPcRef.current = pc;
+        peerConnectionRef.current = pc;
 
         if (localVideoTrack) {
             pc.addTrack(localVideoTrack);
@@ -154,18 +158,18 @@ export function PairRoomContent({
         }
 
         pc.onconnectionstatechange = () => {
+            console.log("Connection state: ", pc.connectionState);
             if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
-                console.log("Sent offer side connection state: ", pc.connectionState)
                 setLobby(true);
             }
         };
 
-        pc.oniceconnectionstatechange = (e) => {
-            const state = pc.iceConnectionState;
-            console.log("ICE CONNECTION STATE IS: ", state);
-        }
+        pc.oniceconnectionstatechange = () => {
+            console.log("ICE connection state: ", pc.iceConnectionState);
+        };
 
         pc.ontrack = (e) => {
+            console.log("Received remote track:", e.track.kind);
             if (remoteVideoRef.current) {
                 if (!remoteVideoRef.current.srcObject) {
                     remoteVideoRef.current.srcObject = new MediaStream();
@@ -178,88 +182,105 @@ export function PairRoomContent({
             if (e.candidate) {
                 emitIceCandidate({
                     candidate: e.candidate,
-                    type: "sender",
+                    type: isCaller ? "sender" : "receiver",
                     roomId,
                 });
             }
         };
 
+        return pc;
+    };
+
+    const processPendingIceCandidates = async () => {
+        const pc = peerConnectionRef.current;
+        if (!pc || !hasRemoteDescriptionRef.current) return;
+
+        const candidates = pendingIceCandidatesRef.current;
+        pendingIceCandidatesRef.current = [];
+
+        for (const candidate of candidates) {
+            try {
+                await pc.addIceCandidate(new RTCIceCandidate(candidate));
+                console.log("Added queued ICE candidate");
+            } catch (error) {
+                console.error("Error adding queued ICE candidate:", error);
+            }
+        }
+    };
+
+    const handleSendOffer = async ({ roomId }: { roomId: string }) => {
+        setLobby(false);
+
+        const pc = createPeerConnection(roomId, true);
+
         pc.onnegotiationneeded = async () => {
-            const sdp = await pc.createOffer(); // it creates offer object { type: "offer" | "answer", sdp: ...}
-            await pc.setLocalDescription(sdp);
-            emitOffer({ sdp, roomId });
+            try {
+                const offer = await pc.createOffer();
+                await pc.setLocalDescription(offer);
+                emitOffer({ sdp: offer, roomId });
+            } catch (error) {
+                console.error("Error creating offer:", error);
+            }
         };
     };
 
     const handleReceivedOffer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: any }) => {
-        if (sendingPcRef.current) {
-            sendingPcRef.current.close();
-            sendingPcRef.current = null;
-        }
-
         setLobby(false);
 
-        const pc = new RTCPeerConnection(peerConfiguration);
-        receivingPcRef.current = pc;
+        const pc = createPeerConnection(roomId, false);
 
-        if (localVideoTrack) {
-            pc.addTrack(localVideoTrack);
+        try {
+            await pc.setRemoteDescription(new RTCSessionDescription(remoteSdp));
+            hasRemoteDescriptionRef.current = true;
+
+            // Process any ICE candidates that arrived before remote description was set
+            await processPendingIceCandidates();
+
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+
+            emitAnswer({ roomId, sdp: answer });
+        } catch (error) {
+            console.error("Error handling received offer:", error);
         }
-        if (localAudioTrack) {
-            pc.addTrack(localAudioTrack);
-        }
-
-        pc.onconnectionstatechange = () => {
-            if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
-                console.log("Recevied offer side connection state: ", pc.connectionState)
-                // setLobby(true);
-            }
-        };
-
-        pc.ontrack = (e) => {
-            if (remoteVideoRef.current) {
-                if (!remoteVideoRef.current.srcObject) {
-                    remoteVideoRef.current.srcObject = new MediaStream();
-                }
-                (remoteVideoRef.current.srcObject as MediaStream).addTrack(e.track);
-            }
-        };
-
-        pc.onicecandidate = (e) => {
-            if (e.candidate) {
-                emitIceCandidate({
-                    candidate: e.candidate,
-                    type: "receiver",
-                    roomId,
-                });
-            }
-        };
-
-        await pc.setRemoteDescription(remoteSdp);
-        const sdp = await pc.createAnswer();
-        await pc.setLocalDescription(sdp);
-
-        emitAnswer({ roomId, sdp });
     };
 
     const handleAnswer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
-        if (sendingPcRef.current) {
-            await sendingPcRef.current.setRemoteDescription(remoteSdp);
+        const pc = peerConnectionRef.current;
+        if (!pc) {
+            console.error("No peer connection when receiving answer");
+            return;
+        }
+
+        try {
+            await pc.setRemoteDescription(new RTCSessionDescription(remoteSdp));
+            hasRemoteDescriptionRef.current = true;
+
+            // Process any ICE candidates that arrived before remote description was set
+            await processPendingIceCandidates();
+        } catch (error) {
+            console.error("Error setting remote description from answer:", error);
         }
     };
 
     const handleIceCandidate = async ({ candidate, type }: { candidate: any; type: "sender" | "receiver" }) => {
+        const pc = peerConnectionRef.current;
+
+        if (!pc) {
+            console.warn("No peer connection available for ICE candidate");
+            return;
+        }
+
+        // Queue ICE candidates if remote description hasn't been set yet
+        if (!hasRemoteDescriptionRef.current) {
+            console.log("Queuing ICE candidate - remote description not set yet");
+            pendingIceCandidatesRef.current.push(candidate);
+            return;
+        }
 
         try {
-            const iceCandidate = candidate instanceof RTCIceCandidate
-                ? candidate
-                : new RTCIceCandidate(candidate);
-
-            if (type === "sender" && receivingPcRef.current) {
-                await receivingPcRef.current.addIceCandidate(iceCandidate);
-            } else if (type === "receiver" && sendingPcRef.current) {
-                await sendingPcRef.current.addIceCandidate(iceCandidate);
-            }
+            await pc.addIceCandidate(new RTCIceCandidate(candidate));
+            console.log("Added ICE candidate directly");
         } catch (error) {
             console.error("Error adding ICE candidate:", error);
         }
@@ -313,15 +334,14 @@ export function PairRoomContent({
             remoteVideoRef.current.srcObject = null;
         }
 
-        if (sendingPcRef.current) {
-            sendingPcRef.current.close();
-            sendingPcRef.current = null;
+        if (peerConnectionRef.current) {
+            peerConnectionRef.current.close();
+            peerConnectionRef.current = null;
         }
 
-        if (receivingPcRef.current) {
-            receivingPcRef.current.close();
-            receivingPcRef.current = null;
-        }
+        // Reset state
+        pendingIceCandidatesRef.current = [];
+        hasRemoteDescriptionRef.current = false;
 
         if (leaveRoom) {
             leaveRoom();
@@ -364,6 +384,21 @@ export function PairRoomContent({
         onMessageReceived: handleMessageReceived,
         onUserJoined: handleUserJoined,
         onUserLeft: () => {
+            // Clear remote video when user leaves
+            if (remoteVideoRef.current?.srcObject) {
+                const stream = remoteVideoRef.current.srcObject as MediaStream;
+                stream.getTracks().forEach(track => track.stop());
+                remoteVideoRef.current.srcObject = null;
+            }
+
+            // Close peer connection when other user leaves
+            if (peerConnectionRef.current) {
+                peerConnectionRef.current.close();
+                peerConnectionRef.current = null;
+            }
+            pendingIceCandidatesRef.current = [];
+            hasRemoteDescriptionRef.current = false;
+
             setLobby(true);
             // code should always sync with the current state for new users, even if they leave and rejoin.
             isFirstUserInRoom.current = true;
