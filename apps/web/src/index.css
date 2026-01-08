@@ -158,6 +158,8 @@ body {
     display: none;
 }
 
+/* hero section text PAIR CODE*/
+
 .ascii-art {
   font-family: 'Roboto Mono', 'Courier New', monospace;
   line-height: 1.1;
@@ -181,6 +183,15 @@ body {
   border-radius: 2px;
 }
 
+/* disable showing controls in the video */
+
 video {
   pointer-events: none;
+}
+
+/* custome selected text color and bg */
+
+::selection {
+  background-color: #BD9267;
+  color: #000000;            
 }
