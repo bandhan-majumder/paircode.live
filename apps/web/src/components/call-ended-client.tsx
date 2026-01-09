@@ -5,11 +5,18 @@ import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Video, Home, RotateCcw, Clock } from "lucide-react"
+import type { authClient } from "@/lib/auth-client"
 
-export default function CallEndedClient() {
+export default function CallEndedClient({ session }: {
+  session: typeof authClient.$Infer.Session | null,
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const roomId = searchParams.get("roomId")
+
+  if (!session){
+    router.push(`/login?redirect=/room/${roomId}`)
+  }
 
   const [countdown, setCountdown] = useState(10)
   const [autoRedirect, setAutoRedirect] = useState(true)

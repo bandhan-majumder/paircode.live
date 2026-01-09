@@ -4,14 +4,20 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { signInWithGoogle } from "@/lib/auth-client"
+import { useSearchParams } from "next/navigation"
 
 export function GoogleSignInButton() {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') || "/";
   const [isClicked, setIsClicked] = useState(false)
 
   async function handleLogin() {
     if (isClicked) return
     setIsClicked(true)
     try {
+      if (redirectUrl && redirectUrl !== "/") {
+        sessionStorage.setItem('postLoginRedirect', redirectUrl);
+      }
       await signInWithGoogle()
     } catch (error) {
       console.error("Error signing in: ", error)

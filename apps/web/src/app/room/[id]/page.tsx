@@ -23,7 +23,7 @@ export default function CodeArena({ params }: Props) {
 
   useEffect(() => {
     if (!isPending && (!session || !session?.user || !session.user.id)) {
-      router.push("/login");
+      router.push(`/login?redirect=/room/${id}`);
     }
   }, [isPending, session, router]);
 

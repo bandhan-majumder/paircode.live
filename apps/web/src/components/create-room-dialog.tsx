@@ -93,7 +93,7 @@ export function CreateRoomDialog({
                 <StyledButton className="bg-[#BD9267] dark:bg-[#BD9267] text-nowrap" text="">
                     <div className="flex justify-center items-center gap-2 text-nowrap">
                         <Plus className="h-5 w-5" />
-                        <span>Create a room</span>
+                        <span className="whitespace-normal text-center">Create a room</span>
                     </div>
                 </StyledButton>
             </DialogTrigger>

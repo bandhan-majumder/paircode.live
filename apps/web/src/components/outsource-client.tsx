@@ -16,15 +16,24 @@ interface OutsourceClientProps {
 }
 
 export default function OutsourceClient({ session }: OutsourceClientProps) {
+    let redirectFullPathWithQueryParams;
     const searchParams = useSearchParams();
+    const source = searchParams.get('source');
+    const outSourcedCode = searchParams.get('code');
+    const outSourcedCodeLang = searchParams.get('language');
+
+    if(source === 'clipboard'){
+        redirectFullPathWithQueryParams = `/outsource?source=${source}&language=${outSourcedCodeLang}`
+    }else{
+        redirectFullPathWithQueryParams = `/outsource?code=${outSourcedCode}&language=${outSourcedCodeLang}`
+    }
+
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [code, setCode] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const loadCode = async () => {
-            const source = searchParams.get('source');
-
             if (source === 'clipboard') {
                 try {
                     // get clipboard permission
@@ -33,6 +42,7 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
                     const sessionData = JSON.parse(clipboardText);
 
                     setCode(sessionData.code || '');
+                    // BUG: if the language does not exist or so
                     setSelectedLanguage(sessionData.language || 'python');
 
                     toast.success('Code imported from VS Code!');
@@ -48,9 +58,6 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
             }
             else {
                 try {
-                    const outSourcedCode = searchParams.get('code');
-                    const outSourcedCodeLang = searchParams.get('language');
-
                     if (outSourcedCode && outSourcedCodeLang) {
                         // const decodedCode = decodeURIComponent(outSourcedCode);
                         // const decodedLang = decodeURIComponent(outSourcedCodeLang);
@@ -87,7 +94,7 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
             <div className='flex justify-center items-center flex-col h-screen'>
                 <Hand size={50} className='mb-3' />
                 <p className='text-2xl tracking-tighter'>To be able to share and collaborate code, you must login.</p>
-                <p className='text-2xl tracking-tighter'>Click <Link className='text-[#BD9267] underline' href={'/login'}>here</Link> to login. Once done, please share with pair code again : {')'}</p>
+                <p className='text-2xl tracking-tighter'>Click <Link className='text-[#BD9267] underline' href={`/login?redirect=${redirectFullPathWithQueryParams}`}>here</Link> to login. Once done, please share with pair code again : {')'}</p>
             </div>
         )
     }
@@ -115,8 +122,8 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
     if (session) {
         return (
             <div className="flex h-screen w-screen flex-col overflow-hidden">
-                <div className='flex justify-between'>
-                    <div className='w-[80vw]'>
+                <div className='grid grid-cols-1 lg:grid-cols-4 h-full w-full'>
+                    <div className='w-full h-[50vh] lg:h-full lg:col-span-3'>
                         <CodeShare
                             code={code || ''}
                             onChange={handleCodeChange}
@@ -124,19 +131,33 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
                             isOutSourcedScreen={true}
                         />
                     </div>
-                    <div className='w-[20vw] p-10'>
-                        <div className='bg-orange-100 dark:bg-gray-700 border-2 border-gray-800 dark:border-amber-50 flex flex-col justify-center items-center p-10 mt-10 rounded-4xl'>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <Info />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Note</p>
-                                </TooltipContent>
-                            </Tooltip>
 
-                            <p className='text-center my-5 font-semibold'>Other features will only appear when you share a session. Please click on the button below to share and debug in real time!</p>
-                            {session && <CreateRoomDialog session={session} isOutSourced={true} outSourcedCode={code} outSourcedLanguage={selectedLanguage} />}
+                    <div className='w-full h-[50vh] lg:h-full lg:col-span-1 overflow-y-auto bg-white dark:bg-zinc-950 border-t lg:border-t-0 lg:border-l border-zinc-200 dark:border-zinc-800'>
+                        <div className='flex flex-col h-full p-6 lg:p-8'>
+                            <div className='bg-orange-50 dark:bg-zinc-900 border border-orange-200 dark:border-zinc-800 flex flex-col justify-center items-center p-6 rounded-xl shadow-sm'>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Info className="text-zinc-500 dark:text-zinc-400" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Note</p>
+                                    </TooltipContent>
+                                </Tooltip>
+
+                                <p className='text-center my-6 font-medium text-zinc-600 dark:text-zinc-300 text-sm lg:text-base leading-relaxed'>
+                                    Other features will only appear when you share a session. Please click on the button below to share and debug in real time!
+                                </p>
+                                {session && (
+                                    <div className="w-full flex justify-center">
+                                        <CreateRoomDialog
+                                            session={session}
+                                            isOutSourced={true}
+                                            outSourcedCode={code}
+                                            outSourcedLanguage={selectedLanguage}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

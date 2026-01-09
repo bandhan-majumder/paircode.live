@@ -11,12 +11,11 @@
 
 ### Website
 
-![Website preview](/apps/web/public/demo-web.gif)
-
+![Website preview](https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.gif)
 
 ### VSCode extension ([More details](https://paircode.live/vscode-extension))
 
-![VSCode extension preview](/apps/web/public/demo-ext.gif)
+![VSCode extension preview](https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.gif)
 
 ## Setup & Contribution
 
@@ -33,6 +32,8 @@ modern TypeScript stack that combines Next.js, Express, and more.
 and webRTC apis provided by browser.
 
 [WebRTC](https://webrtc.org/) - Real-time communication for the web
+
+[Drizzle](https://orm.drizzle.team/) - A headless TypeScript ORM with a head
 
 [Yo Code](https://vscode-docs.readthedocs.io/en/stable/tools/yocode/) - Extension Generator
 

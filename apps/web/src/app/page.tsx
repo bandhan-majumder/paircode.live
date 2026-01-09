@@ -5,6 +5,7 @@ import { FeedbackCarousel } from "@/components/feedback-carousel";
 import NavBar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import HeroSectionMobile from "@/components/hero-section-mobile";
+import PostLoginRedirectHandler from "@/components/post-login-redirect-handler";
 
 export const metadata: Metadata = {
 	title: 'PairCode - Real-Time Code Collaboration with Video',
@@ -125,6 +126,7 @@ export default function Home() {
 
 	return (
 		<div>
+			<PostLoginRedirectHandler />
 			<script
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

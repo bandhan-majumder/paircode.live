@@ -425,10 +425,9 @@ export function PairRoomContent({
                             <Info size={15} />
                         </TooltipTrigger>
                         <TooltipContent className="w-[95vw] md:w-auto ml-2">
-                            <p>Switching languages replaces your code with a default template.</p>
-                            <p>Pressing Ctrl+Z may restore your code.</p>
+                            <p>Switching languages replaces present code with default template.</p>
+                            <p>Use Ctrl+Z to restore your code.</p>
                             <p>However, the selected language might still be incorrect.</p>
-                            <p>The change happens in real time for both you and your pair partner.</p>
                         </TooltipContent>
                     </Tooltip>
                     <DropdownMenuLanguageCheckboxes

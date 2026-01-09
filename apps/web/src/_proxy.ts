@@ -1,3 +1,6 @@
+/**
+ * This is not working right now due to redirect issue in post login flow. To make it work, rename to 'proxy.ts'
+ */
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@paircode/auth";

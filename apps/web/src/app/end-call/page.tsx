@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import CallEndedClient from "@/components/call-ended-client"
+import { auth } from "@paircode/auth"
+import { headers } from "next/headers"
 
 export const metadata: Metadata = {
   title: 'Call Ended - PairCode',
@@ -39,14 +41,18 @@ export const metadata: Metadata = {
   }
 }
 
-export default function CallEndedPage() {
+export default async function CallEndedPage() {
+  const session = await auth.api.getSession({
+      headers: await headers()
+    })
+  
   return (
     <Suspense fallback={
       <div className="h-screen w-full flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     }>
-      <CallEndedClient />
+      <CallEndedClient session={session} />
     </Suspense>
   )
 }

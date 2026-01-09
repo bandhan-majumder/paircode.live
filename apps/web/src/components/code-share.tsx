@@ -14,9 +14,10 @@ interface CodeShareProps {
 }
 
 const myDarkTheme = createTheme({
+  
   theme: "dark",
   settings: {
-    background: "#1e1e2e",
+    background: "#282C34",
     foreground: "#cdd6f4",
     caret: "#f5e0dc",
     selection: "#585b70aa",
