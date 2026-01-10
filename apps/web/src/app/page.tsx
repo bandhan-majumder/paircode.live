@@ -6,6 +6,8 @@ import NavBar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import HeroSectionMobile from "@/components/hero-section-mobile";
 import PostLoginRedirectHandler from "@/components/post-login-redirect-handler";
+import Image from "next/image";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
 	title: 'PairCode - Real-Time Code Collaboration with Video',
@@ -132,7 +134,7 @@ export default function Home() {
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 			/>
 			<div
-				className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.1] text-foreground pointer-events-none"
+				className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.2] text-foreground pointer-events-none"
 				style={{
 					backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px),
                         linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
@@ -153,7 +155,7 @@ export default function Home() {
 
 				<ActionButtons showGithub />
 
-				<section className="my-20 md:my-30 -mx-4 sm:mx-0">
+				<section className="my-20 md:my-40 -mx-4 sm:mx-0">
 					<div className="w-full flex justify-center items-center flex-col">
 						<div className="relative overflow-hidden rounded-lg sm:rounded-2xl border border-[#DFDFDF] shadow-2xl p-2 dark:border-[#2E2E2E]">
 							<div className="flex gap-3 ml-3 my-2">
@@ -184,6 +186,45 @@ export default function Home() {
 								/>
 								Your browser doesn't support video playback.
 							</video>
+						</div>
+					</div>
+				</section>
+
+				<section className="mb-20 md:mb-40 mx-4 sm:mx-10 md:mx-40">
+					<div className="flex flex-col xl:flex-row justify-between gap-8 xl:gap-12 items-center">
+						<div className='text-center xl:text-left text-lg sm:text-xl md:text-2xl text-balance xl:max-w-md xl:shrink-0 tracking-tight'>
+							<div className="text-[#898989]">Use PairCode With</div>
+							70+ languages
+						</div>
+
+						<div className="flex justify-center items-center w-full">
+							<div className="flex flex-wrap justify-center gap-2 sm:gap-3 xl:flex-nowrap items-center">
+								<Image width={40} alt="JavaScript" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" height={40} className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(247,223,30,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} alt="TypeScript" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/typescript/typescript.png" height={40} className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(49,120,198,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="C" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/c/c.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(93,108,191,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="C++" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/cpp/cpp.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(0,149,221,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="C#" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/csharp/csharp.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(149,96,199,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="CSS" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/css/css.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(21,114,182,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="Go" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/go/go.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(0,173,216,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="HTML" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/html/html.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(227,79,38,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="Java" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/java/java.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(237,76,60,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="Lua" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/lua/lua.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(0,0,128,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="PHP" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/php/php.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(119,123,180,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="Python" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(55,118,171,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="R" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/r/r.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(25,140,219,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="Ruby" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/ruby/ruby.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(204,52,45,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Image width={40} height={40} alt="Swift" src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/swift/swift.png" className="grayscale hover:grayscale-0 hover:drop-shadow-[0_0_12px_rgba(240,81,56,0.8)] transition-all duration-300 w-8 h-8 sm:w-10 sm:h-10" />
+								<Tooltip>
+									<TooltipTrigger>
+										<div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-dashed border-muted-foreground/30 text-muted-foreground text-xs sm:text-sm font-medium hover:border-foreground/50 hover:text-foreground hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all duration-300">
+											+58
+										</div>
+									</TooltipTrigger>
+									<TooltipContent>
+										<p className="text-sm">And 58+ more</p>
+									</TooltipContent>
+								</Tooltip>
+							</div>
 						</div>
 					</div>
 				</section>

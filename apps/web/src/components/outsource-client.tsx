@@ -43,7 +43,7 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
 
                     setCode(sessionData.code || '');
                     // BUG: if the language does not exist or so
-                    setSelectedLanguage(sessionData.language || 'python');
+                    setSelectedLanguage(sessionData.language || 'py');
 
                     toast.success('Code imported from VS Code!');
                 } catch (error) {
@@ -68,18 +68,18 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
                             setSelectedLanguage(outSourcedCodeLang);
                             toast.success('Code imported from VS Code!');
                         } else {
-                            setSelectedLanguage('python');
-                            toast.warning('Language extension is not supported. Falling back to default');
+                            setSelectedLanguage('text');
+                            toast.warning('Language extension is not supported. Falling back to text');
                         }
                     } else {
                         // No code provided
-                        setCode(defaultCodeSnippets['python'] || '');
-                        setSelectedLanguage('python');
+                        setCode(defaultCodeSnippets['py'] || '');
+                        setSelectedLanguage('py');
                     }
                 } catch (error) {
                     toast.error('Failed to load code from URL');
-                    setCode(defaultCodeSnippets['python'] || '');
-                    setSelectedLanguage('python');
+                    setCode(defaultCodeSnippets['py'] || '');
+                    setSelectedLanguage('py');
                 }
             }
 

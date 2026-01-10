@@ -47,7 +47,7 @@ export function PairRoomContent({
         if (outSourcedCode && outSourcedLanguage) {
             return outSourcedLanguage;
         }
-        return "python";
+        return "py";
     });
 
     const selectedLanguageRef = useRef(selectedLanguage);
@@ -56,7 +56,7 @@ export function PairRoomContent({
         if (outSourcedCode) {
             return outSourcedCode;
         }
-        return defaultCodeSnippets["python"];
+        return defaultCodeSnippets["py"];
     });
 
     const [lobby, setLobby] = useState(true);

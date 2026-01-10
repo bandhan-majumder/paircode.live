@@ -80,7 +80,7 @@ export default function ExtensionPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
             />
             <div
-				className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.1] text-foreground pointer-events-none"
+				className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.2] text-foreground pointer-events-none"
 				style={{
 					backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px),
                         linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
