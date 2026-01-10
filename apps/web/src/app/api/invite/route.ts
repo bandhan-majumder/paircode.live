@@ -2,7 +2,7 @@ import { sendEmail } from "@/lib/nodemailer";
 import { NextResponse } from "next/server";
 import { applyRateLimit } from "./ratelimiter";
 import { inviteFriendSchema } from "@/app/api/invite/invite-friend.type";
-import { createInvite } from "@/lib/db/query";
+import { createInvite } from "@/lib/db";
 import { auth } from "@paircode/auth";
 import { headers } from "next/headers";
 

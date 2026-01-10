@@ -7,7 +7,7 @@ export const room = pgTable("room", {
     topic: text("topic").notNull(),
     banner: text("banner"),
     isShared: boolean("is_shared").default(false).notNull(),
-    isFull: text("is_full").default("false").notNull(),
+    isFull: boolean("is_full").default(false).notNull(),
     createdBy: text("created_by").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
@@ -17,14 +17,12 @@ export const room = pgTable("room", {
 });
 
 export const roomMember = pgTable("room_member", {
+    id: uuid().primaryKey().defaultRandom(),
     roomId: uuid().notNull().references(() => room.id, { onDelete: "cascade" }),
     userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
     joinedAt: timestamp("joined_at").defaultNow().notNull(),
-}, (table) => ({
-    pk: primaryKey({ columns: [table.roomId, table.userId] }),
-    roomIdx: index("room_member_roomId_idx").on(table.roomId),
-    userIdx: index("room_member_userId_idx").on(table.userId),
-}));
+    leftAt: timestamp("left_at")
+});
 
 export const roomMemberRelations = relations(roomMember, ({ one }) => ({
     room: one(room, {

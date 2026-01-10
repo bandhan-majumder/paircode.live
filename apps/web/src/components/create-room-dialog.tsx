@@ -57,7 +57,7 @@ export function CreateRoomDialog({
     }
 
     const mutation = useMutation({
-        mutationFn: async (data: { topic: string, createdBy: string }) => {
+        mutationFn: async (data: { topic: string }) => {
             return axios.post("/api/room", data);
         },
         onSuccess: (response) => {
@@ -79,8 +79,7 @@ export function CreateRoomDialog({
 
         if (topic?.trim()) {
             const response = await mutation.mutateAsync({ 
-                topic, 
-                createdBy: session.user.id 
+                topic
             });
             router.push(`/room/${response.data.newRoom.id}`);
             return;

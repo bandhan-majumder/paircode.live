@@ -34,7 +34,6 @@ export class RoomManager {
             // broadcast to a room from a given socket
             socket.to(roomId).emit("user-joined", {
                 socketId: socket.id,
-                timestamp: Date.now()
             });
 
             if (roomSize === 1) {
@@ -96,21 +95,18 @@ export class RoomManager {
     }
 
     async onOffer(roomId: string, sdp: string, senderSocketId: string) {
-        console.log("onoffer called: ", roomId, senderSocketId, sdp);
         const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
         if (!others.length || !others[0]) return;
         others[0].emit("offer", { sdp, roomId });
     }
 
     async onAnswer(roomId: string, sdp: string, senderSocketId: string) {
-        console.log("onanswer called: ", roomId, senderSocketId, sdp);
         const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
         if (!others.length || !others[0]) return;
         others[0].emit("answer", { sdp, roomId });
     }
 
     async onIceCandidates(roomId: string, senderSocketId: string, candidate: any, type: "sender" | "receiver") {
-        console.log("onIceCandidates called: ", roomId, senderSocketId, candidate, type || "no-type");
         const others = await this.getOtherSocketsInRoom(roomId, senderSocketId);
         if (!others.length || !others[0]) return;
         others[0].emit("add-ice-candidate", { candidate, type });

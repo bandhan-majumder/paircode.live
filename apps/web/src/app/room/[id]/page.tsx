@@ -4,15 +4,15 @@ import { use, useEffect, useRef, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import PairRoom from "@/components/pair-room";
 import { toast } from "sonner";
+import PairRoomJoinHandler from "@/components/room-join-handler";
 
 type Props = {
   params: Promise<{ id: string }>;
 };
 
 export default function CodeArena({ params }: Props) {
-  const { id } = use(params);
+  const { id: roomId } = use(params);
   const { data: session, isPending } = authClient.useSession();
   const [isJoined, setIsJoined] = useState<boolean>(false);
   const [showJoinButton, setShowJoinButton] = useState<boolean>(false);
@@ -23,12 +23,12 @@ export default function CodeArena({ params }: Props) {
 
   useEffect(() => {
     if (!isPending && (!session || !session?.user || !session.user.id)) {
-      router.push(`/login?redirect=/room/${id}`);
+      router.push(`/login?redirect=/room/${roomId}`);
     }
-  }, [isPending, session, router]);
+  }, [isPending, session, router, roomId]);
 
   useEffect(() => {
-    getCameraMicPermissions()
+    getCameraMicPermissions();
   }, []);
 
   const getCameraMicPermissions = async () => {
@@ -72,39 +72,41 @@ export default function CodeArena({ params }: Props) {
       toast.error("Please allow your microphone and camera permissions to make your video and voice appear correctly. Go to browser settings and change it.");
       console.error("Permission error", err);
     }
-  }
+  };
 
   if (!isJoined) {
     return (
-      <>
-        <div className="flex justify-center flex-col items-center gap-6 md:gap-10 h-screen px-4">
-          <p className="font-semibold text-xl md:text-2xl text-center">
-            Are you ready to debug,{" "}
-            <span className="text-[#BD9267]">{session?.user.name}</span>{" "}?
-          </p>
-          <div className="w-full max-w-[600px]">
-            <video 
-              style={{
-                borderRadius: "20px"
-              }} 
-              autoPlay 
-              className="w-full h-auto"
-              ref={videoRef}
-            ></video>
-          </div>
-          {showJoinButton && <Button onClick={() => {
+      <div className="flex justify-center flex-col items-center gap-6 md:gap-10 h-screen px-4">
+        <p className="font-semibold text-xl md:text-2xl text-center">
+          Are you ready to debug,{" "}
+          <span className="text-[#BD9267]">{session?.user.name}</span>{" "}?
+        </p>
+        <div className="w-full max-w-[600px]">
+          <video 
+            style={{
+              borderRadius: "20px"
+            }} 
+            autoPlay 
+            className="w-full h-auto"
+            ref={videoRef}
+          ></video>
+        </div>
+        {showJoinButton && (
+          <Button onClick={() => {
             setIsJoined(true);
           }}>
             Join Now
-          </Button>}
-        </div>
-      </>
-    )
+          </Button>
+        )}
+      </div>
+    );
   }
 
   return (
-    <>
-      <PairRoom id={id} localAudioTrack={localAudioTrack} localVideoTrack={localVideoTrack} />
-    </>
-  )
+    <PairRoomJoinHandler 
+      id={roomId} 
+      localAudioTrack={localAudioTrack} 
+      localVideoTrack={localVideoTrack} 
+    />
+  );
 }

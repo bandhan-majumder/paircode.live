@@ -29,6 +29,13 @@
       "when": 1766036408061,
       "tag": "0003_complete_purifiers",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1768035658564,
+      "tag": "0004_sour_thunderbolt_ross",
+      "breakpoints": true
     }
   ]
 }

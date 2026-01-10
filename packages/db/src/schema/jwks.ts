@@ -1,3 +1,6 @@
+/**
+ * This is unused for now. Maybe later we use it to enable jwt from better-auth itself.
+ */
 import { pgTable, text, timestamp} from "drizzle-orm/pg-core";
 
 export const jwks = pgTable(

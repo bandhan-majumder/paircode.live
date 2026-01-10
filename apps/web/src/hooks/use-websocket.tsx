@@ -87,7 +87,7 @@ export function useSocketIO({
         }
       });
 
-      socket.on("user-joined", (data: { socketId: string; timestamp: number }) => {
+      socket.on("user-joined", (data: { socketId: string }) => {
         if (onUserJoined) {
           onUserJoined(data.socketId);
         }

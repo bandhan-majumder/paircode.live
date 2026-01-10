@@ -158,7 +158,6 @@ export function PairRoomContent({
         }
 
         pc.onconnectionstatechange = () => {
-            // console.log("Connection state: ", pc.connectionState);
             if (pc.connectionState === 'failed' || pc.connectionState === 'closed') {
                 setLobby(true);
             }
@@ -169,7 +168,6 @@ export function PairRoomContent({
         };
 
         pc.ontrack = (e) => {
-            // console.log("Received remote track:", e.track.kind);
             if (remoteVideoRef.current) {
                 if (!remoteVideoRef.current.srcObject) {
                     remoteVideoRef.current.srcObject = new MediaStream();
@@ -201,7 +199,6 @@ export function PairRoomContent({
         for (const candidate of candidates) {
             try {
                 await pc.addIceCandidate(new RTCIceCandidate(candidate));
-                // console.log("Added queued ICE candidate");
             } catch (error) {
                 console.error("Error adding queued ICE candidate:", error);
             }
@@ -273,14 +270,12 @@ export function PairRoomContent({
 
         // Queue ICE candidates if remote description hasn't been set yet
         if (!hasRemoteDescriptionRef.current) {
-            // console.log("Queuing ICE candidate - remote description not set yet");
             pendingIceCandidatesRef.current.push(candidate);
             return;
         }
 
         try {
             await pc.addIceCandidate(new RTCIceCandidate(candidate));
-            // console.log("Added ICE candidate directly");
         } catch (error) {
             console.error("Error adding ICE candidate:", error);
         }
@@ -313,7 +308,7 @@ export function PairRoomContent({
         }
     };
 
-    const handleLeaveRoom = () => {
+    const handleLeaveRoom = async () => {
         if (localAudioTrack) {
             localAudioTrack.stop();
         }
@@ -342,6 +337,13 @@ export function PairRoomContent({
         // Reset state
         pendingIceCandidatesRef.current = [];
         hasRemoteDescriptionRef.current = false;
+        try {
+            await axios.put('/api/room/member', {
+                roomId: id,
+            });
+        } catch (error) {
+            console.error("Error updating room member on leave:", error);
+        }
 
         if (leaveRoom) {
             leaveRoom();
@@ -445,7 +447,7 @@ export function PairRoomContent({
                 <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#130303] md:order-2 overflow-y-auto md:overflow-y-visible">
                     {lobby ? (
                         <div className="p-2 md:p-4 text-center text-sm md:text-base">
-                            <p className="mb-2 md:mb-4">Invite your friend to join...</p>
+                            <p className="mb-2 md:mb-4  md:mt-10">Invite your friend to join...</p>
                             <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                                 <Input
                                     value={inviteEmail}

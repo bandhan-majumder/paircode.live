@@ -1,4 +1,4 @@
-import type { room } from "./room";
+import type { room, roomMember } from "./room";
 import type { feedback } from "./feedback";
 import type { invite } from "./invite";
 
@@ -12,3 +12,7 @@ export type FeedBackIntertType = typeof feedback.$inferInsert;
 
 export type InviteType = typeof invite.$inferSelect;
 export type InviteInsertType = typeof invite.$inferInsert;
+
+export type RoomMemberType = typeof roomMember.$inferSelect;
+export type RoomMemberInsertType = typeof roomMember.$inferInsert;
+export type RoomMemberUpdateType = Partial<RoomMemberInsertType>;
