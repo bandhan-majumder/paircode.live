@@ -13,11 +13,11 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { useTheme } from "next-themes"
-import { Dot, LogOut } from "lucide-react"
+import { LogOut } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 
 interface UserMenuProps {
-  initialSession: any
+  initialSession: typeof authClient.$Infer.Session | null
 }
 
 export default function UserMenu({ initialSession }: UserMenuProps) {

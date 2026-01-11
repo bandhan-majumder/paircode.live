@@ -4,7 +4,7 @@
 import { sendEmail } from "@/lib/nodemailer";
 import { feedBackFormSchema } from "@/app/api/feedback/feedback.type";
 import { NextResponse } from "next/server";
-import { applyRateLimit } from "./ratelimiter";
+import { applyRateLimit } from "@/lib/utils/rate-limiter";
 import { createFeedBack } from "@/lib/db";
 
 export async function POST(req: Request) {

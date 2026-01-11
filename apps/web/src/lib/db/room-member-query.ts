@@ -15,7 +15,8 @@ export async function updateRoomMembers(roomId: string, userId: string) {
             .where(
                 and(
                     eq(roomMember.roomId, roomId),
-                    eq(roomMember.userId, userId)
+                    eq(roomMember.userId, userId),
+                    isNull(roomMember.leftAt)
                 )
             )
             .orderBy(desc(roomMember.joinedAt))

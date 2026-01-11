@@ -42,21 +42,17 @@ export default function PairRoomJoinHandler({
   });
 
   useEffect(() => {
-    addMemberMutation.mutate();
-  }, []);
+    if (addMemberMutation.isIdle) {
+      addMemberMutation.mutate();
+    }
+  }, [addMemberMutation.isIdle]);
 
   return (
     <>
-      {roomDetails && roomDetails?.isCreator && (
-        <div className="absolute top-20 right-4 z-50">
-          <ShareRoomDialog 
-            roomId={roomId} 
-            isShared={roomDetails.room.isShared || false} 
-            onShared={refetchRoomData} 
-          />
-        </div>
-      )}
       <PairRoom 
+        isShared={roomDetails?.room?.isShared || false}
+        onShared={refetchRoomData}
+        isCreator={roomDetails?.isCreator || false}
         id={roomId} 
         localAudioTrack={localAudioTrack} 
         localVideoTrack={localVideoTrack} 

@@ -1,6 +1,6 @@
 import { sendEmail } from "@/lib/nodemailer";
 import { NextResponse } from "next/server";
-import { applyRateLimit } from "./ratelimiter";
+import { applyRateLimit } from "@/lib/utils/rate-limiter";
 import { inviteFriendSchema } from "@/app/api/invite/invite-friend.type";
 import { createInvite } from "@/lib/db";
 import { auth } from "@paircode/auth";
@@ -38,8 +38,8 @@ export async function POST(req: Request) {
         const emailSubject = `PairCode Join Request from ${senderName}`;
 
         await Promise.all([
-            await sendEmail({ senderName, receiverEmail, subject: emailSubject, body: emailText }),
-            await createInvite({
+            sendEmail({ senderName, receiverEmail, subject: emailSubject, body: emailText }),
+            createInvite({
                 senderName,
                 senderEmail,
                 receiverEmail,
@@ -48,11 +48,11 @@ export async function POST(req: Request) {
         ])
 
         return NextResponse.json(
-            { message: "Feedback received" },
+            { message: "Invite sent successfully" },
             { status: 200 }
         );
     } catch (error) {
-        console.error("Error processing feedback:", error);
+        console.error("Error processing invite:", error);
         return NextResponse.json(
             { error: "Internal server error" },
             { status: 500 }

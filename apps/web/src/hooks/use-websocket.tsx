@@ -3,6 +3,8 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { NEXT_PUBLIC_SERVER_URL } from "../../config";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 interface UseSocketIOProps {
   token: string;
@@ -35,6 +37,7 @@ export function useSocketIO({
   const [isConnected, setIsConnected] = useState(false);
   const mountedRef = useRef(false);
   const hasJoinedRoom = useRef(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!token) {
@@ -136,6 +139,10 @@ export function useSocketIO({
         }
       });
 
+      socket.on("leave-room", () => {
+        // console.log("user left")
+      })
+
       socket.on("disconnect", (reason: any) => {
         setIsConnected(false);
       });
@@ -165,6 +172,22 @@ export function useSocketIO({
       setIsConnected(false);
     };
   }, [token, roomId]);
+
+  const mutation = useMutation({
+    mutationFn: async (data: { currentRoomId: string }) => {
+      return axios.put("/api/room/member", {
+        roomId: data.currentRoomId
+      });
+    },
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ['rooms'] });
+      return response;
+    },
+    onError: (error) => {
+      console.error("Error creating room:", error);
+    },
+    retry: 2
+  });
 
   const sendMessage = useCallback(
     (content: string) => {
@@ -211,19 +234,36 @@ export function useSocketIO({
     []
   );
 
-  const leaveRoom = useCallback(() => {
-    if (socketRef.current && socketRef.current.connected && roomId) {
-      socketRef.current.emit("leave-room", roomId);
-      socketRef.current.disconnect();
-    }
-  }, [roomId]);
+  const leaveRoom = useCallback(async (currentRoomId: string) => {
+    const socket = socketRef.current;
 
-  return { 
-    sendMessage, 
+    if (socket && socket.connected && currentRoomId) {
+      try {
+        socket.emit("leave-room", currentRoomId);
+
+        await mutation.mutateAsync({
+          currentRoomId
+        });
+      } catch (error) {
+        console.error("Failed to update room member status:", error);
+      } finally {
+        if (socket.connected) {
+          socket.disconnect();
+        }
+      }
+    } else {
+      console.warn("Cannot leave room: Socket not available or not connected");
+    }
+  }, []);
+
+  return {
+    sendMessage,
     emitOffer,
     emitAnswer,
     emitIceCandidate,
-    leaveRoom, 
+    isLeaveMutationPending: mutation.isPending,
+    isLeaveMutationErrror: mutation.isError,
+    leaveRoom,
     isConnected,
     socket: socketRef.current,
   };

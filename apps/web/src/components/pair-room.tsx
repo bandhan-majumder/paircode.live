@@ -6,11 +6,15 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import { PairRoomContent, type PairRoomProps } from "./pair-room-content";
+import { ConnectingLoader } from "./disconnect-loader";
 
 export default function PairRoom({
     id,
     localAudioTrack,
     localVideoTrack,
+    isCreator,
+    isShared, 
+    onShared
 }: PairRoomProps) {
     const { data: session, isPending } = authClient.useSession();
     const router = useRouter();
@@ -49,31 +53,16 @@ export default function PairRoom({
         }
     }, [session, id, jwtToken, router, isPending]);
 
-    if (!session || isPending) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-gray-100 mx-auto mb-4"></div>
-                    <p>Loading...</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (!jwtToken) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-gray-100 mx-auto mb-4"></div>
-                    <p>Authenticating...</p>
-                </div>
-            </div>
-        );
+    if (!session || isPending || !jwtToken) {
+        return <ConnectingLoader desc="Preparing PairCode session" />
     }
 
     return (
         <PairRoomContent
             id={id}
+            isCreator={isCreator}
+            isShared={isShared}
+            onShared={onShared}
             localAudioTrack={localAudioTrack}
             localVideoTrack={localVideoTrack}
             token={jwtToken}

@@ -51,7 +51,6 @@ export function StyledButton({
     <div className="relative inline-block group w-full sm:w-auto">
       <div className="absolute inset-0 rounded-sm bg-yellow-400 border border-black transition-transform duration-200 ease-out group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 z-[2]"></div>
       <div className="absolute inset-0 rounded-sm bg-red-500 border border-black transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:translate-y-1 sm:group-hover:translate-x-1.5 sm:group-hover:translate-y-1.5 lg:group-hover:translate-x-2 lg:group-hover:translate-y-2 z-[1]"></div>
-      <div className="absolute inset-0 rounded-sm bg-blue-400 border border-black transition-transform duration-300 ease-out group-hover:translate-x-1.5 group-hover:translate-y-1.5 sm:group-hover:translate-x-2 sm:group-hover:translate-y-2 lg:group-hover:translate-x-2.5 lg:group-hover:translate-y-2.5 z-[0] opacity-60"></div>
       {type === "submit" || type === "button" ? (
         <button type={type} className={buttonClasses} onClick={onClick}>
           <span className="relative z-10">{children}{text}</span>

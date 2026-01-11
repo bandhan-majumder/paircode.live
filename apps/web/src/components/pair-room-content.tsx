@@ -17,18 +17,26 @@ import z from "zod";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import peerConfiguration from "@/utils/webrtc/stun-server";
+import { DisconnectingLoader } from "./disconnect-loader";
+import { ShareRoomDialog } from "./share-room-dialog";
 
 export interface PairRoomProps {
     id: string;
     localAudioTrack: MediaStreamTrack | null;
     localVideoTrack: MediaStreamTrack | null;
+    isCreator: boolean;
+    isShared: boolean;
+    onShared: any
 }
 
 export function PairRoomContent({
     id,
     localAudioTrack,
     localVideoTrack,
-    token
+    token,
+    isCreator,
+    isShared,
+    onShared
 }: PairRoomProps & { token: string }) {
     const { data: session } = authClient.useSession();
     const router = useRouter();
@@ -337,18 +345,18 @@ export function PairRoomContent({
         // Reset state
         pendingIceCandidatesRef.current = [];
         hasRemoteDescriptionRef.current = false;
-        try {
-            await axios.put('/api/room/member', {
-                roomId: id,
-            });
-        } catch (error) {
-            console.error("Error updating room member on leave:", error);
+
+        if (leaveRoom && id) {
+            leaveRoom(id);
         }
 
-        if (leaveRoom) {
-            leaveRoom();
+        if (!isLeaveMutationPending && !isLeaveMutationErrror) {
+            router.push(`/end-call?roomId=${id}`);
+        } else {
+            toast.error("Something went wrong. Please try again")
+            router.push("/")
         }
-        router.push(`/end-call?roomId=${id}`);
+
     };
 
     const handleLanguageChange = (language: string) => {
@@ -380,7 +388,7 @@ export function PairRoomContent({
         }
     }
 
-    const { sendMessage, emitOffer, emitAnswer, emitIceCandidate, leaveRoom, isConnected } = useSocketIO({
+    const { sendMessage, emitOffer, emitAnswer, emitIceCandidate, leaveRoom, isConnected, isLeaveMutationPending, isLeaveMutationErrror } = useSocketIO({
         token,
         roomId: id,
         onMessageReceived: handleMessageReceived,
@@ -418,6 +426,10 @@ export function PairRoomContent({
             ? languageExtensions[selectedLanguage]
             : [];
 
+    if (isLeaveMutationPending) {
+        return <DisconnectingLoader />
+    }
+
     return (
         <div className="flex flex-col w-full h-screen">
             <div className="flex items-center justify-between p-3 md:p-4 border-b bg-background dark:bg-[#292929]">
@@ -447,6 +459,13 @@ export function PairRoomContent({
                 <div className="w-full md:w-80 lg:w-96 border-b md:border-b-0 md:border-l p-3 md:p-4 flex flex-col gap-3 md:gap-4 bg-background dark:bg-[#130303] md:order-2 overflow-y-auto md:overflow-y-visible">
                     {lobby ? (
                         <div className="p-2 md:p-4 text-center text-sm md:text-base">
+                            {isCreator && <div className="absolute top-20 right-4 z-50">
+                                <ShareRoomDialog
+                                    roomId={id}
+                                    isShared={isShared}
+                                    onShared={onShared}
+                                />
+                            </div>}
                             <p className="mb-2 md:mb-4  md:mt-10">Invite your friend to join...</p>
                             <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                                 <Input

@@ -36,12 +36,12 @@ export function ShareRoomDialog({ roomId, isShared, onShared }: ShareRoomDialogP
                 throw new Error("Not authenticated");
             }
             return axios.put("/api/room", {
-                roomId,
-                member: session.user.id
+                roomId
             });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['room', roomId] });
+            queryClient.invalidateQueries({ queryKey: ['public-rooms'] });
             queryClient.setQueryData(['room', roomId], (oldData: unknown) => {
                 if (oldData && typeof oldData === 'object' && 'room' in oldData) {
                     return {

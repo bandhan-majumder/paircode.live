@@ -15,15 +15,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { authClient } from "@/lib/auth-client";
 import { useRef } from "react";
-import { useRouter } from "next/navigation";
-import { room } from "@paircode/db/schema/room";
 import { toast } from "sonner";
 
 export function ShareRoomDialog({ session, roomId }: {
     session: typeof authClient.$Infer.Session;
     roomId: string
 }) {
-    const router = useRouter();
     const closeRef = useRef<HTMLButtonElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
     const queryClient = useQueryClient();
@@ -39,7 +36,7 @@ export function ShareRoomDialog({ session, roomId }: {
         onSuccess: (response) => {
             formRef.current?.reset();
             closeRef.current?.click();
-            queryClient.invalidateQueries({ queryKey: ['rooms'] });
+            queryClient.invalidateQueries({ queryKey: ['public-rooms'] });
             return response;
         },
         onError: (error) => {

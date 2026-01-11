@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { auth } from '@paircode/auth';
 import { headers } from 'next/headers';
+import { auth } from '@paircode/auth';
 
 export async function POST(request: Request) {
   const session = await auth.api.getSession({

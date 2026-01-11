@@ -26,6 +26,8 @@ export async function POST(req: Request) {
 
     // check if room is full
     const joinedUsers = await getJoinedUsers(body.roomId);
+    
+    // check if room is full
     if (joinedUsers?.length && joinedUsers.length === 2) {
         return NextResponse.json({ error: 'Room is full' }, { status: 400 });
     };

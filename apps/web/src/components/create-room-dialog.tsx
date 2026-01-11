@@ -110,6 +110,7 @@ export function CreateRoomDialog({
                             <Input
                                 id="topic"
                                 name="topic"
+                                maxLength={80}
                                 placeholder="ex: debugging memory in c"
                                 required
                             />

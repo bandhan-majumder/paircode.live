@@ -10,9 +10,10 @@ import { CreateRoomDialog } from '@/components/create-room-dialog';
 import { Hand, Info } from 'lucide-react';
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import type { authClient } from '@/lib/auth-client';
 
 interface OutsourceClientProps {
-    session: any;
+    session: typeof authClient.$Infer.Session | null;
 }
 
 export default function OutsourceClient({ session }: OutsourceClientProps) {

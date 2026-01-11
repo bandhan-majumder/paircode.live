@@ -1,4 +1,4 @@
-import { eq, gte, and, gt, lte, isNull, desc } from "drizzle-orm";
+import { eq, gte, and, gt, lte, isNull, desc, inArray } from "drizzle-orm";
 
 export {
     eq,
@@ -7,5 +7,6 @@ export {
     gt,
     lte,
     isNull,
-    desc
+    desc,
+    inArray
 }
