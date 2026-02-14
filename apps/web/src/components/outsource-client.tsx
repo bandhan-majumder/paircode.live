@@ -7,27 +7,19 @@ import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { defaultCodeSnippets } from '@/lib/defaultCodeSnippets';
 import { CreateRoomDialog } from '@/components/create-room-dialog';
-import { Hand, Info } from 'lucide-react';
-import Link from 'next/link';
+import { Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import type { authClient } from '@/lib/auth-client';
 
 interface OutsourceClientProps {
-    session: typeof authClient.$Infer.Session | null;
+    session: typeof authClient.$Infer.Session;
 }
 
 export default function OutsourceClient({ session }: OutsourceClientProps) {
-    let redirectFullPathWithQueryParams;
     const searchParams = useSearchParams();
     const source = searchParams.get('source');
     const outSourcedCode = searchParams.get('code');
     const outSourcedCodeLang = searchParams.get('language');
-
-    if(source === 'clipboard'){
-        redirectFullPathWithQueryParams = `/outsource?source=${source}&language=${outSourcedCodeLang}`
-    }else{
-        redirectFullPathWithQueryParams = `/outsource?code=${outSourcedCode}&language=${outSourcedCodeLang}`
-    }
 
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [code, setCode] = useState('');
@@ -90,16 +82,6 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
         loadCode();
     }, [searchParams]);
 
-    if (!session) {
-        return (
-            <div className='flex justify-center items-center flex-col h-screen'>
-                <Hand size={50} className='mb-3' />
-                <p className='text-2xl tracking-tighter'>To be able to share and collaborate code, you must login.</p>
-                <p className='text-2xl tracking-tighter'>Click <Link className='text-[#BD9267] underline' href={`/login?redirect=${redirectFullPathWithQueryParams}`}>here</Link> to login. Once done, please share with pair code again : {')'}</p>
-            </div>
-        )
-    }
-
     const handleCodeChange = (newCode: string) => {
         setCode(newCode);
     };
@@ -120,49 +102,45 @@ export default function OutsourceClient({ session }: OutsourceClientProps) {
         );
     }
 
-    if (session) {
-        return (
-            <div className="flex h-screen w-screen flex-col overflow-hidden">
-                <div className='grid grid-cols-1 lg:grid-cols-4 h-full w-full'>
-                    <div className='w-full h-[50vh] lg:h-full lg:col-span-3'>
-                        <CodeShare
-                            code={code || ''}
-                            onChange={handleCodeChange}
-                            extensions={currentExtensions}
-                            isOutSourcedScreen={true}
-                        />
-                    </div>
+    return (
+        <div className="flex h-screen w-screen flex-col overflow-hidden">
+            <div className='grid grid-cols-1 lg:grid-cols-4 h-full w-full'>
+                <div className='w-full h-[50vh] lg:h-full lg:col-span-3'>
+                    <CodeShare
+                        code={code || ''}
+                        onChange={handleCodeChange}
+                        extensions={currentExtensions}
+                        isOutSourcedScreen={true}
+                    />
+                </div>
 
-                    <div className='w-full h-[50vh] lg:h-full lg:col-span-1 overflow-y-auto bg-white dark:bg-zinc-950 border-t lg:border-t-0 lg:border-l border-zinc-200 dark:border-zinc-800'>
-                        <div className='flex flex-col h-full p-6 lg:p-8'>
-                            <div className='bg-orange-50 dark:bg-zinc-900 border border-orange-200 dark:border-zinc-800 flex flex-col justify-center items-center p-6 rounded-xl shadow-sm'>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <Info className="text-zinc-500 dark:text-zinc-400" />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Note</p>
-                                    </TooltipContent>
-                                </Tooltip>
+                <div className='w-full h-[50vh] lg:h-full lg:col-span-1 overflow-y-auto bg-white dark:bg-zinc-950 border-t lg:border-t-0 lg:border-l border-zinc-200 dark:border-zinc-800'>
+                    <div className='flex flex-col h-full p-6 lg:p-8'>
+                        <div className='bg-orange-50 dark:bg-zinc-900 border border-orange-200 dark:border-zinc-800 flex flex-col justify-center items-center p-6 rounded-xl shadow-sm'>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Info className="text-zinc-500 dark:text-zinc-400" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Note</p>
+                                </TooltipContent>
+                            </Tooltip>
 
-                                <p className='text-center my-6 font-medium text-zinc-600 dark:text-zinc-300 text-sm lg:text-base leading-relaxed'>
-                                    Other features will only appear when you share a session. Please click on the button below to share and debug in real time!
-                                </p>
-                                {session && (
-                                    <div className="w-full flex justify-center">
-                                        <CreateRoomDialog
-                                            session={session}
-                                            isOutSourced={true}
-                                            outSourcedCode={code}
-                                            outSourcedLanguage={selectedLanguage}
-                                        />
-                                    </div>
-                                )}
+                            <p className='text-center my-6 font-medium text-zinc-600 dark:text-zinc-300 text-sm lg:text-base leading-relaxed'>
+                                Other features will only appear when you share a session. Please click on the button below to share and debug in real time!
+                            </p>
+                            <div className="w-full flex justify-center">
+                                <CreateRoomDialog
+                                    session={session}
+                                    isOutSourced={true}
+                                    outSourcedCode={code}
+                                    outSourcedLanguage={selectedLanguage}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }

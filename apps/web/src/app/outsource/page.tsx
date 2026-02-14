@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Suspense } from "react";
 import { headers } from "next/headers";
 import { auth } from "@paircode/auth";
+import { redirect } from "next/navigation";
 import OutsourceClient from "@/components/outsource-client";
 
 export const metadata: Metadata = {
@@ -41,10 +42,28 @@ export const metadata: Metadata = {
     }
 }
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const session = await auth.api.getSession({
         headers: await headers()
     });
+
+    const params = await searchParams;
+    const source = params.source;
+    const code = params.code;
+    const language = params.language;
+
+    let redirectUrl = '/outsource';
+    if (source || code || language) {
+        const queryParams = new URLSearchParams();
+        if (source) queryParams.set('source', source);
+        if (code) queryParams.set('code', code);
+        if (language) queryParams.set('language', language);
+        redirectUrl = `/outsource?${queryParams.toString()}`;
+    }
+
+    if (!session) {
+        redirect(`/login?redirect=${encodeURIComponent(redirectUrl)}`);
+    }
 
     return (
         <Suspense fallback={
