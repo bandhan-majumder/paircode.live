@@ -1,5 +1,5 @@
-import "dotenv/config";
 import cors from "cors";
+import { env } from "@paircode/env/server";
 import express from "express";
 import { createServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
@@ -15,7 +15,7 @@ const io = new Server(server, {
     origin: [
       "https://paircode.live",
       "https://backend.paircode.live",
-      ...(process.env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
+      ...(env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
     ],
     methods: ["GET", "POST"],
     credentials: true,
@@ -29,7 +29,7 @@ app.use(
     origin: [
       "https://paircode.live",
       "https://backend.paircode.live",
-      ...(process.env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
+      ...(env.NODE_ENV === 'development' ? ["http://localhost:3000", "http://localhost:3001"] : [])
     ],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -61,7 +61,7 @@ io.use((socket: Socket, next) => {
   }
 
   try {
-    const JWT_SECRET = process.env.JWT_SECRET;
+    const JWT_SECRET = env.JWT_SECRET;
     
     if (!JWT_SECRET) {
       return next(new Error("Server configuration error"));
@@ -154,7 +154,7 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
-const port = process.env.PORT || 3000;
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+
+server.listen(env.PORT, () => {
+  console.log(`Server is running on port ${env.PORT}`);
 });

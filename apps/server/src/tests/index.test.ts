@@ -2,11 +2,12 @@ import { io as ioClient, Socket as ClientSocket } from "socket.io-client";
 import http from "http";
 import { describe, expect, afterEach, beforeEach, it } from "bun:test";
 import jwt from "jsonwebtoken";
+import { env } from "@paircode/env/server";
 
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
+const PORT = env.PORT ? Number(env.PORT) : 3000;
 const SOCKET_URL = `http://localhost:${PORT}`;
 const HEALTH_URL = `http://localhost:${PORT}/health`;
-const JWT_SECRET = process.env.JWT_SECRET || "test-secret-key";
+const JWT_SECRET = env.JWT_SECRET || "test-secret-key";
 
 const generateToken = (email: string, roomId: string, expiresIn: '1h' | '-1s' = "1h"): string => {
   return jwt.sign({ email, roomId }, JWT_SECRET, { expiresIn });

@@ -11,7 +11,8 @@
   "type": "module",
   "scripts": {},
   "devDependencies": {
-    "@paircode/config": "workspace:*"
+    "@paircode/config": "workspace:*",
+    "@paircode/env": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5"

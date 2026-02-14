@@ -24,7 +24,8 @@
   "devDependencies": {
     "drizzle-kit": "^0.31.8",
     "@types/ws": "^8.18.1",
-    "@paircode/config": "workspace:*"
+    "@paircode/config": "workspace:*",
+    "@paircode/env": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5"

@@ -2,6 +2,7 @@ import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@paircode/db";
 import * as schema from "@paircode/db/schema/auth";
+import { env } from "@paircode/env/web";
 
 export const auth = betterAuth<BetterAuthOptions>({
   database: drizzleAdapter(db, {
@@ -17,11 +18,11 @@ export const auth = betterAuth<BetterAuthOptions>({
     google: {
       accessType: "offline",
       prompt: "select_account consent",
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: env.GOOGLE_CLIENT_ID || "",
+      clientSecret: env.GOOGLE_CLIENT_SECRET || "",
     },
   },
-  baseURL: process.env.BETTER_AUTH_URL || "https://paircode.live",
+  baseURL: env.BETTER_AUTH_URL || "https://paircode.live",
   trustedOrigins: ["https://paircode.live",
     "https://www.paircode.live"],
 });

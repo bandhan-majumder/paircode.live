@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { NEXT_PUBLIC_SERVER_URL } from "../../config";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { env } from "@paircode/env/web";
 
 interface UseSocketIOProps {
   token: string;
@@ -59,7 +59,7 @@ export function useSocketIO({
     }
 
     try {
-      const socket = io(NEXT_PUBLIC_SERVER_URL, {
+      const socket = io(env.NEXT_PUBLIC_SERVER_URL, {
         query: { token }, // highly required
         transports: ['websocket', 'polling'],
         reconnection: true,

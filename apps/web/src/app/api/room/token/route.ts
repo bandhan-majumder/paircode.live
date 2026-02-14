@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { headers } from 'next/headers';
 import { auth } from '@paircode/auth';
+import { env } from '@paircode/env/web';
 
 export async function POST(request: Request) {
   const session = await auth.api.getSession({
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
       email: session.user.email,
       roomId
     },
-    process.env.JWT_SECRET!,
+    env.JWT_SECRET!,
     { expiresIn: '1h' }
   );
 

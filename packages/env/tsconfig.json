@@ -1,0 +1,3 @@
+{
+  "extends": "@paircode/config/tsconfig.base.json"
+}

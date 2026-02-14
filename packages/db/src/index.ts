@@ -3,6 +3,7 @@ import "dotenv/config";
 import { neon, neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import ws from "ws";
+import { env } from "@paircode/env/server";
 
 neonConfig.webSocketConstructor = ws;
 
@@ -10,5 +11,5 @@ neonConfig.webSocketConstructor = ws;
 
 neonConfig.poolQueryViaFetch = true
 
-const sql = neon(process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/postgres");
+const sql = neon(env.DATABASE_URL);
 export const db = drizzle(sql);

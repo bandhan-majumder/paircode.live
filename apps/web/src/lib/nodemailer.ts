@@ -1,13 +1,14 @@
 import { commonMailSchema, type commonMailSchemaType } from '@/types/common-email.type'
 import nodemailer from 'nodemailer'
+import { env } from '@paircode/env/web';
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: process.env.USER_EMAIL || '',
-        pass: process.env.USER_EMAIL_PASS || '',
+        user: env.USER_EMAIL || '',
+        pass: env.USER_EMAIL_PASS || '',
     },
 })
 
@@ -31,8 +32,8 @@ async function sendEmail({
 
     try {
         await transporter.sendMail({
-            from: `<${process.env.USER_EMAIL_ALIAS || process.env.USER_EMAIL || ''}>`,
-            to: [receiverEmail || process.env.RECIPIENT_EMAIL || ''],
+            from: `<${env.USER_EMAIL_ALIAS || env.USER_EMAIL || ''}>`,
+            to: [receiverEmail || env.RECIPIENT_EMAIL || ''],
             subject,
             text: body,
         })
