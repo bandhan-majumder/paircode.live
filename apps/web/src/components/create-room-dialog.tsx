@@ -14,13 +14,13 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
 import { authClient } from "@/lib/auth-client";
 import { useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
 import { StyledButton } from "./styled-buttons";
 import { Plus } from "lucide-react";
+import { trpc } from "@/lib/utils/trpc";
 
 export function CreateRoomDialog({ 
     session, 
@@ -56,21 +56,19 @@ export function CreateRoomDialog({
         return null;
     }
 
-    const mutation = useMutation({
-        mutationFn: async (data: { topic: string }) => {
-            return axios.post("/api/room", data);
-        },
-        onSuccess: (response) => {
-            formRef.current?.reset();
-            closeRef.current?.click();
-            queryClient.invalidateQueries({ queryKey: ['rooms'] });
-            return response;
-        },
-        onError: (error) => {
-            console.error("Error creating room:", error);
-        },
-        retry: 2
-    });
+    const mutation = useMutation(
+        trpc.room.create.mutationOptions({
+            onSuccess: (response) => {
+                formRef.current?.reset();
+                closeRef.current?.click();
+                queryClient.invalidateQueries({ queryKey: ['rooms'] });
+                router.push(`/room/${response.newRoom.id}`);
+            },
+            onError: (error) => {
+                console.error("Error creating room:", error);
+            },
+        })
+    );
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -78,10 +76,9 @@ export function CreateRoomDialog({
         const topic = formData.get("topic") as string;
 
         if (topic?.trim()) {
-            const response = await mutation.mutateAsync({ 
+            await mutation.mutateAsync({ 
                 topic
             });
-            router.push(`/room/${response.data.newRoom.id}`);
             return;
         }
     };

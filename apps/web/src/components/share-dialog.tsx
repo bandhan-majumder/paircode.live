@@ -12,10 +12,10 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
 import { authClient } from "@/lib/auth-client";
 import { useRef } from "react";
 import { toast } from "sonner";
+import { trpc } from "@/lib/utils/trpc";
 
 export function ShareRoomDialog({ session, roomId }: {
     session: typeof authClient.$Infer.Session;
@@ -29,29 +29,24 @@ export function ShareRoomDialog({ session, roomId }: {
         return null;
     }
 
-    const mutation = useMutation({
-        mutationFn: async (data: { roomId: string, member: string }) => {
-            return axios.put("/api/room", data);
-        },
-        onSuccess: (response) => {
-            formRef.current?.reset();
-            closeRef.current?.click();
-            queryClient.invalidateQueries({ queryKey: ['public-rooms'] });
-            return response;
-        },
-        onError: (error) => {
-            console.error("Error creating room:", error);
-        },
-        retry: 2
-    });
+    const mutation = useMutation(
+        trpc.room.updateShare.mutationOptions({
+            onSuccess: (response) => {
+                formRef.current?.reset();
+                closeRef.current?.click();
+                queryClient.invalidateQueries({ queryKey: ['public-rooms'] });
+                toast.success("Session share successfully! Link copied to your clipboard");
+                navigator.clipboard.writeText("https://localhost/3001/room/"+roomId);
+            },
+            onError: (error) => {
+                console.error("Error sharing room:", error);
+            },
+        })
+    );
 
     const handleShare = async () => {
         if (roomId && session.user.id) {
-            const response = await mutation.mutateAsync({ roomId, member: session.user.id });
-            if (response.data.newRoom.id){
-                toast.success("Session share successfully! Link copied to your clipboard");
-                navigator.clipboard.writeText("https://localhost/3001/room/"+roomId);
-            }
+            await mutation.mutateAsync({ roomId });
             return;
         }
         throw new Error("Unable to share session!")

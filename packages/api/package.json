@@ -16,10 +16,14 @@
     "@paircode/env": "workspace:*",
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
+    "@types/jsonwebtoken": "catalog:",
+    "@types/nodemailer": "^6.4.17",
     "@types/pg": "^8.16.0",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
     "drizzle-orm": "catalog:",
+    "jsonwebtoken": "catalog:",
+    "nodemailer": "^7.0.11",
     "zod": "catalog:"
   },
   "devDependencies": {

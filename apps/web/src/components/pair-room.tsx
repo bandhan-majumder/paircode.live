@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { toast } from "sonner";
 import { PairRoomContent, type PairRoomProps } from "./pair-room-content";
 import { ConnectingLoader } from "./disconnect-loader";
+import { trpc } from "@/lib/utils/trpc";
+import { useMutation } from "@tanstack/react-query";
 
 export default function PairRoom({
     id,
@@ -19,6 +20,23 @@ export default function PairRoom({
     const { data: session, isPending } = authClient.useSession();
     const router = useRouter();
     const [jwtToken, setJwtToken] = useState<string | null>(null);
+    const getTokenMutation = useMutation(
+        trpc.room.getSocketToken.mutationOptions({
+            onSuccess: (result) => {
+                if (result.token) {
+                    setJwtToken(result.token);
+                } else {
+                    toast.error('Failed to retrieve authentication token. Please try again.');
+                    router.push('/login');
+                }
+            },
+            onError: (error) => {
+                console.error('Failed to fetch JWT token:', error);
+                toast.error('Failed to authenticate. Redirecting to login...');
+                router.push('/login');
+            }
+        }),
+    );
 
     useEffect(() => {
         if (!session && !isPending) {
@@ -30,18 +48,10 @@ export default function PairRoom({
         if (!isPending && session?.user && !jwtToken) {
             const fetchToken = async () => {
                 try {
-                    const response = await axios.post('/api/room/token', {
-                        roomId: id
-                    })
-
-                    if (!response.data) {
-                        throw new Error('Failed to fetch token');
-                    }
-
-                    const { token } = response.data;
-
-                    if (token) {
-                        setJwtToken(token);
+                    const result = await getTokenMutation.mutateAsync({ roomId: id });
+                    
+                    if (result.token) {
+                        setJwtToken(result.token);
                     }
                 } catch (error) {
                     console.error('Failed to fetch JWT token:', error);

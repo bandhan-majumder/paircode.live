@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { env } from "@paircode/env/web";
+import { trpc } from "@/lib/utils/trpc";
 
 interface UseSocketIOProps {
   token: string;
@@ -173,21 +173,16 @@ export function useSocketIO({
     };
   }, [token, roomId]);
 
-  const mutation = useMutation({
-    mutationFn: async (data: { currentRoomId: string }) => {
-      return axios.put("/api/room/member", {
-        roomId: data.currentRoomId
-      });
-    },
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['rooms'] });
-      return response;
-    },
-    onError: (error) => {
-      console.error("Error creating room:", error);
-    },
-    retry: 2
-  });
+  const mutation = useMutation(
+    trpc.roomMember.leave.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['rooms'] });
+      },
+      onError: (error) => {
+        console.error("Error leaving room:", error);
+      },
+    })
+  );
 
   const sendMessage = useCallback(
     (content: string) => {
@@ -242,7 +237,7 @@ export function useSocketIO({
         socket.emit("leave-room", currentRoomId);
 
         await mutation.mutateAsync({
-          currentRoomId
+          roomId: currentRoomId
         });
       } catch (error) {
         console.error("Failed to update room member status:", error);
@@ -254,7 +249,7 @@ export function useSocketIO({
     } else {
       console.warn("Cannot leave room: Socket not available or not connected");
     }
-  }, []);
+  }, [mutation]);
 
   return {
     sendMessage,

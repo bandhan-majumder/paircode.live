@@ -39,14 +39,19 @@
     "tailwind-merge": "^3.3.1",
     "tw-animate-css": "^1.3.4",
     "zod": "^4.1.12",
-    "zustand": "^5.0.9"
+    "zustand": "^5.0.9",
+    "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
+    "@trpc/tanstack-react-query": "^11.7.2"
   },
   "devDependencies": {
     "@codemirror/commands": "^6.10.1",
     "@codemirror/lang-lezer": "^6.0.2",
     "@codemirror/lang-rust": "^6.0.2",
+    "@paircode/api": "workspace:*",
     "@paircode/config": "workspace:*",
     "@paircode/db": "workspace:*",
+    "@paircode/env": "workspace:*",
     "@replit/codemirror-lang-csharp": "^6.2.0",
     "@tailwindcss/postcss": "^4.1.10",
     "@tanstack/react-query-devtools": "^5.85.5",
@@ -56,9 +61,7 @@
     "@types/nodemailer": "^7.0.4",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "axios": "^1.13.2",
     "tailwindcss": "^4.1.10",
-    "typescript": "catalog:",
-    "@paircode/env": "workspace:*"
+    "typescript": "catalog:"
   }
 }

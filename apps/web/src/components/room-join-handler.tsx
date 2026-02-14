@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { toast } from "sonner";
 import PairRoom from "@/components/pair-room";
 import { ShareRoomDialog } from "@/components/share-room-dialog";
 import { getRoomData } from "@/app/actions/room";
+import { trpc } from "@/lib/utils/trpc";
 
 type Props = {
   id: string;
@@ -24,28 +24,23 @@ export default function PairRoomJoinHandler({
     queryFn: async () => await getRoomData(roomId),
   });
 
-  const addMemberMutation = useMutation({
-    mutationFn: async () => {
-      const response = await axios.post("/api/room/member", {
-        roomId
-      });
-      return response;
-    },
-    onSuccess: async () => {
-      await refetchRoomData();
-    },
-    onError: (error) => {
-      console.error("Error joining room:", error);
-      toast.error("Failed to join room. Please try again.");
-    },
-    retry: 2
-  });
+  const addMemberMutation = useMutation(
+    trpc.roomMember.join.mutationOptions({
+      onSuccess: async () => {
+        await refetchRoomData();
+      },
+      onError: (error) => {
+        console.error("Error joining room:", error);
+        toast.error("Failed to join room. Please try again.");
+      },
+    })
+  );
 
   useEffect(() => {
     if (addMemberMutation.isIdle) {
-      addMemberMutation.mutate();
+      addMemberMutation.mutate({ roomId });
     }
-  }, [addMemberMutation.isIdle]);
+  }, [addMemberMutation.isIdle, roomId]);
 
   return (
     <>

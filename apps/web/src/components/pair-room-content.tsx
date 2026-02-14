@@ -11,7 +11,6 @@ import { useSocketIO } from "@/hooks/use-websocket";
 import { MicOff, VideoOff, Mic, Video, PhoneOff, Info } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import axios from "axios";
 import { toast } from "sonner";
 import z from "zod";
 import { useOutSourceCodeActionsStore } from "@/providers/outsource-source-provider";
@@ -19,6 +18,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import peerConfiguration from "@/utils/webrtc/stun-server";
 import { DisconnectingLoader } from "./disconnect-loader";
 import { ShareRoomDialog } from "./share-room-dialog";
+import { trpc } from "@/lib/utils/trpc";
+import { useMutation } from "@tanstack/react-query";
 
 export interface PairRoomProps {
     id: string;
@@ -293,26 +294,35 @@ export function PairRoomContent({
         setLobby(true);
     };
 
+    const inviteMutation = useMutation(
+        trpc.invite.send.mutationOptions({
+            onSuccess: () => {
+                toast.success('Email sent successfully!');
+                setInviteEmail('');
+                setSentInvite(false);
+            },
+            onError: (error) => {
+                console.error("Failed to send invite:", error);
+                toast.error('Apologize! Please copy the URL and send them manually.');
+                setSentInvite(false);
+            },
+        })
+    );
+
     const handleSendInvite = async () => {
         try {
             setSentInvite(true);
             if (!z.email().safeParse(inviteEmail).success) {
                 toast.error('Please enter a valid email!');
+                setSentInvite(false);
                 return;
             }
-            await axios.post('/api/invite', {
+            await inviteMutation.mutateAsync({
                 receiverEmail: inviteEmail,
-                senderEmail: session?.user.email,
                 roomId: id,
-                senderName: session?.user.name
             });
-            toast.success('Email sent successfully!');
         } catch (error) {
-            console.error("Failed to send invite:", error);
-            toast.error('Apologize! Please copy the URL and send them manually.');
-        } finally {
-            setInviteEmail('');
-            setSentInvite(false);
+            // Error handled in mutation options
         }
     };
 

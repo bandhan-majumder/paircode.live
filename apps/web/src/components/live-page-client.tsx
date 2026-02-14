@@ -2,7 +2,6 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useEffect, useRef, useCallback } from "react"
-import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Users, Sparkles, Phone, ArrowLeft } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
@@ -11,6 +10,7 @@ import { CreateRoomDialog } from "@/components/create-room-dialog"
 import type { Room } from "./live-room-types"
 import Image from "next/image"
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
+import { trpcClient } from "@/lib/utils/trpc"
 
 interface LivePageClientProps {
     initialSession: typeof authClient.$Infer.Session | null
@@ -22,10 +22,8 @@ interface PublicRoomsResponse {
 }
 
 const fetchPublicRooms = async ({ pageParam = 0 }): Promise<PublicRoomsResponse> => {
-    const response = await axios.get("/api/live", {
-        params: { limit: 12, offset: pageParam },
-    })
-    return response.data
+    const response = await trpcClient.live.getPublicRooms.query({ limit: 12, offset: pageParam });
+    return response;
 }
 
 function RoomCard({ room }: { room: Room }) {

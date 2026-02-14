@@ -16,7 +16,9 @@
     "@trpc/server": "^11.7.2",
     "@types/express": "^5.0.1",
     "@trpc/client": "^11.7.2",
-    "drizzle-orm": "^0.45.1"
+    "drizzle-orm": "^0.45.1",
+    "jsonwebtoken": "^9.0.2",
+    "@types/jsonwebtoken": "^9.0.9"
   }
   },
   "resolutions": {

@@ -14,6 +14,6 @@ export interface Room {
     createdBy: string;
     creatorName: string | null;
     creatorImage: string | null;
-    createdAt: Date;
+    createdAt: string;
     members: RoomMember[];
 }

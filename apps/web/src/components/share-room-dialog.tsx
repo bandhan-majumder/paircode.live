@@ -12,11 +12,11 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { authClient } from "@/lib/auth-client";
 import { useRef, useState } from "react";
 import { Share2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { trpc } from "@/lib/utils/trpc";
 
 interface ShareRoomDialogProps {
     roomId: string;
@@ -30,42 +30,40 @@ export function ShareRoomDialog({ roomId, isShared, onShared }: ShareRoomDialogP
     const [isOpen, setIsOpen] = useState(false);
     const { data: session } = authClient.useSession();
 
-    const mutation = useMutation({
-        mutationFn: async () => {
-            if (!session?.user?.id) {
-                throw new Error("Not authenticated");
-            }
-            return axios.put("/api/room", {
-                roomId
-            });
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['room', roomId] });
-            queryClient.invalidateQueries({ queryKey: ['public-rooms'] });
-            queryClient.setQueryData(['room', roomId], (oldData: unknown) => {
-                if (oldData && typeof oldData === 'object' && 'room' in oldData) {
-                    return {
-                        ...oldData,
-                        room: {
-                            ...(oldData as { room: { isShared?: boolean } }).room,
-                            isShared: true
-                        }
-                    };
-                }
-                return oldData;
-            });
-            toast.success("Room is now public!");
-            setIsOpen(false);
-            onShared?.();
-        },
-        onError: (error: Error) => {
-            console.error("Error sharing room:", error);
-            toast.error(error.message || "Failed to share room");
-        },
-    });
+    const mutation = useMutation(
+        trpc.room.updateShare.mutationOptions({
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['room', roomId] });
+                queryClient.invalidateQueries({ queryKey: ['public-rooms'] });
+                queryClient.setQueryData(['room', roomId], (oldData: unknown) => {
+                    if (oldData && typeof oldData === 'object' && 'room' in oldData) {
+                        return {
+                            ...oldData,
+                            room: {
+                                ...(oldData as { room: { isShared?: boolean } }).room,
+                                isShared: true
+                            }
+                        };
+                    }
+                    return oldData;
+                });
+                toast.success("Room is now public!");
+                setIsOpen(false);
+                onShared?.();
+            },
+            onError: (error) => {
+                console.error("Error sharing room:", error);
+                toast.error(error.message || "Failed to share room");
+            },
+        })
+    );
 
     const handleConfirm = async () => {
-        await mutation.mutateAsync();
+        if (!session?.user?.id) {
+            toast.error("Not authenticated");
+            return;
+        }
+        await mutation.mutateAsync({ roomId });
     };
 
     return (
