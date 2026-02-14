@@ -15,10 +15,7 @@ export function GoogleSignInButton() {
     if (isClicked) return
     setIsClicked(true)
     try {
-      if (redirectUrl && redirectUrl !== "/") {
-        sessionStorage.setItem('postLoginRedirect', redirectUrl);
-      }
-      await signInWithGoogle()
+      await signInWithGoogle(redirectUrl)
     } catch (error) {
       console.error("Error signing in: ", error)
       setIsClicked(false)

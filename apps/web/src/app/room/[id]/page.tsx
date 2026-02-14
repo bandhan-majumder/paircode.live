@@ -28,8 +28,10 @@ export default function CodeArena({ params }: Props) {
   }, [isPending, session, router, roomId]);
 
   useEffect(() => {
-    getCameraMicPermissions();
-  }, []);
+    if (!isPending && session?.user) {
+      getCameraMicPermissions();
+    }
+  }, [isPending, session]);
 
   const getCameraMicPermissions = async () => {
     try {
@@ -73,6 +75,15 @@ export default function CodeArena({ params }: Props) {
       console.error("Permission error", err);
     }
   };
+
+
+  if (isPending || !session?.user) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#BD9267]"></div>
+      </div>
+    );
+  }
 
   if (!isJoined) {
     return (

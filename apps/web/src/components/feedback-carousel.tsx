@@ -14,28 +14,28 @@ const customerFeedbacks: Feedback[] = [
     name: "Akash Mittal",
     role: "Developer",
     content: "Never experienced like this before.",
-    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
+    avatar: "https://robohash.org/YOUR-TEXT1.png?size=300x300",
   },
   {
     id: 2,
     name: "Anonymous user",
     role: "Designer",
     content: "UI is pretty clean.",
-    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
+    avatar: "https://robohash.org/YOUR-TEXT2.png?size=300x300",
   },
   {
     id: 3,
     name: "Anonymous user",
     role: "Developer & Student",
     content: "VSCode support made it so easy. Dev experience is pretty cool.",
-    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
+    avatar: "https://robohash.org/YOUR-TEXT3.png?size=300x300",
   },
   {
     id: 4,
     name: "Monika Roy Majumder",
     role: "User",
     content: "Happy to be one of the first users to test this.",
-    avatar: "https://imgs.search.brave.com/bFLognz8LKvfSIVGMCA9iDAe-sPzUV9Q75VbR-Jxa68/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzYyLzAx/LzBkLzYyMDEwZDg0/OGI3OTBhMjMzNmQx/NTQyZmNkYTUxNzg5/LmpwZw",
+    avatar: "https://robohash.org/YOUR-TEXT4.png?size=300x300",
   },
 ]
 
