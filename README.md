@@ -9,13 +9,15 @@
 
 ## Previews
 
+![alt text](image.png)
+
 ### Website
 
-![Website preview](https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-web.gif)
+![Website preview](./apps/web/public/demo-web.gif)
 
 ### VSCode extension ([More details](https://paircode.live/vscode-extension))
 
-![VSCode extension preview](https://cdn.jsdelivr.net/gh/bandhan-majumder/paircode.live@main/apps/web/public/demo-ext.gif)
+![VSCode extension preview](./apps/web/public/demo-ext.gif)
 
 ## Setup & Contribution
 
