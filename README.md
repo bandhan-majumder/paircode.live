@@ -25,7 +25,6 @@ Please check [contributing.md](https://github.com/bandhan-majumder/paircode.live
 
 ## Special Thanks
 
-
 Special thanks to these projects for making PairCode possible (but not limited to):
 
 [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack) a
